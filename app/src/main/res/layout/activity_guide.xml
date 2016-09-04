@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.GuideActivity">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+    <RadioGroup
+        android:id="@+id/rg_guide_index_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        >
+        <RadioButton
+            android:id="@+id/rb_guide_first"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:button="@null"
+            android:checked="true"
+            android:background="@drawable/selector_guide_index_point"
+            />
+        <RadioButton
+            android:id="@+id/rb_guide_secend"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:button="@null"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selector_guide_index_point"
+            />
+        <RadioButton
+            android:id="@+id/rb_guide_third"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:button="@null"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selector_guide_index_point"
+            />
+        <RadioButton
+            android:id="@+id/rb_guide_forth"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:button="@null"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selector_guide_index_point"
+            />
+
+    </RadioGroup>
+</RelativeLayout>

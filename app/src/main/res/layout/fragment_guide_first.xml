@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.aaa.cd.ui.GuideFirstFragment">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/life"/>
+    <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        android:padding="10dp"
+        android:orientation="vertical">
+        <com.aaa.cd.view.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:text="@string/life_length_question"/>
+        <com.aaa.cd.view.AnimTextView
+            android:id="@+id/atv_life"
+            android:layout_width = "match_parent"
+            android:layout_height = "match_parent"
+            android:orientation="vertical"
+            >
+        </com.aaa.cd.view.AnimTextView>
+    </LinearLayout>
+
+</LinearLayout>

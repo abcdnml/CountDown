@@ -1,0 +1,83 @@
+package com.aaa.cd.ui;
+
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
+
+import com.aaa.cd.R;
+
+public class MainActivity extends AppCompatActivity {
+
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private Fragment[] fragments = new Fragment[6];
+    FragmentManager fm;
+    //test
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initView();
+    }
+
+    public void initView() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_menu);
+        mNavigationView = (NavigationView) findViewById(R.id.nv_main_menu);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                item.setChecked(true);
+                switchContent(item.getItemId());
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
+        fragments[0] = new MainCountDownFragment();
+        fragments[1] = new MainCalendarFragment();
+        fragments[2] = new MainArticleFragment();
+        fragments[3] = new MainHourPlanFragment();
+        fragments[4] = new MainPlanFragment();
+        fragments[5] = new MainLogFragment();
+
+        fm = getSupportFragmentManager();
+        switchContent(0);
+    }
+
+    public void switchContent(int id)
+    {
+        int count=0;
+        switch (id){
+            case R.id.menu_main_item_count_down:
+                count=0;
+                break;
+            case R.id.menu_main_item_calendar:
+                count=1;
+                break;
+            case R.id.menu_main_item_article:
+                count=2;
+                break;
+            case R.id.menu_main_item_plan:
+                count=3;
+                break;
+            case R.id.menu_main_item_hour_plan:
+                count=4;
+                break;
+            case R.id.menu_main_item_log:
+                count=5;
+                break;
+        }
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.ll_main_content, fragments[count]);
+        ft.commit();
+    }
+
+
+
+}

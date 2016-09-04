@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">CountDown</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="life_length_question"> 有一次在知乎上看到一个问题\n“最令你吃惊的事实是什么？”\n\n“人生只有900个月”\n\n\n 你还剩多少? \n 你做了什么? \n 你还想要做什么？</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="whatever_tomorrow_is">明夕何夕</string>
+    <string name="you_have_nowhere_to_go">君已末路</string>
+    <string name="begin">进入应用</string>
+    <string name="menu_count_down">倒计时</string>
+    <string name="menu_calendar">日历</string>
+    <string name="menu_article">鸡血文</string>
+    <string name="menu_plan">计划</string>
+    <string name="menu_hour_plan">小时计划</string>
+    <string name="menu_log">日志</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="day">天</string>
+    <string name="hour">小时</string>
+    <string name="min">分</string>
+    <string name="second">秒</string>
+
+    <string name="start_timing">开始记录你的生活吧!</string>
+</resources>
