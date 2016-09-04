@@ -7,8 +7,9 @@
     >
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingStart="10dp"
         android:orientation="vertical"
         >
         <TextView
@@ -23,12 +24,12 @@
         <View
             android:id="@+id/rv_item_log_divider"
             android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:background="@color/gray_a6"
+            android:layout_height="match_parent"
+            android:background="@color/blue_77f"
             />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/timeline_content"
@@ -38,7 +39,7 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="-30dp"
+        android:layout_marginEnd="20dp"
         >
         <TextView
             android:id="@+id/rv_item_log_title"
@@ -48,12 +49,26 @@
             android:textSize="@dimen/font_16"
             android:singleLine="true"
             />
+
+        <TextView
+            android:id="@+id/rv_item_log_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/font_14"
+            android:textColor="@color/gray_a6"
+            android:singleLine="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/rv_item_log_title"
+            />
         <TextView
             android:id="@+id/rv_item_log_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textSize="@dimen/font_14"
+            android:layout_below="@id/rv_item_log_title"
             android:text="@string/life_length_question"
             />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

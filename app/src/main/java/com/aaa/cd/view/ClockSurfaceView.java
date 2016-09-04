@@ -292,8 +292,11 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 			{
 
 				canvas = currentHolder.lockCanvas(null);
-				canvas.drawColor(Color.BLACK);
-				drawCompass(canvas);
+				if(canvas!=null)
+				{
+					canvas.drawColor(Color.BLACK);
+					drawCompass(canvas);
+				}
 				currentHolder.unlockCanvasAndPost(canvas); // 解锁画布，提交画好的图像
 				try {
 					Thread.sleep(500);

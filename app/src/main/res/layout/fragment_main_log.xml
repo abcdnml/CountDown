@@ -23,6 +23,7 @@
         />
 
     <TextView
+        android:id="@+id/tv_log_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/clock_overlay"
@@ -33,6 +34,20 @@
         android:textColor="@color/white"
         android:drawablePadding="5dp"
         android:layout_marginTop="100dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp"
+        />
+    <TextView
+        android:id="@+id/tv_timing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clock_overlay"
+        android:drawableStart="@mipmap/time"
+        android:layout_gravity="top|end"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:drawablePadding="5dp"
+        android:layout_marginTop="200dp"
         android:paddingStart="10dp"
         android:paddingEnd="20dp"
         />

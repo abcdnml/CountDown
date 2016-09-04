@@ -13,8 +13,8 @@ public class DBHelper extends SQLiteOpenHelper
     private static final String CREATE_LOG_TABLE="create table log ("
             +"  id INTEGER NOT NULL  PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
             +"  title VARCHAR, "
-            +"  content VARCHAR, "
-            +"  duration INTEGER, "
+            +"  content TEXT, "
+            +"  duration TEXT, "
             +"  time INTEGER);";
     private static final int DB_VERSION=1;
     private static final String DB_NAME="CountDown.db";

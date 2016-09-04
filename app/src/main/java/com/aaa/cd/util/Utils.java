@@ -1,6 +1,8 @@
 package com.aaa.cd.util;
 
 
+import java.text.DecimalFormat;
+
 /**
  * Created by aaa on 2016/9/4.
  */
@@ -16,6 +18,18 @@ public class Utils {
         }else {
             return seconds/60+"分"+(seconds%60)/60+"秒";
         }
+    }
+
+    static String STR_FORMAT1="00";
+    static String STR_FORMAT2="000";
+    static DecimalFormat df = new DecimalFormat(STR_FORMAT1);
+    static DecimalFormat dfmilli = new DecimalFormat(STR_FORMAT2);
+    public static String getLastingTime(long timeMillis)
+    {
+        long min=timeMillis/60000%60;
+        long second=timeMillis/1000%60;
+        long milli=timeMillis%1000;
+        return df.format(min)+":"+df.format(second)+"."+dfmilli.format(milli);
     }
 
 }

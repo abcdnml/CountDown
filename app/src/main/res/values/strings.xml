@@ -24,6 +24,7 @@
     <string name="hour">小时</string>
     <string name="min">分</string>
     <string name="second">秒</string>
+    <string name="lasting_time">当前任务已进行: </string>
 
     <string name="start_timing">开始记录你的生活吧!</string>
 </resources>
