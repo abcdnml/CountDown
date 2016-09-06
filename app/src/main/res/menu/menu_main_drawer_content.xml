@@ -4,7 +4,7 @@
         <item
             android:id="@+id/menu_main_item_count_down"
             android:checked="true"
-            android:icon="@mipmap/calendar"
+            android:icon="@mipmap/countdown"
             android:title="@string/menu_count_down" />
         <item
             android:id="@+id/menu_main_item_calendar"
@@ -20,7 +20,7 @@
             android:id="@+id/menu_main_item_article"
             android:checked="true"
             android:icon="@mipmap/article"
-            android:title="@string/menu_calendar" />
+            android:title="@string/menu_article" />
 
         <item
             android:id="@+id/menu_main_item_hour_plan"

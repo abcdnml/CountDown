@@ -22,9 +22,8 @@ import com.aaa.cd.dao.LogDao;
 import com.aaa.cd.model.LogItem;
 import com.aaa.cd.util.Utils;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -67,11 +66,16 @@ public class MainLogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_log, container, false);
+        initTitle(view);
         initView(view);
         getTodayLog();
         return view;
     }
 
+    public void initTitle(View view){
+        TextView tv_title_content=(TextView)view.findViewById(R.id.tv_title_content);
+        tv_title_content.setText(R.string.menu_log);
+    }
     int testId=0;
     public void initView(View view)
     {

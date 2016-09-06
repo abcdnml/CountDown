@@ -15,7 +15,7 @@ import java.util.List;
 public class LogDao {
     private static SQLiteDatabase db;
 
-    private static final String SQL_GET_LOG_BY_TIME = "select * from log where time >= ? and time <= ?";
+    private static final String SQL_GET_LOG_BY_TIME = "select * from log where time >= ? and time <= ? order by time DESC";
     private static final String SQL_ADD_LOG = "insert into log(title,content,duration,time) values(?,?,?,?)";
     private static final String SQL_UPDATE_LOG = "update log set title=?,content=?,duration=?,time=? where id=?)";
     private static final String SQL_DELETE_LOG_BY_ID = "delete from log where id=?";

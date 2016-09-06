@@ -10,7 +10,7 @@
     <string name="begin">进入应用</string>
     <string name="menu_count_down">倒计时</string>
     <string name="menu_calendar">日历</string>
-    <string name="menu_article">鸡血文</string>
+    <string name="menu_article">文章</string>
     <string name="menu_plan">计划</string>
     <string name="menu_hour_plan">小时计划</string>
     <string name="menu_log">日志</string>

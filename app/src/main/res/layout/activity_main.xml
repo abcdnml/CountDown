@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
     <FrameLayout
         android:id="@+id/ll_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-    <!-- your content layout -->
 
+    <!-- your content layout -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nv_main_menu"
         android:layout_width="wrap_content"

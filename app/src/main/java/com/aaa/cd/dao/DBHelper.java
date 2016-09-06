@@ -11,10 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper
 {
     private static final String CREATE_LOG_TABLE="create table log ("
-            +"  id INTEGER NOT NULL  PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
-            +"  title VARCHAR, "
+            +"  id INTEGER PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
+            +"  title TEXT, "
             +"  content TEXT, "
-            +"  duration TEXT, "
+            +"  duration INTEGER, "
             +"  time INTEGER);";
     private static final int DB_VERSION=1;
     private static final String DB_NAME="CountDown.db";

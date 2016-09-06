@@ -277,11 +277,9 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 	}
 
 	class SecendsTimerTask extends TimerTask{
-		boolean isRun=false;
 		SurfaceHolder  currentHolder;
 		public SecendsTimerTask(SurfaceHolder holder)
 		{
-			isRun=true;
 			currentHolder=holder;
 		}
 

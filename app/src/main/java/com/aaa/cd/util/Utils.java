@@ -7,9 +7,9 @@ import java.text.DecimalFormat;
  * Created by aaa on 2016/9/4.
  */
 public class Utils {
-    public static String getDuration(int timeMillis){
+    public static String getDuration(long timeMillis){
 
-        int seconds=timeMillis/1000;
+        long seconds=timeMillis/1000;
         if(seconds>=86400)
         {
             return seconds/86400+"天"+(seconds%86400)/3600+"小时";
