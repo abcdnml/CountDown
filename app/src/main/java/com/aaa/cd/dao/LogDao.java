@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.aaa.cd.model.LogItem;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class LogDao {
     private static final String SQL_ADD_LOG = "insert into log(title,content,duration,time) values(?,?,?,?)";
     private static final String SQL_UPDATE_LOG = "update log set title=?,content=?,duration=?,time=? where id=?)";
     private static final String SQL_DELETE_LOG_BY_ID = "delete from log where id=?";
-    private static final String SQL_GET_LAST_LOG = "select * from log order by id DESC limit 0,1";
+    private static final String SQL_GET_LASTEST_LOG = "select * from log where time<? order by id DESC limit 0,1";
 
 
     public static void addLog(LogItem item) {
@@ -53,7 +52,7 @@ public class LogDao {
         db.close();
     }
 
-    public static void deleteLogById(LogItem item) {
+    public static void deleteLog(LogItem item) {
         db = DBHelper.getInstance().getWritableDatabase();
 
         String[] params = new String[1];
@@ -99,10 +98,19 @@ public class LogDao {
         return lli;
     }
 
-    public static LogItem getLastLog() {
+    /**
+     * 获取传入时间之前的上一条log
+     * @param time
+     * @return
+     */
+    public static LogItem getLastLog(long time) {
         db = DBHelper.getInstance().getReadableDatabase();
 
-        Cursor c = db.rawQuery(SQL_GET_LAST_LOG, null);
+        String[] params = new String[1];
+        params[0] = time + "";
+
+
+        Cursor c = db.rawQuery(SQL_GET_LASTEST_LOG, params);
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");

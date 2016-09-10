@@ -1,9 +1,12 @@
 package com.aaa.cd.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by aaa on 2016/9/3.
  */
-public class LogItem {
+public class LogItem implements Parcelable{
     private int id;
     private String title;
     private String content;
@@ -59,5 +62,43 @@ public class LogItem {
                 ", duration=" + duration +
                 ", time=" + time +
                 '}';
+    }
+    public LogItem()
+    {
+    }
+
+    private LogItem(Parcel in)
+    {
+        id = in.readInt();
+        title=in.readString();
+        content=in.readString();
+        duration=in.readLong();
+        time=in.readLong();
+    }
+
+    public static final Parcelable.Creator<LogItem> CREATOR = new Parcelable.Creator<LogItem>()
+    {
+        public LogItem createFromParcel(Parcel in)
+        {
+            return new LogItem(in);
+        }
+
+        public LogItem[] newArray(int size)
+        {
+            return new LogItem[size];
+        }
+    };
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flag) {
+        out.writeInt(id);
+        out.writeString(title);
+        out.writeString(content);
+        out.writeLong(duration);
+        out.writeLong(time);
     }
 }

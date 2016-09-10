@@ -16,20 +16,18 @@ public class Utils {
         }else if(seconds>=3600){
             return seconds/3600+"小时"+(seconds%3600)/60+"分";
         }else {
-            return seconds/60+"分"+(seconds%60)/60+"秒";
+            return seconds/60+"分"+(seconds%60)+"秒";
         }
     }
 
     static String STR_FORMAT1="00";
-    static String STR_FORMAT2="000";
     static DecimalFormat df = new DecimalFormat(STR_FORMAT1);
-    static DecimalFormat dfmilli = new DecimalFormat(STR_FORMAT2);
     public static String getLastingTime(long timeMillis)
     {
-        long min=timeMillis/60000%60;
+        long hour=timeMillis/3600000;
+        long min=timeMillis/60000;
         long second=timeMillis/1000%60;
-        long milli=timeMillis%1000;
-        return df.format(min)+":"+df.format(second)+"."+dfmilli.format(milli);
+        return df.format(hour)+":"+df.format(min)+":"+df.format(second);
     }
 
 }
