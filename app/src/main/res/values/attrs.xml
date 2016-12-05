@@ -2,5 +2,10 @@
 <resources>  
     <declare-styleable name="clock">  
         <attr name="radiu" format="integer"/>  
-    </declare-styleable>  
+    </declare-styleable>
+    <declare-styleable name="CheckView">
+        <attr name="checkedSrc" format="reference"></attr>
+        <attr name="unCheckSrc" format="reference"></attr>
+        <attr name="isCheck" format="boolean"></attr>
+    </declare-styleable>
 </resources>  

@@ -109,6 +109,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		diverderPaint.setStrokeWidth(3);
 		diverderPaint.setStrokeJoin(Paint.Join.ROUND);
 		diverderPaint.setStrokeCap(Paint.Cap.ROUND);
+		diverderPaint.setAntiAlias(true);
 
 		textPaint = new Paint();
 		textPaint.setColor(Color.GRAY);
@@ -116,6 +117,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		textPaint.setStrokeJoin(Paint.Join.ROUND);
 		textPaint.setStrokeCap(Paint.Cap.ROUND);
 		textPaint.setTextAlign(Align.CENTER);
+		textPaint.setAntiAlias(true);
 
 		hourPaint = new Paint();
 		hourPaint.setColor(Color.GRAY);
@@ -151,7 +153,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		canvas.drawRect(new Rect(0, 0, getMeasuredWidth(), getMeasuredHeight()), bgPaint);
 		canvas.translate(canvas.getWidth() / 2, canvas.getHeight() / 2); // 平移罗盘
 		// canvas.drawCircle(0, 0, mRadius, circlePaint); // 画圆圈
-		canvas.drawCircle(0, 0, 10, diverderPaint);
+
 
 		if (mRadius <= 0)
 		{
@@ -174,6 +176,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 		drawMinuteHand(canvas);
 		drawSecondHand(canvas);
 
+		canvas.drawCircle(0, 0, 10, diverderPaint);
 		
 		drawTime(canvas);
 		canvas = null;
@@ -302,7 +305,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 					e.printStackTrace();
 				}
 				if(sp!=null){
-					sp.play(soundId, 1, 1, 0, 0, 1);
+					sp.play(soundId, 0.2f, 0.2f, 0, 0, 1);
 				}
 
 			}

@@ -6,7 +6,7 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="title_height">50dp</dimen>
-    <dimen name="content_padding">16dp</dimen>
+    <dimen name="content_padding">10dp</dimen>
 
     <dimen name="single_edit_text_height">60dp</dimen>
     <dimen name="multi_edit_text_height">200dp</dimen>

@@ -1,76 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aaa="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rv_item_rl_log"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
+    android:clickable="true"
     >
-    <LinearLayout
+    <TextView
+        android:id="@+id/rv_item_tv_log_time"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/rv_item_log_time"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:text="aaaaaaa"
-            android:textSize="@dimen/font_16"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:background="@drawable/shape_round_blue_bg"
-            />
-        <View
-            android:id="@+id/rv_item_log_divider"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/blue_77f"
-            />
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_a6"
+        android:gravity="center"
+        android:textSize="@dimen/font_14"
+        android:drawableStart="@mipmap/time"
+        android:padding="5dp"
+        android:layout_marginStart="15dp"
+        />
+    <TextView
+        android:id="@+id/rv_item_tv_log_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_12"
+        android:textColor="@color/gray_a6"
+        android:maxLines="1"
+        android:gravity="end"
+        android:paddingEnd="20dp"
+        android:layout_alignBaseline="@+id/rv_item_tv_log_time"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/timeline_content"
-        android:orientation="vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginTop="40dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@id/rv_item_tv_log_time"
+        android:orientation="vertical"
         >
-
-        <TextView
-            android:id="@+id/rv_item_log_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="@dimen/font_16"
-            android:singleLine="true"
-            />
-        <TextView
-            android:id="@+id/rv_item_log_duration"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="@dimen/font_14"
-            android:textColor="@color/gray_a6"
-            android:singleLine="true"
-            android:gravity="end"
-            />
-        <TextView
-            android:id="@+id/rv_item_log_content"
-            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/rv_item_tv_log_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="@dimen/font_14"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:maxLines="1"
+                />
+            <com.aaa.util.view.CheckView
+                android:id="@+id/rv_item_cv_log_expand"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                aaa:unCheckSrc="@mipmap/next"
+                aaa:checkedSrc="@mipmap/up"
+                aaa:isCheck="false"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rv_item_ll_log_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/font_14"
-            android:text="@string/life_length_question"
-            />
+            android:visibility="gone"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray_ccc"
+                android:layout_marginTop="5dp"
+                />
+            <TextView
+                android:id="@+id/rv_item_tv_log_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/font_12"
+                android:text="@string/life_length_question"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/gray_ccc"
+                />
+            <TextView
+                android:id="@+id/rv_item_tv_log_thought"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/font_12"
+                android:text="@string/life_length_question"
+                />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

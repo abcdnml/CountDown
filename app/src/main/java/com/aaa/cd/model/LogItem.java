@@ -12,6 +12,7 @@ public class LogItem implements Parcelable{
     private String content;
     private long duration;
     private long time;
+    private boolean isChecked;
 
 
     public int getId() {
@@ -53,6 +54,14 @@ public class LogItem implements Parcelable{
         this.time = time;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     @Override
     public String toString() {
         return "LogItem{" +
@@ -74,6 +83,7 @@ public class LogItem implements Parcelable{
         content=in.readString();
         duration=in.readLong();
         time=in.readLong();
+        isChecked=in.readByte()==1;
     }
 
     public static final Parcelable.Creator<LogItem> CREATOR = new Parcelable.Creator<LogItem>()
@@ -100,5 +110,6 @@ public class LogItem implements Parcelable{
         out.writeString(content);
         out.writeLong(duration);
         out.writeLong(time);
+        out.writeByte((byte)(isChecked?1:0));
     }
 }

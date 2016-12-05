@@ -25,7 +25,7 @@ public class Utils {
     public static String getLastingTime(long timeMillis)
     {
         long hour=timeMillis/3600000;
-        long min=timeMillis/60000;
+        long min=(timeMillis%3600000)/60000;
         long second=timeMillis/1000%60;
         return df.format(hour)+":"+df.format(min)+":"+df.format(second);
     }

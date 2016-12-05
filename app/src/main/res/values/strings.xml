@@ -4,6 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="life_length_question"> 有一次在知乎上看到一个问题\n“最令你吃惊的事实是什么？”\n\n“人生只有900个月”\n\n\n 你还剩多少? \n 你做了什么? \n 你还想要做什么？</string>
 
+    <string name="sample_name">abcdnml</string>
+    <string name="sample_signature">愿你最终明了一切,并深爱着世界</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="whatever_tomorrow_is">明夕何夕</string>
     <string name="you_have_nowhere_to_go">君已末路</string>
@@ -28,7 +30,7 @@
     <string name="hour">小时</string>
     <string name="min">分</string>
     <string name="second">秒</string>
-    <string name="lasting_time">当前任务已进行: </string>
+    <string name="lasting_time">当前任务已进行 &#160;</string>
 
     <string name="start_timing">开始记录你的生活吧!</string>
     <string name="start_timing_desc">请回忆你上周主要在做的三件事,如果想不起来,那么你就是在浑噩度日. \n日志的作用便是于此,让你每天明确自己在做的,以及将要做的事.\n所以 开始记录你的生活吧!</string>

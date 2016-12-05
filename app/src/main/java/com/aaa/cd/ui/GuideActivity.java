@@ -1,5 +1,6 @@
 package com.aaa.cd.ui;
 
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,24 +89,25 @@ public class GuideActivity extends FragmentActivity {
 
     public void initMediaPlayer() {
         player = new MediaPlayer();
+//        player = MediaPlayer.create(this,R.raw.bgm);
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                player.start();
+            }
+        });
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            public void onCompletion(MediaPlayer mp) {
+                player.start();
+            }
+        });
         try {
-            player.setDataSource(getAssets().openFd("bgm.mp3").getFileDescriptor());
-            player.prepare();
-            // 为播放器注册
-            player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    player.start();
-                }
-            });
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                public void onCompletion(MediaPlayer mp) {
-                    player.start();
-                }
-            });
-        } catch (IllegalArgumentException e) {
+            AssetFileDescriptor afd=getAssets().openFd("bgm.mp3");
+            player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getDeclaredLength());
+            player.prepareAsync();
+             //为播放器注册
+        } catch (IllegalArgumentException  e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
