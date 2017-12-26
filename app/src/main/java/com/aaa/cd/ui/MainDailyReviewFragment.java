@@ -38,7 +38,7 @@ public class MainDailyReviewFragment extends MainBaseFragment implements Handler
     private static final int MSG_DATA_LOAD_DONE = 2;
     private volatile int mStartIndex;
     private static final int PAGE_COUNT = 10;
-
+    //commit test
     private CardFragment.Callback mCallback;
 
     public interface Callback
