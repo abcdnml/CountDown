@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="stackcardview:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/stackcardview.aar/f51c93f1e4578ce03b02d31efad2ceca/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/stackcardview.aar/f51c93f1e4578ce03b02d31efad2ceca/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
