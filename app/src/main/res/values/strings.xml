@@ -13,9 +13,11 @@
     <string name="menu_count_down">倒计时</string>
     <string name="menu_calendar">日历</string>
     <string name="menu_article">文章</string>
+    <string name="menu_review">每日小记</string>
     <string name="menu_plan">计划</string>
     <string name="menu_hour_plan">小时计划</string>
     <string name="menu_log">日志</string>
+
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -40,4 +42,6 @@
     <string name="hint_log_content">请输入具体任务内容</string>
     <string name="error_log_title_null">日志标题不能为空哦...</string>
     <string name="error_log_content_null">日志内容不能为空哦...</string>
+
+    <string name="select_query_time">请选择查询时间</string>
 </resources>

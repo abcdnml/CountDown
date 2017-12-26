@@ -10,38 +10,52 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBHelper extends SQLiteOpenHelper
 {
-    private static final String CREATE_LOG_TABLE="create table log ("
-            +"  id INTEGER PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
-            +"  title TEXT, "
-            +"  content TEXT, "
-            +"  duration INTEGER, "
-            +"  time INTEGER);";
-    private static final int DB_VERSION=1;
-    private static final String DB_NAME="CountDown.db";
+    private static final String CREATE_LOG_TABLE = "create table log ("
+            + "  id INTEGER PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
+            + "  title TEXT, "
+            + "  content TEXT, "
+            + "  duration INTEGER, "
+            + "  time INTEGER);";
+    private static final String CREATE_COUNT_DOWN_TABLE = "create table count_down("
+            + "  id INTEGER PRIMARY KEY AUTOINCREMENT DEFAULT 0,"
+            + "  name TEXT, "
+            + "  descrption TEXT,"
+            + "  time INTEGER);";
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "CountDown.db";
     static Context context;
 
     private static DBHelper helper;
 
-    public static void init(Context ctx){
-        context=ctx.getApplicationContext();
+    public static void init(Context ctx)
+    {
+        context = ctx.getApplicationContext();
     }
-    public static DBHelper getInstance(){
-        if(helper==null){
-            helper=new DBHelper();
+
+    public static DBHelper getInstance()
+    {
+        if (helper == null)
+        {
+            helper = new DBHelper();
         }
         return helper;
     }
 
-    private DBHelper() {
+    private DBHelper()
+    {
         super(context, DB_NAME, null, DB_VERSION);
-    }
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_LOG_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase)
+    {
+        sqLiteDatabase.execSQL(CREATE_LOG_TABLE);
+        sqLiteDatabase.execSQL(CREATE_COUNT_DOWN_TABLE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
+    {
 
     }
 }

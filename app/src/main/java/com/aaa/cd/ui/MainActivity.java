@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private Fragment[] fragments = new Fragment[6];
+    private Fragment[] fragments = new Fragment[7];
     FragmentManager fm;
 
     @Override
@@ -44,12 +44,14 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
         });
 
 
+
         fragments[0] = new MainCountDownFragment();
         fragments[1] = new MainCalendarFragment();
         fragments[2] = new MainArticleFragment();
         fragments[3] = new MainHourPlanFragment();
         fragments[4] = new MainPlanFragment();
         fragments[5] = new MainLogFragment();
+        fragments[6] = new MainDailyReviewFragment();
 
         fm = getSupportFragmentManager();
         switchContent(0);
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements MainCallback {
                 break;
             case R.id.menu_main_item_log:
                 count=5;
+                break;
+            case R.id.menu_main_item_review:
+                count=6;
                 break;
         }
         FragmentTransaction ft = fm.beginTransaction();

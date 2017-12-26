@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aaa.cd.R;
@@ -18,6 +19,7 @@ import com.aaa.cd.view.ClockSurfaceView;
 public class MainCountDownFragment extends MainBaseFragment {
 
     ClockSurfaceView csv;
+    ListView lv_count_down;
     public MainCountDownFragment() {
         // Required empty public constructor
     }
@@ -25,6 +27,7 @@ public class MainCountDownFragment extends MainBaseFragment {
     @Override
     public void initView(View view){
         csv=(ClockSurfaceView)view.findViewById(R.id.csv_clock);
+        lv_count_down=(ListView) view.findViewById(R.id.lv_count_down);
     }
     @Override
     public void initTitle(View view){

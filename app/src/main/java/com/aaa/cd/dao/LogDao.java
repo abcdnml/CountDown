@@ -18,9 +18,9 @@ public class LogDao {
     private static final String SQL_ADD_LOG = "insert into log(title,content,duration,time) values(?,?,?,?)";
     private static final String SQL_UPDATE_LOG = "update log set title=?,content=?,duration=?,time=? where id=?";
     private static final String SQL_DELETE_LOG_BY_ID = "delete from log where id=?";
-    private static final String SQL_GET_LASTEST_LOG = "select * from log where time<? order by id DESC limit 0,1";
-    private static final String SQL_GET_RECENT_LOG = "select * from log where time<? order by id DESC limit 0,20";
-
+    private static final String SQL_GET_LAST_LOG = "select * from log where time<? order by id DESC limit 0,1";
+    private static final String SQL_GET_FORMER_LOG = "select * from log where time<? order by id DESC limit 0,20";
+    private static final String SQL_GET_NEXT_LOG = "select * from log where time>? order by id DESC limit 0,20";
     public static void addLog(LogItem item) {
         db = DBHelper.getInstance().getWritableDatabase();
 
@@ -108,7 +108,7 @@ public class LogDao {
         params[0] = time + "";
 
 
-        Cursor c = db.rawQuery(SQL_GET_LASTEST_LOG, params);
+        Cursor c = db.rawQuery(SQL_GET_LAST_LOG, params);
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
@@ -133,17 +133,17 @@ public class LogDao {
 
     /**
      * 获取传入时间之前的几条log
-     * @param time
+     * @param time 当前时间 毫秒
      * @return List<LogItem>
      */
-    public static List<LogItem> getRecentLog(long time) {
+    public static List<LogItem> getFormerLog(long time) {
         db = DBHelper.getInstance().getReadableDatabase();
 
         String[] params = new String[1];
         params[0] = time + "";
 
 
-        Cursor c = db.rawQuery(SQL_GET_RECENT_LOG, params);
+        Cursor c = db.rawQuery(SQL_GET_FORMER_LOG, params);
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
@@ -166,4 +166,40 @@ public class LogDao {
 
         return lli;
     }
+    /**
+     * 获取传入时间之后的几条log
+     * @param time 当前时间 毫秒
+     * @return List<LogItem>
+     */
+    public static List<LogItem> getNextLog(long time) {
+        db = DBHelper.getInstance().getReadableDatabase();
+
+        String[] params = new String[1];
+        params[0] = time + "";
+
+
+        Cursor c = db.rawQuery(SQL_GET_NEXT_LOG, params);
+        int index_id = c.getColumnIndex("id");
+        int index_title = c.getColumnIndex("title");
+        int index_content = c.getColumnIndex("content");
+        int index_duration = c.getColumnIndex("duration");
+        int index_time = c.getColumnIndex("time");
+
+        List<LogItem> lli=new ArrayList<>();
+        while (c.moveToNext()) {
+            LogItem li = new LogItem();
+            li.setId(c.getInt(index_id));
+            li.setTitle(c.getString(index_title));
+            li.setContent(c.getString(index_content));
+            li.setDuration(c.getLong(index_duration));
+            li.setTime(c.getLong(index_time));
+            lli.add(li);
+        }
+
+        c.close();
+        db.close();
+
+        return lli;
+    }
+
 }

@@ -27,6 +27,9 @@ import com.aaa.cd.model.LogItem;
 import com.aaa.cd.model.MainCallback;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.Utils;
+import com.aaa.lib.view.timepicker.WheelDatePicker;
+import com.aaa.lib.view.timepicker.WheelDateTimePicker;
+import com.aaa.lib.view.timepicker.listener.OnDatetimeSetListener;
 import com.aaa.util.view.CheckView;
 
 import java.text.SimpleDateFormat;
@@ -188,7 +191,25 @@ public class MainLogFragment extends MainBaseFragment
 
     public void showDatePickerDialog()
     {
-
+        WheelDatePicker dpu=new WheelDatePicker(getActivity());
+        dpu.datePicker(new Date(),getString(R.string.select_query_time),new OnDatetimeSetListener()
+        {
+            // 点击了确定才会执行此回调
+            @Override
+            public void onDatetimeSet(String timestamp, Date date)
+            {
+                if(date != null)
+                {
+                    lli = LogDao.getNextLog(System.currentTimeMillis());
+                    Log.i("aaa", "list size" + lli.size());
+                    logAdapter.notifyDataSetChanged();
+                    if (lli.size() > 0)
+                    {
+                        rv_log.scrollToPosition(0);
+                    }
+                }
+            }
+        });
     }
 
     public void addFirstLog()
@@ -235,7 +256,7 @@ public class MainLogFragment extends MainBaseFragment
 
     public void getRecentLog()
     {
-        lli = LogDao.getRecentLog(System.currentTimeMillis());
+        lli = LogDao.getFormerLog(System.currentTimeMillis());
         Log.i("aaa", "list size" + lli.size());
         logAdapter.notifyDataSetChanged();
         if (lli.size() > 0)

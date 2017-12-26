@@ -8,18 +8,12 @@
 
     <include layout="@layout/layout_title"/>
 
-    <com.aaa.cd.view.ClockSurfaceView
-        android:id="@+id/csv_clock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/content_padding"
-        clock:radiu="400"
-        />
-    <ListView
-        android:id="@+id/lv_count_down"
+    <LinearLayout
+        android:id="@+id/ll_main_review"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    </LinearLayout>
 
 </LinearLayout>
