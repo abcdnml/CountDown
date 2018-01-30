@@ -14,6 +14,7 @@ public class DBHelper extends SQLiteOpenHelper
             + "  id INTEGER PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
             + "  title TEXT, "
             + "  content TEXT, "
+            + "  remark TEXT, "
             + "  duration INTEGER, "
             + "  time INTEGER);";
     private static final String CREATE_COUNT_DOWN_TABLE = "create table count_down("

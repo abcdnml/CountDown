@@ -62,8 +62,8 @@
                 />
             <com.aaa.util.view.CheckView
                 android:id="@+id/rv_item_cv_log_expand"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 aaa:unCheckSrc="@mipmap/next"
                 aaa:checkedSrc="@mipmap/up"
                 aaa:isCheck="false"
@@ -76,12 +76,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:orientation="vertical">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray_ccc"
-                android:layout_marginTop="5dp"
-                />
             <TextView
                 android:id="@+id/rv_item_tv_log_content"
                 android:layout_width="wrap_content"
@@ -90,14 +84,8 @@
                 android:textSize="@dimen/font_12"
                 android:text="@string/life_length_question"
                 />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray_ccc"
-                />
             <TextView
-                android:id="@+id/rv_item_tv_log_thought"
+                android:id="@+id/rv_item_tv_log_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

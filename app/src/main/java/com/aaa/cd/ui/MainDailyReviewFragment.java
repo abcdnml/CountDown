@@ -1,29 +1,30 @@
 package com.aaa.cd.ui;
 
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+ import android.os.Handler;
+ import android.os.HandlerThread;
+ import android.os.Message;
+ import android.support.v4.app.Fragment;
+ import android.util.Log;
+ import android.view.View;
+ import android.widget.ImageView;
+ import android.widget.TextView;
 
-import com.aaa.cd.R;
-import com.aaa.cd.ui.review.BaseCardItem;
-import com.aaa.cd.ui.review.CardAdapter;
-import com.aaa.cd.ui.review.CardFragment;
-import com.aaa.cd.ui.review.ImageCardItem;
-import com.aaa.cd.ui.review.ImageUrls;
-import com.aaa.cd.ui.review.ScrollCardItem;
-import com.aaa.cd.ui.review.Utils;
-import com.beyondsw.lib.widget.StackCardsView;
+ import com.aaa.cd.R;
+ import com.aaa.cd.ui.review.BaseCardItem;
+ import com.aaa.cd.ui.review.CardAdapter;
+ import com.aaa.cd.ui.review.CardFragment;
+ import com.aaa.cd.ui.review.ImageCardItem;
+ import com.aaa.cd.ui.review.ImageUrls;
+ import com.aaa.cd.ui.review.Questions;
+ import com.aaa.cd.ui.review.ScrollCardItem;
+ import com.aaa.cd.ui.review.Utils;
+ import com.beyondsw.lib.widget.StackCardsView;
 
-import java.util.ArrayList;
-import java.util.List;
+ import java.util.ArrayList;
+ import java.util.List;
 
-/**
+ /**
  * A simple {@link Fragment} subclass.
  */
 public class MainDailyReviewFragment extends MainBaseFragment implements Handler.Callback,StackCardsView.OnCardSwipedListener
@@ -83,12 +84,24 @@ public class MainDailyReviewFragment extends MainBaseFragment implements Handler
         mWorkThread.start();
         mWorkHandler = new Handler(mWorkThread.getLooper(), this);
         mWorkHandler.obtainMessage(MSG_START_LOAD_DATA).sendToTarget();
+        addCard();
     }
 
+    public void addCard()
+    {
+        mAdapter.appendItem(Questions.getEssayQuestionCard(getActivity(),Questions.essay_question));
+        mAdapter.appendItem(Questions.getSingleChoiceQuestionCard(getActivity(),Questions.single_choice_question));
+        mAdapter.appendItem(Questions.getEssayQuestionCard(getActivity(),Questions.essay_question));
+        mAdapter.appendItem(Questions.getSingleChoiceQuestionCard(getActivity(),Questions.single_choice_question));
+        mAdapter.appendItem(Questions.getEssayQuestionCard(getActivity(),Questions.essay_question));
+        mAdapter.appendItem(Questions.getSingleChoiceQuestionCard(getActivity(),Questions.single_choice_question));
+        mAdapter.appendItem(Questions.getSingleChoiceQuestionCard(getActivity(),Questions.single_choice_question));
+        mAdapter.notifyDataSetChanged();
+    }
     @Override
     public int getLayoutId()
     {
-        return R.layout.fragment_main_article;
+        return R.layout.fragment_main_daily_review;
     }
     @Override
     public void onDestroyView() {

@@ -28,7 +28,6 @@ import com.aaa.cd.model.MainCallback;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.Utils;
 import com.aaa.lib.view.timepicker.WheelDatePicker;
-import com.aaa.lib.view.timepicker.WheelDateTimePicker;
 import com.aaa.lib.view.timepicker.listener.OnDatetimeSetListener;
 import com.aaa.util.view.CheckView;
 
@@ -120,7 +119,7 @@ public class MainLogFragment extends MainBaseFragment
                 mainCallback.openMenu(true);
             }
         });
-        ImageView btn_right = (ImageView) view.findViewById(R.id.btn_title_right);
+        ImageView btn_right = (ImageView) view.findViewById(R.id.iv_title_right);
         btn_right.setVisibility(View.VISIBLE);
         btn_right.setImageResource(R.drawable.selector_date);
         btn_right.setOnClickListener(new View.OnClickListener()
@@ -150,7 +149,9 @@ public class MainLogFragment extends MainBaseFragment
 
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
+
         logAdapter = new LogAdapter();
+
         rv_log = (RecyclerView) view.findViewById(R.id.rv_log);
         rv_log.setAdapter(logAdapter);
         rv_log.setLayoutManager(layoutManager);
@@ -162,7 +163,11 @@ public class MainLogFragment extends MainBaseFragment
             {
                 super.onScrolled(recyclerView, dx, dy);
                 int firstItemPosition = layoutManager.findFirstVisibleItemPosition();
-                tv_date.setText(dateSDF.format(new Date(lli.get(firstItemPosition).getTime())));
+                if(firstItemPosition<0){
+
+                }else{
+                    tv_date.setText(dateSDF.format(new Date(lli.get(firstItemPosition).getTime())));
+                }
             }
         });
 
@@ -200,7 +205,7 @@ public class MainLogFragment extends MainBaseFragment
             {
                 if(date != null)
                 {
-                    lli = LogDao.getNextLog(System.currentTimeMillis());
+                    lli = LogDao.getNextLog(date.getTime());
                     Log.i("aaa", "list size" + lli.size());
                     logAdapter.notifyDataSetChanged();
                     if (lli.size() > 0)
@@ -216,6 +221,7 @@ public class MainLogFragment extends MainBaseFragment
     {
         LogItem item = new LogItem();
         item.setTitle(getString(R.string.start_timing));
+        item.setContent(getString(R.string.start_timing_desc));
         item.setContent(getString(R.string.start_timing_desc));
         item.setDuration(0);
         item.setTime(System.currentTimeMillis());
@@ -316,27 +322,24 @@ public class MainLogFragment extends MainBaseFragment
                     return false;
                 }
             });
+            holder.rl_log.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    boolean isExpand=holder.ll_content.getVisibility()==View.VISIBLE;
+                    isExpand=!isExpand;
+                    li.setChecked(isExpand);
+                    holder.iv_expand.setCheck(isExpand);
+                    holder.ll_content.setVisibility(isExpand?View.VISIBLE:View.GONE);
+                }
+            });
             holder.tv_time.setText(timeSDF.format(new Date(li.getTime())));
             holder.tv_title.setText(li.getTitle());
             holder.tv_content.setText(li.getContent());
+            holder.tv_remark.setText(li.getRemark());
             holder.tv_duration.setText(Utils.getDuration(li.getDuration()));
-            holder.iv_expand.setOnCheckChangeListener(new CheckView.OnCheckChangeListener()
-            {
-                @Override
-                public boolean onCheckChange(boolean isCheck)
-                {
-                    li.setChecked(isCheck);
-                    if (isCheck)
-                    {
-                        holder.ll_content.setVisibility(View.VISIBLE);
-                    } else
-                    {
-                        holder.ll_content.setVisibility(View.GONE);
-                    }
-                    return true;
-                }
-            });
-            holder.iv_expand.setCheck(li.isChecked());
+
         }
 
 
@@ -354,7 +357,7 @@ public class MainLogFragment extends MainBaseFragment
             TextView tv_time;
             TextView tv_title;
             TextView tv_content;
-            TextView tv_thought;
+            TextView tv_remark;
             TextView tv_duration;
             LinearLayout ll_content;
             CheckView iv_expand;
@@ -367,8 +370,8 @@ public class MainLogFragment extends MainBaseFragment
                 tv_title = (TextView) view.findViewById(R.id.rv_item_tv_log_title);
                 iv_expand = (CheckView) view.findViewById(R.id.rv_item_cv_log_expand);
                 tv_content = (TextView) view.findViewById(R.id.rv_item_tv_log_content);
+                tv_remark = (TextView) view.findViewById(R.id.rv_item_tv_log_remark);
                 tv_duration = (TextView) view.findViewById(R.id.rv_item_tv_log_duration);
-                tv_thought = (TextView) view.findViewById(R.id.rv_item_tv_log_thought);
                 ll_content = (LinearLayout) view.findViewById(R.id.rv_item_ll_log_content);
             }
 

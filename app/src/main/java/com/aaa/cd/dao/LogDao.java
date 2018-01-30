@@ -15,7 +15,7 @@ public class LogDao {
     private static SQLiteDatabase db;
 
     private static final String SQL_GET_LOG_BY_TIME = "select * from log where time >= ? and time <= ? order by time DESC";
-    private static final String SQL_ADD_LOG = "insert into log(title,content,duration,time) values(?,?,?,?)";
+    private static final String SQL_ADD_LOG = "insert into log(title,content,remark,duration,time) values(?,?,?,?,?)";
     private static final String SQL_UPDATE_LOG = "update log set title=?,content=?,duration=?,time=? where id=?";
     private static final String SQL_DELETE_LOG_BY_ID = "delete from log where id=?";
     private static final String SQL_GET_LAST_LOG = "select * from log where time<? order by id DESC limit 0,1";
@@ -24,11 +24,12 @@ public class LogDao {
     public static void addLog(LogItem item) {
         db = DBHelper.getInstance().getWritableDatabase();
 
-        String[] params = new String[4];
+        String[] params = new String[5];
         params[0] = item.getTitle();
         params[1] = item.getContent();
-        params[2] = item.getDuration() + "";
-        params[3] = item.getTime() + "";
+        params[2] = item.getRemark();
+        params[3] = item.getDuration() + "";
+        params[4] = item.getTime() + "";
 
         db.execSQL(SQL_ADD_LOG, params);
 
@@ -74,6 +75,7 @@ public class LogDao {
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
+        int index_remark = c.getColumnIndex("remark");
         int index_duration = c.getColumnIndex("duration");
         int index_time = c.getColumnIndex("time");
 
@@ -84,6 +86,7 @@ public class LogDao {
                 li.setId(c.getInt(index_id));
                 li.setTitle(c.getString(index_title));
                 li.setContent(c.getString(index_content));
+                li.setRemark(c.getString(index_remark));
                 li.setDuration(c.getLong(index_duration));
                 li.setTime(c.getLong(index_time));
                 lli.add(li);
@@ -112,6 +115,7 @@ public class LogDao {
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
+        int index_remark = c.getColumnIndex("remark");
         int index_duration = c.getColumnIndex("duration");
         int index_time = c.getColumnIndex("time");
 
@@ -121,6 +125,7 @@ public class LogDao {
             li.setId(c.getInt(index_id));
             li.setTitle(c.getString(index_title));
             li.setContent(c.getString(index_content));
+            li.setRemark(c.getString(index_remark));
             li.setDuration(c.getLong(index_duration));
             li.setTime(c.getLong(index_time));
         }
@@ -147,6 +152,7 @@ public class LogDao {
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
+        int index_remark = c.getColumnIndex("remark");
         int index_duration = c.getColumnIndex("duration");
         int index_time = c.getColumnIndex("time");
 
@@ -156,6 +162,7 @@ public class LogDao {
             li.setId(c.getInt(index_id));
             li.setTitle(c.getString(index_title));
             li.setContent(c.getString(index_content));
+            li.setRemark(c.getString(index_remark));
             li.setDuration(c.getLong(index_duration));
             li.setTime(c.getLong(index_time));
             lli.add(li);
@@ -182,6 +189,7 @@ public class LogDao {
         int index_id = c.getColumnIndex("id");
         int index_title = c.getColumnIndex("title");
         int index_content = c.getColumnIndex("content");
+        int index_remark = c.getColumnIndex("remark");
         int index_duration = c.getColumnIndex("duration");
         int index_time = c.getColumnIndex("time");
 
@@ -191,6 +199,7 @@ public class LogDao {
             li.setId(c.getInt(index_id));
             li.setTitle(c.getString(index_title));
             li.setContent(c.getString(index_content));
+            li.setRemark(c.getString(index_remark));
             li.setDuration(c.getLong(index_duration));
             li.setTime(c.getLong(index_time));
             lli.add(li);

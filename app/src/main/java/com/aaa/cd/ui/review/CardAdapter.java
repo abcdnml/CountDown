@@ -26,6 +26,17 @@ public class CardAdapter extends StackCardsView.Adapter {
         mItems.addAll(items);
         notifyDataSetChanged();
     }
+    public void appendItem(BaseCardItem item){
+        if (item == null) {
+            return;
+        }
+        if (mItems == null) {
+            mItems = new ArrayList<BaseCardItem>();
+        }
+        mItems.add(item);
+        notifyDataSetChanged();
+    }
+
 
     public void remove(int position){
         mItems.remove(position);

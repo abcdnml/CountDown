@@ -73,6 +73,7 @@ public class ClockSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 	}
 	public void initVoice(Context context){
 		mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,8,0);
 		sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 5);
 		try
 		{

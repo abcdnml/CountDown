@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_bg"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_exam_choice_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_padding"
+            android:text="aaaaaaaaaaaaa"
+            android:textSize="@dimen/font_18"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_exam_choice_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_padding"
+            android:layout_marginRight="@dimen/dialog_padding"
+
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <TextView
+            android:id="@+id/tv_exam_choice_explaination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_padding"
+            android:text="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            android:textSize="@dimen/font_16"
+            />
+        <Button
+            android:id="@+id/btn_exam_choice_showanswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="看答案"
+            />
+    </LinearLayout>
+</ScrollView>

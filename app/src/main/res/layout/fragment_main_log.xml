@@ -26,7 +26,6 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:drawablePadding="5dp"
-
             />
     </LinearLayout>
 

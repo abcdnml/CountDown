@@ -1,6 +1,7 @@
 package com.aaa.cd.ui;
 
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,6 +41,17 @@ public class MainCountDownFragment extends MainBaseFragment {
             @Override
             public void onClick(View view) {
                 mainCallback.openMenu(true);
+            }
+        });
+
+        ImageView iv_right=(ImageView)view.findViewById(R.id.iv_title_right);
+        iv_right.setImageResource(R.drawable.selector_setting);
+        iv_right.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
             }
         });
     }

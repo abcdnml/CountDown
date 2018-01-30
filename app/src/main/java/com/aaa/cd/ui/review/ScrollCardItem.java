@@ -14,16 +14,19 @@ import com.beyondsw.lib.widget.StackCardsView;
 /**
  * Created by wensefu on 17-3-4.
  */
-public class ScrollCardItem extends BaseCardItem {
+public class ScrollCardItem extends BaseCardItem
+{
 
 
-    public ScrollCardItem(Context context) {
+    public ScrollCardItem(Context context)
+    {
         super(context);
         swipeDir = StackCardsView.SWIPE_LEFT | StackCardsView.SWIPE_RIGHT;
     }
 
     @Override
-    public View getView(View convertView, ViewGroup parent) {
+    public View getView(View convertView, ViewGroup parent)
+    {
         convertView = View.inflate(mContext, R.layout.item_scrollcard, null);
         RecyclerView recyclerView = Utils.findViewById(convertView, R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -31,17 +34,20 @@ public class ScrollCardItem extends BaseCardItem {
         return convertView;
     }
 
-    private static class VerticalVH extends RecyclerView.ViewHolder {
+    private static class VerticalVH extends RecyclerView.ViewHolder
+    {
 
         TextView textView;
 
-        public VerticalVH(View itemView) {
+        public VerticalVH(View itemView)
+        {
             super(itemView);
-            textView = Utils.findViewById(itemView,R.id.text_v);
+            textView = Utils.findViewById(itemView, R.id.text_v);
         }
     }
 
-    private class VerticalAdapter extends RecyclerView.Adapter<VerticalVH> {
+    private class VerticalAdapter extends RecyclerView.Adapter<VerticalVH>
+    {
 
         private String[] array = {
                 "My life is brilliant.",
@@ -78,18 +84,21 @@ public class ScrollCardItem extends BaseCardItem {
         };
 
         @Override
-        public VerticalVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        public VerticalVH onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_v, parent, false);
             return new VerticalVH(itemView);
         }
 
         @Override
-        public void onBindViewHolder(VerticalVH holder, int position) {
+        public void onBindViewHolder(VerticalVH holder, int position)
+        {
             holder.textView.setText(array[position]);
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return array.length;
         }
     }

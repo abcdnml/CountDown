@@ -38,8 +38,9 @@
     <string name="start_timing_desc">请回忆你上周主要在做的三件事,如果想不起来,那么你就是在浑噩度日. \n日志的作用便是于此,让你每天明确自己在做的,以及将要做的事.\n所以 开始记录你的生活吧!</string>
     <string name="add_log">添加日志</string>
     <string name="edit_log">编辑日志</string>
-    <string name="hint_log_title">请输入标题</string>
-    <string name="hint_log_content">请输入具体任务内容</string>
+    <string name="hint_log_title">标题</string>
+    <string name="hint_log_content">要做什么...</string>
+    <string name="hint_log_remark">想法...</string>
     <string name="error_log_title_null">日志标题不能为空哦...</string>
     <string name="error_log_content_null">日志内容不能为空哦...</string>
 

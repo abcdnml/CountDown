@@ -2,68 +2,98 @@ package com.aaa.cd.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * Created by aaa on 2016/9/3.
  */
-public class LogItem implements Parcelable{
+public class LogItem implements Parcelable
+{
     private int id;
     private String title;
     private String content;
+    private String remark;
     private long duration;
     private long time;
     private boolean isChecked;
 
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
-    public String getTitle() {
+
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 
-    public long getDuration() {
+    public String getRemark()
+    {
+        if(TextUtils.isEmpty(remark)){
+            return "";
+        }
+        return remark;
+    }
+
+    public void setRemark(String remark)
+    {
+        this.remark = remark;
+    }
+
+    public long getDuration()
+    {
         return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(long duration)
+    {
         this.duration = duration;
     }
 
-    public long getTime() {
+    public long getTime()
+    {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(long time)
+    {
         this.time = time;
     }
 
-    public boolean isChecked() {
+    public boolean isChecked()
+    {
         return isChecked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(boolean checked)
+    {
         isChecked = checked;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "LogItem{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
@@ -72,6 +102,7 @@ public class LogItem implements Parcelable{
                 ", time=" + time +
                 '}';
     }
+
     public LogItem()
     {
     }
@@ -79,11 +110,11 @@ public class LogItem implements Parcelable{
     private LogItem(Parcel in)
     {
         id = in.readInt();
-        title=in.readString();
-        content=in.readString();
-        duration=in.readLong();
-        time=in.readLong();
-        isChecked=in.readByte()==1;
+        title = in.readString();
+        content = in.readString();
+        duration = in.readLong();
+        time = in.readLong();
+        isChecked = in.readByte() == 1;
     }
 
     public static final Parcelable.Creator<LogItem> CREATOR = new Parcelable.Creator<LogItem>()
@@ -98,18 +129,21 @@ public class LogItem implements Parcelable{
             return new LogItem[size];
         }
     };
+
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel out, int flag) {
+    public void writeToParcel(Parcel out, int flag)
+    {
         out.writeInt(id);
         out.writeString(title);
         out.writeString(content);
         out.writeLong(duration);
         out.writeLong(time);
-        out.writeByte((byte)(isChecked?1:0));
+        out.writeByte((byte) (isChecked ? 1 : 0));
     }
 }
