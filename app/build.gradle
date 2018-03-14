@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.aaa.cd"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,9 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile (name:'circleview', ext:'aar')
-    compile (name:'stackcardview', ext:'aar')
+//    compile (name:'stackcardview', ext:'aar')
+//    compile (name:'library-release', ext:'aar')
     compile project (':aaaLib:timepicker')
+    compile project (':aaaLib:stackcardview')
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }

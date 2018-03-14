@@ -14,5 +14,6 @@ public class CountDownApplication extends Application {
         super.onCreate();
 
         DBHelper.init(this);
+        SPUtil.init(this);
     }
 }

@@ -12,4 +12,7 @@ public class Constants {
     public static final String INTENT_KEY_LOG_CURRENT="intent_key_log_current";
 
     public static final int REQUEST_CODE_LOG=5;
+
+    public static final String SP_KEY_BORN_DATE="born_date";
+    public static final String SP_KEY_DEATH_DATE="death_date";
 }

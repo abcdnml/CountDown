@@ -1,25 +1,102 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:clock="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.aaa.cd.ui.MainCountDownFragment">
 
-    <include layout="@layout/layout_title"/>
+    <include
+        android:id="@+id/include_title_countdown"
+        layout="@layout/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
-    <com.aaa.cd.view.ClockSurfaceView
+    <RelativeLayout
+        android:id="@+id/ll_death"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/black_000"
+        android:visibility="invisible">
+    </RelativeLayout>
+<!--    <com.aaa.cd.view.ClockSurfaceView
         android:id="@+id/csv_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/content_padding"
+        android:layout_centerInParent="true"
         clock:radiu="400"
+        />-->
+    <com.aaa.cd.view.ClockView
+        android:id="@+id/cv_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_title_countdown"
+        android:layout_marginTop="@dimen/main_item_margin"
+        android:layout_marginBottom="@dimen/main_item_margin"
+        android:layout_centerHorizontal="true"
+        clock:radiu="100dp"
         />
+    <RelativeLayout
+        android:id="@+id/rl_coundown_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/cv_clock"
+        >
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_888"
+            android:textSize="@dimen/font_18"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_coundown_set_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/cv_clock"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tv_set_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_888"
+            android:textSize="@dimen/font_32"
+            android:layout_centerInParent="true"
+            />
+        
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/lv_count_down"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        >
 
     </ListView>
+    <CheckBox
+        android:id="@+id/cb_life_death"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:gravity="center"
+        android:text="@string/being_towards_death"
+        android:textSize="16sp"
+        android:fontFamily="serif-monospace"
+        android:textColor="@color/gray_888"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/bottoom_padding"
+        android:background="@drawable/shape_round_frame_gray"
+        />
 
-</LinearLayout>
+</RelativeLayout>

@@ -66,6 +66,7 @@
                 android:layout_height="16dp"
                 aaa:unCheckSrc="@mipmap/next"
                 aaa:checkedSrc="@mipmap/up"
+                android:clickable="false"
                 aaa:isCheck="false"
                 />
         </LinearLayout>

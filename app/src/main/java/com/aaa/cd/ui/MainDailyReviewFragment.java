@@ -13,7 +13,6 @@ package com.aaa.cd.ui;
  import com.aaa.cd.R;
  import com.aaa.cd.ui.review.BaseCardItem;
  import com.aaa.cd.ui.review.CardAdapter;
- import com.aaa.cd.ui.review.CardFragment;
  import com.aaa.cd.ui.review.ImageCardItem;
  import com.aaa.cd.ui.review.ImageUrls;
  import com.aaa.cd.ui.review.Questions;
@@ -40,7 +39,7 @@ public class MainDailyReviewFragment extends MainBaseFragment implements Handler
     private volatile int mStartIndex;
     private static final int PAGE_COUNT = 10;
     //commit test
-    private CardFragment.Callback mCallback;
+    Callback mCallback;
 
     public interface Callback
     {

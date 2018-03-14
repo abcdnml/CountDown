@@ -33,11 +33,13 @@
         android:id="@+id/rv_log"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:paddingStart="@dimen/content_padding"
         android:paddingEnd="@dimen/content_padding"
         android:paddingTop="@dimen/content_padding"
-        android:layout_below="@id/ll_timing"
+
         >
+        <!--android:layout_below="@id/ll_timing"-->
     </android.support.v7.widget.RecyclerView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_log"

@@ -15,8 +15,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="66dp"
-        app:itemHeight="360dp"
-        app:itemWidth="360dp"
+        app:itemHeight="80%"
+        app:itemWidth="80%"
         />
 
 </LinearLayout>

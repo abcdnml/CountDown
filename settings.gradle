@@ -1,3 +1,4 @@
 include  ':app',':aaaLib'
 project (':aaaLib').projectDir = new File('D:/workspace/as/aaaLib')
 include ':aaaLib:timepicker'
+include ':aaaLib:stackcardview'

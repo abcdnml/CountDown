@@ -19,7 +19,6 @@ public class CheckView extends View implements View.OnClickListener{
     Drawable unCheckDrawable;
     public CheckView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setClickable(true);
         TypedArray ta=context.obtainStyledAttributes(attrs, R.styleable.CheckView);
         checkedDrawable =ta.getDrawable(R.styleable.CheckView_checkedSrc);
         unCheckDrawable= ta.getDrawable(R.styleable.CheckView_unCheckSrc);
@@ -27,7 +26,7 @@ public class CheckView extends View implements View.OnClickListener{
         ta.recycle();
 
         setCheck(isChecked);
-        setOnClickListener(this);
+//        setOnClickListener(this);
     }
     public void setCheck(boolean isChecked)
     {
@@ -70,6 +69,7 @@ public class CheckView extends View implements View.OnClickListener{
 
 
     public void setOnCheckChangeListener(OnCheckChangeListener listener){
+        this.setClickable(true);
         this.checkChangeListener=listener;
     }
     public static interface  OnCheckChangeListener{
