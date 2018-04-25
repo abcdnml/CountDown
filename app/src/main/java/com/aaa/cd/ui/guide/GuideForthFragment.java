@@ -1,4 +1,4 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.guide;
 
 
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.aaa.cd.R;
+import com.aaa.cd.ui.MainActivity;
 
 /**
  */
