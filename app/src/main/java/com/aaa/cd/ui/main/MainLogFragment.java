@@ -1,4 +1,4 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.main;
 
 
 import android.content.Context;
@@ -26,6 +26,7 @@ import com.aaa.cd.dao.LogDao;
 import com.aaa.cd.model.LogItem;
 import com.aaa.cd.model.MainCallback;
 import com.aaa.cd.po.User;
+import com.aaa.cd.ui.LogDetailActivity;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.Utils;

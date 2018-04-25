@@ -1,30 +1,27 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.main;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aaa.cd.R;
-import com.aaa.cd.view.ClockSurfaceView;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainPlanFragment extends MainBaseFragment {
+public class MainCalendarFragment extends MainBaseFragment {
 
 
-    public MainPlanFragment() {
+    public MainCalendarFragment() {
+        // Required empty public constructor
     }
+
     @Override
     public void initTitle(View view){
         TextView tv_title_content=(TextView)view.findViewById(R.id.tv_title_content);
-        tv_title_content.setText(R.string.menu_plan);
+        tv_title_content.setText(R.string.menu_calendar);
         ImageView iv_left=(ImageView)view.findViewById(R.id.iv_title_left);
         iv_left.setVisibility(View.VISIBLE);
         iv_left.setImageResource(R.mipmap.menu);
@@ -36,14 +33,10 @@ public class MainPlanFragment extends MainBaseFragment {
         });
     }
 
-    @Override
-    public void initView(View view){
-    }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_main_plan;
+        return R.layout.fragment_main_calendar;
     }
-
 
 }

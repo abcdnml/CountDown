@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.aaa.cd.R;
-import com.aaa.cd.ui.MainActivity;
+import com.aaa.cd.ui.main.MainActivity;
 
 /**
  */

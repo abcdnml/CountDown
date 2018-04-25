@@ -1,4 +1,4 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.main;
 
 
 import android.content.DialogInterface;

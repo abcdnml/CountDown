@@ -1,22 +1,26 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.main;
 
 
+import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aaa.cd.R;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MainHourPlanFragment extends MainBaseFragment {
 
-public class MainAboutFragment  extends MainBaseFragment {
 
-    public MainAboutFragment() {
-        // Required empty public constructor
+    public MainHourPlanFragment() {
     }
+
     @Override
     public void initTitle(View view){
         TextView tv_title_content=(TextView)view.findViewById(R.id.tv_title_content);
-        tv_title_content.setText(R.string.menu_article);
+        tv_title_content.setText(R.string.menu_hour_plan);
         ImageView iv_left=(ImageView)view.findViewById(R.id.iv_title_left);
         iv_left.setVisibility(View.VISIBLE);
         iv_left.setImageResource(R.mipmap.menu);
@@ -27,15 +31,14 @@ public class MainAboutFragment  extends MainBaseFragment {
             }
         });
     }
-
     @Override
     public void initView(View view){
+
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_main_article;
+        return R.layout.fragment_main_hour_plan;
     }
 
 }
-

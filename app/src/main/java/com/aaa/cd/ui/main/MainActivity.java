@@ -1,4 +1,4 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.ui.main;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -25,7 +25,6 @@ import com.aaa.cd.model.MainCallback;
 import com.aaa.cd.po.User;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
-import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.util.SPUtil;
 import com.example.youngkaaa.ycircleview.CircleView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
