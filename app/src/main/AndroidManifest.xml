@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LogDetailActivity"/>
+        <activity android:name=".log.LogDetailActivity"/>
         <activity android:name=".ui.article.MarkdownActivity"/>
     </application>
 

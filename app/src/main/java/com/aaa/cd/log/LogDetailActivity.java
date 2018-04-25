@@ -1,4 +1,4 @@
-package com.aaa.cd.ui;
+package com.aaa.cd.log;
 
 import android.content.Intent;
 import android.os.Bundle;
