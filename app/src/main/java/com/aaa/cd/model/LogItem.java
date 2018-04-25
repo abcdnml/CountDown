@@ -15,6 +15,7 @@ public class LogItem implements Parcelable
     private String remark;
     private long duration;
     private long time;
+    private int userId;
     private boolean isChecked;
 
 
@@ -81,6 +82,17 @@ public class LogItem implements Parcelable
         this.time = time;
     }
 
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
+    }
+
+
     public boolean isChecked()
     {
         return isChecked;
@@ -100,6 +112,7 @@ public class LogItem implements Parcelable
                 ", content='" + content + '\'' +
                 ", duration=" + duration +
                 ", time=" + time +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -112,8 +125,10 @@ public class LogItem implements Parcelable
         id = in.readInt();
         title = in.readString();
         content = in.readString();
+        remark = in.readString();
         duration = in.readLong();
         time = in.readLong();
+        userId = in.readInt();
         isChecked = in.readByte() == 1;
     }
 
@@ -142,8 +157,10 @@ public class LogItem implements Parcelable
         out.writeInt(id);
         out.writeString(title);
         out.writeString(content);
+        out.writeString(remark);
         out.writeLong(duration);
         out.writeLong(time);
+        out.writeInt(userId);
         out.writeByte((byte) (isChecked ? 1 : 0));
     }
 }

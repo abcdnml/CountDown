@@ -25,7 +25,9 @@ import com.aaa.cd.R;
 import com.aaa.cd.dao.LogDao;
 import com.aaa.cd.model.LogItem;
 import com.aaa.cd.model.MainCallback;
+import com.aaa.cd.po.User;
 import com.aaa.cd.util.Constants;
+import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.Utils;
 import com.aaa.lib.view.timepicker.WheelDatePicker;
 import com.aaa.lib.view.timepicker.listener.OnDatetimeSetListener;
@@ -58,10 +60,10 @@ public class MainLogFragment extends MainBaseFragment
     SimpleDateFormat dateSDF = new SimpleDateFormat("yyyy-MM-dd");
     String lastingTime;
     MainCallback mainCallback;
-
+    User user;
     public MainLogFragment()
     {
-
+        user=CountDownApplication.getApplication().getUser();
     }
 
     @Override
@@ -82,6 +84,7 @@ public class MainLogFragment extends MainBaseFragment
     public void onDetach()
     {
         super.onDetach();
+        handler.removeCallbacksAndMessages(null);
         mainCallback = null;
     }
 
@@ -96,7 +99,7 @@ public class MainLogFragment extends MainBaseFragment
     {
         super.onActivityCreated(savedInstanceState);
         getRecentLog();
-        lastLog = LogDao.getLastLog(System.currentTimeMillis());
+        lastLog = LogDao.getLastLog(System.currentTimeMillis(), user.getId());
         lastingTime = getString(R.string.lasting_time);
 
         showEmptyOrList();
@@ -179,7 +182,7 @@ public class MainLogFragment extends MainBaseFragment
             {
                 addFirstLog();
                 getRecentLog();
-                lastLog = LogDao.getLastLog(System.currentTimeMillis());
+                lastLog = LogDao.getLastLog(System.currentTimeMillis(),user.getId());
                 showEmptyOrList();
             }
         });
@@ -205,7 +208,7 @@ public class MainLogFragment extends MainBaseFragment
             {
                 if(date != null)
                 {
-                    lli = LogDao.getNextLog(date.getTime());
+                    lli = LogDao.getNextLog(date.getTime(),user.getId());
                     Log.i("aaa", "list size" + lli.size());
                     logAdapter.notifyDataSetChanged();
                     if (lli.size() > 0)
@@ -225,6 +228,7 @@ public class MainLogFragment extends MainBaseFragment
         item.setContent(getString(R.string.start_timing_desc));
         item.setDuration(0);
         item.setTime(System.currentTimeMillis());
+        item.setUserId(user.getId());
         LogDao.addLog(item);
     }
 
@@ -262,8 +266,8 @@ public class MainLogFragment extends MainBaseFragment
 
     public void getRecentLog()
     {
-        lli = LogDao.getFormerLog(System.currentTimeMillis());
-        Log.i("aaa", "list size" + lli.size());
+        lli = LogDao.getFormerLog(System.currentTimeMillis(),user.getId());
+        Log.i("aaa", "list size : " + lli.size());
         logAdapter.notifyDataSetChanged();
         if (lli.size() > 0)
         {
@@ -385,7 +389,7 @@ public class MainLogFragment extends MainBaseFragment
         if (requestCode == Constants.REQUEST_CODE_LOG)
         {
             getRecentLog();
-            lastLog = LogDao.getLastLog(System.currentTimeMillis());
+            lastLog = LogDao.getLastLog(System.currentTimeMillis(), user.getId());
             showEmptyOrList();
         }
     }

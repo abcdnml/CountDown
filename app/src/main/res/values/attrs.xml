@@ -8,4 +8,9 @@
         <attr name="unCheckSrc" format="reference"></attr>
         <attr name="isCheck" format="boolean"></attr>
     </declare-styleable>
+    <declare-styleable name="ExpandableLayout">
+        <attr name="el_duration" format="integer" />
+        <attr name="el_expanded" format="boolean" />
+        <attr name="layout_expandable" format="boolean" />
+    </declare-styleable>
 </resources>  

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><!--最新栏目的新闻-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout="@layout/preference_item"
+    android:title="@string/menu_setting">
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="@string/menu_setting">
+        <Preference
+            android:key="@string/pref_key_save_mode"
+            android:layout="@layout/preference_item"
+            android:summary="@string/set_born_date"
+            android:title="@string/born_date"
+            />
+
+        <Preference
+            android:key="@string/pref_key_save_mode"
+            android:layout="@layout/preference_item"
+            android:summary="@string/set_dead_date"
+            android:title="@string/death_date"
+            />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="删除已缓存的文章内容及图片"
+            android:title="清空缓存" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="@string/other">
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="V 1.0"
+            android:title="@string/current_version" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="@string/address"
+            android:title="@string/author" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

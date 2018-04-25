@@ -9,6 +9,9 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+/*        jackOptions {
+            enabled=true
+        }*/
     }
     buildTypes {
         release {
@@ -16,7 +19,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+/*    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
 }
+
 repositories {
     flatDir {
         dirs 'libs'
@@ -26,12 +34,13 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:preference-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile (name:'circleview', ext:'aar')
+    compile(name: 'circleview', ext: 'aar')
 //    compile (name:'stackcardview', ext:'aar')
 //    compile (name:'library-release', ext:'aar')
-    compile project (':aaaLib:timepicker')
-    compile project (':aaaLib:stackcardview')
+    compile project(':aaaLib:timepicker')
+    compile project(':aaaLib:stackcardview')
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }

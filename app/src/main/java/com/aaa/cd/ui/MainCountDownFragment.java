@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -43,12 +44,14 @@ public class MainCountDownFragment extends MainBaseFragment
     TextView tv_set_age;
     private long bornDate;
     private long deathDate;
+    private DecelerateInterpolator interpolator;
 
     public MainCountDownFragment()
     {
         // Required empty public constructor
         bornDate = (long) SPUtil.get(Constants.SP_KEY_BORN_DATE, -1L);
         deathDate = (long) SPUtil.get(Constants.SP_KEY_DEATH_DATE, -1L);
+        interpolator=new DecelerateInterpolator();
     }
 
     @Override
@@ -234,8 +237,8 @@ public class MainCountDownFragment extends MainBaseFragment
         Animator anim = ViewAnimationUtils.createCircularReveal(death, cx, cy, 0, finalRadius);
         // 使视图可见并启动动画
         death.setVisibility(View.VISIBLE);
-        anim.setDuration(2000);
-//        anim.setInterpolator();
+        anim.setDuration(1000);
+        anim.setInterpolator(interpolator);
         anim.start();
     }
 
@@ -249,7 +252,8 @@ public class MainCountDownFragment extends MainBaseFragment
         ((MainActivity) getActivity()).setStatusBarColor(Color.parseColor("#7777FF"));
         // 半径 从 viewWidth -> 0
         Animator anim = ViewAnimationUtils.createCircularReveal(death, cx, cy, initialRadius, 0);
-        anim.setDuration(2000);
+        anim.setDuration(1000);
+        anim.setInterpolator(interpolator);
         anim.addListener(new AnimatorListenerAdapter()
         {
             @Override

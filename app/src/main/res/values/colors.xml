@@ -16,5 +16,10 @@
     <color name="red_f00">#FF0000</color>
     <color name="red_f33">#FF3333</color>
 
+
     <color name="black_000">#000000</color>
+    <color name="colorDivider">#B6B6B6</color>
+
+
+    <color name="primary">#E91E63</color>
 </resources>

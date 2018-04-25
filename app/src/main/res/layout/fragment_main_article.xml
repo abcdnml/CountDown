@@ -1,13 +1,148 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.aaa.cd.ui.MainArticleFragment">
-    <include layout="@layout/layout_title"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
 
-</LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_title"/>
+
+        <com.aaa.cd.view.TabView
+            android:id="@+id/tiv_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp">
+        </com.aaa.cd.view.TabView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/sv_document"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:layout_weight="1"
+                android:queryHint="请输入搜索内容"
+                />
+            <ImageView
+                android:id="@+id/iv_markdown_display"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/dimen_16"
+                android:src="@drawable/selector_display_list"/>
+            <ImageView
+                android:id="@+id/iv_markdown_sort"
+                android:layout_width="@dimen/dimen_48"
+                android:layout_height="@dimen/dimen_48"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/dimen_16"
+                android:src="@drawable/selector_sort_alpha_asc"
+                />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.aaa.cd.view.ExpandableLinearLayout
+                android:id="@+id/ell_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                app:el_duration="400"
+                app:el_expanded="false">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_display_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    app:layout_expandable="true"
+                    >
+                </android.support.v7.widget.RecyclerView>
+            </com.aaa.cd.view.ExpandableLinearLayout>
+
+            <com.aaa.cd.view.ExpandableLinearLayout
+                android:id="@+id/ell_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                app:el_duration="400"
+                app:el_expanded="false">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_sort_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    app:layout_expandable="true"
+                    >
+                </android.support.v7.widget.RecyclerView>
+            </com.aaa.cd.view.ExpandableLinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_article_catalogue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <!--空视图-->
+            <!--            <TextView
+                            android:id="@+id/tv_no_article"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/text_padding"
+                            android:drawableTop="@drawable/empty_file"
+                            android:visibility="gone"
+                            />-->
+
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_create_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="@dimen/dimen_16"
+        android:src="@mipmap/ic_create_folder"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="#ffffffff"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_create_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_create_file"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="#ffffffff"
+        />
+    <!--app:rippleColor="#33728dff"-->
+
+</android.support.design.widget.CoordinatorLayout>

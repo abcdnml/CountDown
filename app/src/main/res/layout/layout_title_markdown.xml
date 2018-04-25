@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:background="@color/colorPrimary"
+    >
+
+    <ImageView
+        android:id="@+id/iv_markdown_title_back"
+        android:layout_width="@dimen/title_height"
+        android:layout_height="@dimen/title_height"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:src="@mipmap/back"
+        />
+
+    <TextView
+        android:id="@+id/tv_markdown_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/markdown_edit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_18"
+        android:layout_weight="1"
+        />
+
+    <ImageView
+        android:id="@+id/iv_markdown_title_redo"
+        android:layout_width="@dimen/title_height"
+        android:layout_height="@dimen/title_height"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@mipmap/ic_action_redo"
+        />
+
+    <ImageView
+        android:id="@+id/iv_markdown_title_save"
+        android:layout_width="@dimen/title_height"
+        android:layout_height="@dimen/title_height"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@mipmap/ic_action_save"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_markdown_title_undo"
+        android:layout_width="@dimen/title_height"
+        android:layout_height="@dimen/title_height"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@mipmap/ic_action_undo"
+        />
+</LinearLayout>

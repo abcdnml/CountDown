@@ -17,6 +17,7 @@ import com.aaa.cd.R;
 import com.aaa.cd.dao.LogDao;
 import com.aaa.cd.model.LogItem;
 import com.aaa.cd.util.Constants;
+import com.aaa.cd.util.CountDownApplication;
 
 public class LogDetailActivity extends AppCompatActivity
 {
@@ -122,7 +123,8 @@ public class LogDetailActivity extends AppCompatActivity
                     li.setTitle(et_title.getText().toString());
                     li.setContent(et_content.getText().toString());
                     li.setRemark(et_remark.getText().toString());
-                    LogItem last = LogDao.getLastLog(System.currentTimeMillis());
+                    li.setUserId( CountDownApplication.getApplication().getUser().getId());
+                    LogItem last = LogDao.getLastLog(System.currentTimeMillis(), CountDownApplication.getApplication().getUser().getId());
                     if (last != null)
                     {
                         li.setDuration(System.currentTimeMillis() - last.getTime());

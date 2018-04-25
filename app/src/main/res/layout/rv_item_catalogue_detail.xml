@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_rv_detail_catalogue"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+    >
+
+    <ImageView
+        android:id="@+id/iv_rv_detail_catalogue_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/directory"
+        />
+
+    <TextView
+        android:id="@+id/tv_rv_detail_catalogue_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/iv_rv_detail_catalogue_icon"
+        android:layout_toRightOf="@+id/iv_rv_detail_catalogue_icon"
+        android:layout_marginLeft="@dimen/text_padding"
+        android:textColor="@color/gray_333"
+        android:textSize="@dimen/font_18"
+        android:maxLines="1"
+        android:text="name"
+        />
+
+    <TextView
+        android:id="@+id/tv_rv_detail_catalogue_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_rv_detail_catalogue_icon"
+        android:layout_marginTop="@dimen/text_padding"
+        android:maxLines="2"
+        android:text="detail"
+        />
+</RelativeLayout>
