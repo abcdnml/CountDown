@@ -27,8 +27,8 @@
 
     <string name="to_death">向死而生</string>
     <string name="to_live">向死而生</string>
-    <string name="live_age">你在这世界已经存在 %1$f 年了</string>
-    <string name="left_age">你还可以活 %1$f 年</string>
+    <string name="live_age">你在这世界已经存在 %1$f 年了,相当于一天中的8点 你的生命才刚刚开始 加油 </string>
+    <string name="left_age">你还可以活 %1$f 年 你还有66的生命 你还可以做很多事</string>
     <string name="born_date">生辰</string>
     <string name="death_date">死忌</string>
 

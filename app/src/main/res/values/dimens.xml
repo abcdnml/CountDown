@@ -15,8 +15,8 @@
     <dimen name="text_min_height">100dp</dimen>
     <dimen name="long_button_height">45dp</dimen>
 
-    <dimen name="main_item_margin">60dp</dimen>
-    <dimen name="bottoom_padding">50dp</dimen>
+    <dimen name="main_item_margin">40dp</dimen>
+    <dimen name="bottoom_padding">40dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="font_32">32sp</dimen>

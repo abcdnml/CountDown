@@ -21,6 +21,7 @@
         android:background="@color/black_000"
         android:visibility="invisible">
     </RelativeLayout>
+    <!--不用这个是因为没有View可以遮挡SurfaceView 所以想覆盖动画在上面时就不能用-->
 <!--    <com.aaa.cd.view.ClockSurfaceView
         android:id="@+id/csv_clock"
         android:layout_width="wrap_content"
@@ -28,6 +29,17 @@
         android:layout_margin="@dimen/content_padding"
         android:layout_centerInParent="true"
         clock:radiu="400"
+        />-->
+    <!--这个是百分制时钟-->
+<!--    <com.aaa.cd.view.NewClockView
+        android:id="@+id/cv_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_title_countdown"
+        android:layout_marginTop="@dimen/main_item_margin"
+        android:layout_marginBottom="@dimen/main_item_margin"
+        android:layout_centerHorizontal="true"
+        clock:radiu="120dp"
         />-->
     <com.aaa.cd.view.ClockView
         android:id="@+id/cv_clock"
@@ -37,20 +49,24 @@
         android:layout_marginTop="@dimen/main_item_margin"
         android:layout_marginBottom="@dimen/main_item_margin"
         android:layout_centerHorizontal="true"
-        clock:radiu="150dp"
+        clock:radiu="0dp"
+        clock:radiu_percent="40%"
         />
     <RelativeLayout
         android:id="@+id/rl_coundown_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/cv_clock"
+        android:layout_above="@+id/cb_life_death"
+        android:padding="@dimen/content_padding"
+        android:layout_marginBottom="@dimen/text_padding"
         >
         <TextView
             android:id="@+id/tv_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray_888"
+            android:gravity="center"
             android:textSize="@dimen/font_18"
             android:layout_centerInParent="true"
             />

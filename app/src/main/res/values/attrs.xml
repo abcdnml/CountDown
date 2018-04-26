@@ -2,6 +2,7 @@
 <resources>  
     <declare-styleable name="clock">  
         <attr name="radiu" format="dimension"/>
+        <attr name="radiu_percent" format="fraction"/>
     </declare-styleable>
     <declare-styleable name="CheckView">
         <attr name="checkedSrc" format="reference"></attr>
