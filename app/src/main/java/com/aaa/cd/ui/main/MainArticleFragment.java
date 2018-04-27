@@ -3,9 +3,11 @@ package com.aaa.cd.ui.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +57,9 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private RecyclerView rv_displayOption;
     private ImageView iv_display;
 
+    private ExpandableLinearLayout ell_function;
+    private TextView tv_import;
+    private TextView tv_synchronize;
 
     private ExpandableLinearLayout ell_sort;
     private RecyclerView rv_sortOption;
@@ -131,7 +136,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             @Override
             public void onClick(View v)
             {
-                ell_display.toggle();
+                ell_function.toggle();
             }
         });
 
@@ -140,6 +145,18 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     @Override
     public void initView(View view)
     {
+        ell_function = (ExpandableLinearLayout) view.findViewById(R.id.ell_function);
+        tv_import=(TextView)view.findViewById(R.id.tv_import_markdown);
+        Drawable drawableImport=ContextCompat.getDrawable(getActivity(), R.drawable.selector_import);
+        drawableImport.setBounds(0, 0, 48, 48);
+        tv_import.setCompoundDrawables(drawableImport, null, null, null);
+        tv_import.setOnClickListener(this);
+        tv_synchronize=(TextView)view.findViewById(R.id.tv_synchronize_article);
+        Drawable drawableSynchronize=ContextCompat.getDrawable(getActivity(), R.drawable.selector_synchronize);
+        drawableSynchronize.setBounds(0, 0, 48, 48);
+        tv_synchronize.setCompoundDrawables(drawableSynchronize, null, null, null);
+        tv_synchronize.setOnClickListener(this);
+
         ell_display = (ExpandableLinearLayout) view.findViewById(R.id.ell_display);
         rv_displayOption = (RecyclerView) view.findViewById(R.id.rv_display_option);
         iv_display = (ImageView) view.findViewById(R.id.iv_markdown_display);
@@ -282,6 +299,12 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 break;
             case R.id.fab_create_folder:
                 createFolder();
+                break;
+            case R.id.tv_import_markdown:
+
+                break;
+            case R.id.tv_synchronize_article:
+
                 break;
         }
     }

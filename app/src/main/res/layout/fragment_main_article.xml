@@ -1,133 +1,198 @@
-<android.support.design.widget.CoordinatorLayout
+<!--<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.aaa.cd.ui.main.MainArticleFragment">
+    tools:context="com.aaa.cd.ui.main.MainArticleFragment">-->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_title_main_article"
+        layout="@layout/layout_title"/>
+
+    <com.aaa.cd.view.TabView
+        android:id="@+id/tiv_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_title_main_article"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp">
+    </com.aaa.cd.view.TabView>
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_artcle_filter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tiv_path"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
 
-        <include layout="@layout/layout_title"/>
-
-        <com.aaa.cd.view.TabView
-            android:id="@+id/tiv_path"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.SearchView
+            android:id="@+id/sv_document"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:elevation="4dp">
-        </com.aaa.cd.view.TabView>
+            android:layout_weight="1"
+            android:iconifiedByDefault="false"
+            android:queryHint="请输入搜索内容"
+            />
 
+        <ImageView
+            android:id="@+id/iv_markdown_display"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_48"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/dimen_16"
+            android:src="@drawable/selector_display_list"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/iv_markdown_sort"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_48"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/dimen_16"
+            android:src="@drawable/selector_sort_alpha_asc"
+            />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:elevation="4dp"
+        android:layout_below="@+id/include_title_main_article"
+        >
+
+        <com.aaa.cd.view.ExpandableLinearLayout
+            android:id="@+id/ell_function"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
+            android:layout_gravity="right|top"
+            android:background="@color/blue_77f"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dimen_24"
+            android:paddingRight="@dimen/dimen_24"
+            app:el_duration="500"
+            app:el_expanded="false"
+            >
 
-            <android.support.v7.widget.SearchView
-                android:id="@+id/sv_document"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:layout_weight="1"
-                android:queryHint="请输入搜索内容"
-                />
-            <ImageView
-                android:id="@+id/iv_markdown_display"
-                android:layout_width="@dimen/dimen_48"
-                android:layout_height="@dimen/dimen_48"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="@dimen/dimen_16"
-                android:src="@drawable/selector_display_list"/>
-            <ImageView
-                android:id="@+id/iv_markdown_sort"
-                android:layout_width="@dimen/dimen_48"
-                android:layout_height="@dimen/dimen_48"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="@dimen/dimen_16"
-                android:src="@drawable/selector_sort_alpha_asc"
-                />
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.aaa.cd.view.ExpandableLinearLayout
-                android:id="@+id/ell_display"
+            <TextView
+                android:id="@+id/tv_import_markdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="4dp"
-                android:orientation="vertical"
-                android:layout_gravity="right"
-                app:el_duration="400"
-                app:el_expanded="false">
+                android:clickable="true"
+                android:drawablePadding="@dimen/dimen_10"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/dimen_5"
+                android:paddingTop="@dimen/dimen_5"
+                android:text="@string/import_markdown"
+                android:textColor="@color/white"
+                app:layout_expandable="true"
+                />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_display_option"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    app:layout_expandable="true"
-                    >
-                </android.support.v7.widget.RecyclerView>
-            </com.aaa.cd.view.ExpandableLinearLayout>
-
-            <com.aaa.cd.view.ExpandableLinearLayout
-                android:id="@+id/ell_sort"
+            <TextView
+                android:id="@+id/tv_synchronize_article"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="4dp"
-                android:orientation="vertical"
-                android:layout_gravity="right"
-                app:el_duration="400"
-                app:el_expanded="false">
+                android:clickable="true"
+                android:drawablePadding="@dimen/dimen_10"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/dimen_5"
+                android:paddingTop="@dimen/dimen_5"
+                android:text="@string/synchronize"
+                android:textColor="@color/white"
+                app:layout_expandable="true"
+                />
+        </com.aaa.cd.view.ExpandableLinearLayout>
+    </FrameLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_sort_option"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    app:layout_expandable="true"
-                    >
-                </android.support.v7.widget.RecyclerView>
-            </com.aaa.cd.view.ExpandableLinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/ll_artcle_filter"
+        android:layout_below="@+id/ll_artcle_filter"
+        >
+
+        <com.aaa.cd.view.ExpandableLinearLayout
+            android:id="@+id/ell_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            app:el_duration="500"
+            app:el_expanded="false"
+            >
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_article_catalogue"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            <!--空视图-->
-            <!--            <TextView
-                            android:id="@+id/tv_no_article"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/text_padding"
-                            android:drawableTop="@drawable/empty_file"
-                            android:visibility="gone"
-                            />-->
+                android:id="@+id/rv_display_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:layout_expandable="true"
+                >
+            </android.support.v7.widget.RecyclerView>
+        </com.aaa.cd.view.ExpandableLinearLayout>
+
+        <com.aaa.cd.view.ExpandableLinearLayout
+            android:id="@+id/ell_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            app:el_duration="500"
+            app:el_expanded="false"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_sort_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:layout_expandable="true"
+                >
+            </android.support.v7.widget.RecyclerView>
+        </com.aaa.cd.view.ExpandableLinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_article_catalogue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
 
 
-        </FrameLayout>
-    </LinearLayout>
+    <!--空视图-->
+    <!--            <TextView
+                    android:id="@+id/tv_no_article"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/text_padding"
+                    android:drawableTop="@drawable/empty_file"
+                    android:visibility="gone"
+                    />-->
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_create_folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_above="@+id/fab_create_file"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/fab_margin"
         android:src="@mipmap/ic_create_folder"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="#ffffffff"
@@ -137,12 +202,17 @@
         android:id="@+id/fab_create_file"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@mipmap/ic_create_file"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="#ffffffff"
         />
+</RelativeLayout>
+
+
     <!--app:rippleColor="#33728dff"-->
 
-</android.support.design.widget.CoordinatorLayout>
+    <!--
+    </android.support.design.widget.CoordinatorLayout>-->

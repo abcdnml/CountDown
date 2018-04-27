@@ -62,6 +62,9 @@
     <string name="create_folder_remark">备注</string>
     <string name="should_not_be_null">不能为空</string>
 
+    <string name="import_markdown">导入</string>
+    <string name="synchronize">同步</string>
+
     <string name="display_list">列表</string>
     <string name="display_grid">表格</string>
     <string name="display_detail">详情</string>
@@ -72,8 +75,8 @@
     <string name="sort_modify_time_desc">按修改时间倒序</string>
     <string name="sort_size_asc">按文件大小升序</string>
     <string name="sort_size_desc">按文件大小降序</string>
-    <string name="sort_alpha_asc">按字母正序</string>
-    <string name="sort_alpha_desc">按字母反序</string>
+    <string name="sort_alpha_asc">按字母顺序排列</string>
+    <string name="sort_alpha_desc">按字母倒序排列</string>
 
     <!-- log start  -->
     <string name="action_settings">Settings</string>
