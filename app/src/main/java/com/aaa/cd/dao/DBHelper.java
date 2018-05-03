@@ -1,7 +1,6 @@
 package com.aaa.cd.dao;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -10,9 +9,8 @@ import android.util.Log;
 /**
  * Created by aaa on 2016/9/3.
  */
-public class DBHelper extends SQLiteOpenHelper
-{
-    public static final String TAG="DBHelper";
+public class DBHelper extends SQLiteOpenHelper {
+    public static final String TAG = "DBHelper";
     private static final String CREATE_LOG_TABLE = "create table log ("
             + "  id INTEGER PRIMARY KEY  AUTOINCREMENT DEFAULT 0, "
             + "  title TEXT, "
@@ -33,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper
             + "  parent INTEGER,"
             + "  content TEXT,"
             + "  type INTEGER,"
-            +"   user_id INTEGER,"
+            + "   user_id INTEGER,"
             + "  modify_time INTEGER,"
             + "  create_time INTEGER);";
     private static final String CREATE_USER_TABLE = "create table user("
@@ -61,30 +59,25 @@ public class DBHelper extends SQLiteOpenHelper
 
     private static DBHelper helper;
 
-    public static void init(Context ctx)
-    {
+    public static void init(Context ctx) {
         context = ctx.getApplicationContext();
     }
 
-    public static DBHelper getInstance()
-    {
-        if (helper == null)
-        {
+    public static DBHelper getInstance() {
+        if (helper == null) {
             helper = new DBHelper();
         }
         return helper;
     }
 
-    private DBHelper()
-    {
+    private DBHelper() {
         super(context, DB_NAME, null, DB_VERSION);
-        Log.i(TAG,"DBHelper");
+        Log.i(TAG, "DBHelper");
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase)
-    {
-        Log.i(TAG,"onCreate");
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.i(TAG, "onCreate");
         sqLiteDatabase.execSQL(CREATE_LOG_TABLE);
         sqLiteDatabase.execSQL(CREATE_COUNT_DOWN_TABLE);
         sqLiteDatabase.execSQL(CREATE_DOCUMENT_TABLE);
@@ -95,13 +88,10 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
-    {
-        Log.i(TAG,"onUpgrade");
-        for (int i = oldVersion; i < newVersion; i++)
-        {
-            switch (i)
-            {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        Log.i(TAG, "onUpgrade");
+        for (int i = oldVersion; i < newVersion; i++) {
+            switch (i) {
                 case VERSION_1:
                     break;
                 case VERSION_2:
@@ -115,18 +105,18 @@ public class DBHelper extends SQLiteOpenHelper
             }
         }
     }
-    public void createVisitor(SQLiteDatabase db)
-    {
+
+    public void createVisitor(SQLiteDatabase db) {
         Object[] params = new Object[8];
         params[0] = "visitor";
         params[1] = "visitor";
         params[2] = "游客";
         params[3] = "赶快登陆吧";
         params[4] = null;
-        params[5] = 0+"";
-        params[6] = 0+"";
-        params[7] = 0+"";
-        String SQL_ADD_USER="insert into user(username,password,nickname,motto,head_icon,birthday,deathday,create_time) values(?,?,?,?,?,?,?,?)";
+        params[5] = 0 + "";
+        params[6] = 0 + "";
+        params[7] = 0 + "";
+        String SQL_ADD_USER = "insert into user(username,password,nickname,motto,head_icon,birthday,deathday,create_time) values(?,?,?,?,?,?,?,?)";
         db.execSQL(SQL_ADD_USER, params);
     }
 }
