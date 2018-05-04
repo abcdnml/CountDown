@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_rv_detail_catalogue_icon"
         android:layout_marginTop="@dimen/text_padding"
-        android:maxLines="2"
+        android:maxLines="3"
         android:text="detail"
         />
 </RelativeLayout>
