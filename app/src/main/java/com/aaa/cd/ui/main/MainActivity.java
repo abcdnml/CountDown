@@ -1,14 +1,18 @@
 package com.aaa.cd.ui.main;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -18,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.UserDao;
@@ -25,13 +30,17 @@ import com.aaa.cd.model.MainCallback;
 import com.aaa.cd.po.User;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
+import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.util.SPUtil;
 import com.example.youngkaaa.ycircleview.CircleView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements MainCallback
 {
-
+    protected static final int REQUEST_CODE = 0;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Fragment[] fragments = new Fragment[9];
@@ -59,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements MainCallback
 
         initView();
         setStatusBarColor(Color.parseColor("#7777FF"));
+
+        requestPermission(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        });
     }
 
     public User getSavedUserId()
@@ -193,6 +206,54 @@ public class MainActivity extends AppCompatActivity implements MainCallback
         ft.replace(R.id.ll_main_content, fragments[count]);
         ft.commit();
     }
+    protected void requestPermission(String[] permissions)
+    {
+        List<String> lsp = new ArrayList<>();
+        for (int i = 0; i < permissions.length; i++)
+        {
+            LogUtil.d("request : " + permissions[i]);
+            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED)
+            {
+                lsp.add(permissions[i]);
+                LogUtil.d(permissions[i] + "  permissions  leak ");
+            }
+        }
+
+        if (lsp.size() > 0)
+        {
+            String[] sa = new String[lsp.size()];
+            lsp.toArray(sa);
+            LogUtil.d("request : " + sa[0]);
+            ActivityCompat.requestPermissions(this, sa, REQUEST_CODE);
+        }
+    } @Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+{
+    switch (requestCode)
+    {
+        case REQUEST_CODE:
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //用户同意授权
+
+            } else
+            {
+                //用户拒绝授权
+                Toast.makeText(this ,R.string.permission_reject, Toast.LENGTH_SHORT).show();
+                try
+                {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                finish();
+            }
+            break;
+    }
+}
+
 
     @Override
     public void openMenu(boolean flag)

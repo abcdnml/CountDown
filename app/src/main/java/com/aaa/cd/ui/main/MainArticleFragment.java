@@ -1,9 +1,17 @@
 package com.aaa.cd.ui.main;
 
 
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -20,6 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.DocumentDao;
@@ -34,12 +43,18 @@ import com.aaa.cd.ui.article.SortMode;
 import com.aaa.cd.ui.article.SortModeAdapter;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
+import com.aaa.cd.util.FileUtils;
 import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.view.ExpandableLinearLayout;
 import com.aaa.cd.view.TabView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Stack;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,8 +86,10 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private List<Catalogue> list_catalogue;
     private User user;
     private TabView tiv_path;
+
     private int currentCatalogueId = -1;
     private Stack<Integer> catalogueStack;
+
     private SearchView sv_search;
     private TabItemClickListener tabItemClickListener;
     private ItemClickListener displayItemClickListener;
@@ -92,19 +109,13 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         if (list_catalogue == null || list_catalogue.size() <= 0)
         {
             Log.i("countdown", "article : no catalogue  ");
-            int rootDir = DocumentDao.createFile("RootFolder", "root", -1, 0, user.getId());
-            DocumentDao.createFile("file1", "file 1111111111111", rootDir, 1, user.getId());
-            DocumentDao.createFile("file2", "file 2222222222222", rootDir, 1, user.getId());
-            DocumentDao.createFile("file3", "file 3333333333333", rootDir, 1, user.getId());
-            DocumentDao.createFile("file4", "file 4444444444444", rootDir, 1, user.getId());
-            int folder1 = DocumentDao.createFile("folder1", "folder", rootDir, 0, user.getId());
-            DocumentDao.createFile("folder2", "folder", rootDir, 0, user.getId());
-            DocumentDao.createFile("filea", "file aaaaaaaaaaaaaaa", folder1, 1, user.getId());
-            DocumentDao.createFile("fileb", "file bbbbbbbbbbbbbbb", folder1, 1, user.getId());
-            DocumentDao.createFile("filec", "file 4cccccccccccccc", folder1, 1, user.getId());
-            int folder11 = DocumentDao.createFile("folder11", "folder", folder1, 0, user.getId());
-            int folder111 = DocumentDao.createFile("folder111", "folder", folder11, 0, user.getId());
-            DocumentDao.createFile("filec", "file 4cccccccccccccc", folder111, 1, user.getId());
+            DocumentDao.createFile("临时", "懒得选文件夹就放这里", -1, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("学习", "你们别拦着我 我要学习 我爱学习 学习使我快乐", -1, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("生活", "小丑摘下面具 走进人群里", -1, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("思想", "人是一颗会思维的苇草", -1, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("娱乐", "睡你麻痹起来嗨", -1, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("README.md", "Welcome to use ", -1, Catalogue.FILE, user.getId());
+
             list_catalogue = DocumentDao.getFileListByParent(-1, user.getId());
         }
 
@@ -146,15 +157,11 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     public void initView(View view)
     {
         ell_function = (ExpandableLinearLayout) view.findViewById(R.id.ell_function);
-        tv_import=(TextView)view.findViewById(R.id.tv_import_markdown);
-        Drawable drawableImport=ContextCompat.getDrawable(getActivity(), R.drawable.selector_import);
-        drawableImport.setBounds(0, 0, 48, 48);
-        tv_import.setCompoundDrawables(drawableImport, null, null, null);
+        tv_import = (TextView) view.findViewById(R.id.tv_import_markdown);
+        setTextViewLeftDrawable(tv_import, R.drawable.selector_import);
         tv_import.setOnClickListener(this);
-        tv_synchronize=(TextView)view.findViewById(R.id.tv_synchronize_article);
-        Drawable drawableSynchronize=ContextCompat.getDrawable(getActivity(), R.drawable.selector_synchronize);
-        drawableSynchronize.setBounds(0, 0, 48, 48);
-        tv_synchronize.setCompoundDrawables(drawableSynchronize, null, null, null);
+        tv_synchronize = (TextView) view.findViewById(R.id.tv_synchronize_article);
+        setTextViewLeftDrawable(tv_synchronize, R.drawable.selector_synchronize);
         tv_synchronize.setOnClickListener(this);
 
         ell_display = (ExpandableLinearLayout) view.findViewById(R.id.ell_display);
@@ -261,9 +268,32 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     {
         super.onActivityResult(requestCode, resultCode, data);
         LogUtil.i("onActivityResult");
-        if (requestCode == Constants.REQUEST_CODE_ARTICLE)
+        if (resultCode != RESULT_OK)
         {
-            refresh();
+            return;
+        }
+        switch (requestCode)
+        {
+            case Constants.REQUEST_CODE_ARTICLE:
+                refresh();
+                break;
+            case Constants.REQUEST_CODE_ARTICLE_IMPORT:
+                Uri uri = data.getData();
+                String path=FileUtils.getPathFormUri(uri);
+                if(TextUtils.isEmpty(path)){
+                    Toast.makeText(getActivity(),R.string.file_not_exist,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(getActivity(), path , Toast.LENGTH_SHORT).show();
+                File file=new File(path);
+                if(!file.exists()||!file.isFile())
+                {
+                    Toast.makeText(getActivity(),R.string.file_not_exist,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DocumentDao.createFile(file.getName(), getFileContent(file), currentCatalogueId, Catalogue.FILE, user.getId());
+                refresh();
+                break;
         }
     }
 
@@ -292,19 +322,28 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 ell_sort.toggle();
                 break;
             case R.id.fab_create_file:
-                Intent intent = new Intent(getActivity(), MarkdownActivity.class);
-                intent.putExtra(Constants.INTENT_KEY_ARTICLE_PARENT, currentCatalogueId);
-                intent.putExtra(Constants.INTENT_KEY_ARTICLE_USER, user.getId());
-                startActivityForResult(intent, Constants.REQUEST_CODE_ARTICLE);
+                Intent intentMarkdown = new Intent(getActivity(), MarkdownActivity.class);
+                intentMarkdown.putExtra(Constants.INTENT_KEY_ARTICLE_PARENT, currentCatalogueId);
+                intentMarkdown.putExtra(Constants.INTENT_KEY_ARTICLE_USER, user.getId());
+                startActivityForResult(intentMarkdown, Constants.REQUEST_CODE_ARTICLE);
                 break;
             case R.id.fab_create_folder:
                 createFolder();
                 break;
             case R.id.tv_import_markdown:
-
+                Intent intentImport = new Intent(Intent.ACTION_GET_CONTENT);
+                //intent.setType(“image/*”);//选择图片
+                //intent.setType(“audio/*”); //选择音频
+                //intent.setType(“video/*”); //选择视频 （mp4 3gp 是android支持的视频格式）
+                //intent.setType(“video/*;image/*”);//同时选择视频和图片
+                //intent.setType("*/*");//同时选择视频和图片
+                intentImport.setType("text/plain");//无类型限制
+                intentImport.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intentImport, Constants.REQUEST_CODE_ARTICLE_IMPORT);
+                ell_function.collapse();
                 break;
             case R.id.tv_synchronize_article:
-
+                ell_function.collapse();
                 break;
         }
     }
@@ -428,10 +467,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     public void createFolder()
     {
         View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_create_folder, null);
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
-                .setTitle(R.string.create_folder)
-                .setView(rootView)
-                .show();
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogTheme).setTitle(R.string.create_folder).setView(rootView).show();
 
         final TextInputLayout titleHint = (TextInputLayout) rootView.findViewById(R.id.til_create_folder_name);
         final TextInputLayout linkHint = (TextInputLayout) rootView.findViewById(R.id.til_create_folder_remark);
@@ -472,15 +508,14 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             }
         });
 
-        rootView.findViewById(R.id.tv_create_folder_cancel)
-                .setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        dialog.dismiss();
-                    }
-                });
+        rootView.findViewById(R.id.tv_create_folder_cancel).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }
@@ -512,4 +547,31 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         refresh();
     }
 
+    public void setTextViewLeftDrawable(TextView view, int id)
+    {
+        Drawable drawableImport = ContextCompat.getDrawable(getActivity(), id);
+        drawableImport.setBounds(0, 0, 48, 48);
+        view.setCompoundDrawables(drawableImport, null, null, null);
+    }
+
+    public String getFileContent(File file)
+    {
+        StringBuilder result = new StringBuilder();
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+            String s = null;
+            while ((s = br.readLine()) != null)
+            {//使用readLine方法，一次读一行
+                result.append(System.lineSeparator() + s);
+            }
+            br.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
 }
+

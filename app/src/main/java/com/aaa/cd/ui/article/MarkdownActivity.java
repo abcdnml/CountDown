@@ -16,6 +16,7 @@
 
 package com.aaa.cd.ui.article;
 
+import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,7 +32,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aaa.cd.R;
@@ -138,10 +141,13 @@ public class MarkdownActivity extends AppCompatActivity implements View.OnClickL
                     showEditOption();
                 } else
                 {
+//                    editFragment.closeSoftKeybord();
+                    if(SystemUtils.isSoftInputShow(MarkdownActivity.this)){
+                        SystemUtils.closeSoftkeybord();
+                    }
                     tv_title.setText(R.string.markdown_preview);
                     hideEditOption();
                     previewFragment.refreshContent(title,content);
-                    SystemUtils.closeSoftkeybord();
                 }
             }
 
@@ -272,7 +278,10 @@ public class MarkdownActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed()
     {
-        SystemUtils.closeSoftkeybord();
+//        editFragment.closeSoftKeybord();
+        if(SystemUtils.isSoftInputShow(this)){
+            SystemUtils.closeSoftkeybord();
+        }
         if (!isSave)
         {
             showSaveDialog();

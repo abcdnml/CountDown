@@ -23,6 +23,8 @@ public class Constants
 
     public static final int REQUEST_CODE_LOG = 5;
     public static final int REQUEST_CODE_ARTICLE = 3;
+    public static final int REQUEST_CODE_ARTICLE_IMPORT = 31;
+    public static final int REQUEST_CODE_ARTICLE_EXPORT = 32;
 
     public static final String SP_KEY_BORN_DATE = "born_date";
     public static final String SP_KEY_DEATH_DATE = "death_date";

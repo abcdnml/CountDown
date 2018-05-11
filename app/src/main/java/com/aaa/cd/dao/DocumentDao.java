@@ -120,6 +120,7 @@ public class DocumentDao
 
     public static int createFile(String name, String content, int parent, int type, int userId)
     {
+        LogUtil.i("name : "+name+" content: "+content+"  parent : "+parent+"  type : "+ type+ " userid : "+userId);
         db = DBHelper.getInstance().getWritableDatabase();
 
         Object[] params = new Object[5];

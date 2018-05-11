@@ -4,7 +4,10 @@ package com.aaa.cd.ui.main;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AlphaAnimation;
@@ -36,6 +39,7 @@ public class MainCountDownFragment extends MainBaseFragment
     ClockView cv_clock;
     ListView lv_count_down;
     CheckBox cb_life_death;
+    float touchX,touchY;
     View death;
     boolean liveOrDeath = true;
     private static final double YEAR_DAY = 365.242199074d;
@@ -126,6 +130,22 @@ public class MainCountDownFragment extends MainBaseFragment
                     setCurrentAge();
                     animHide();
                 }
+            }
+        });
+        cb_life_death.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if(event.getAction()== KeyEvent.ACTION_DOWN)
+                {
+                    Rect rect = new Rect();
+                    getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+                    touchX = event.getRawX();
+                    touchY = event.getRawY() - rect.top;
+                    LogUtil.i("cb_life_death touch x : " + touchX + "   y : " + touchY);
+                }
+                return false;
             }
         });
         setCurrentAge();
@@ -271,7 +291,6 @@ public class MainCountDownFragment extends MainBaseFragment
     }
 
     public void hideLiveAndShowDeath(){
-
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(2000);
         mHideAnimation.setFillAfter(true);
@@ -447,10 +466,12 @@ public class MainCountDownFragment extends MainBaseFragment
 
     private void animShow()
     {
-
         // 从 View 的中心开始
         int cx = (death.getLeft() + death.getRight()) / 2;
         int cy = 0;
+
+        cx=(int)touchX;
+        cy=(int)touchY;
 
         int finalRadius = (int) Math.sqrt(death.getHeight() * death.getHeight() + death.getWidth() * death.getWidth());
         ((MainActivity) getActivity()).setStatusBarColor(Color.parseColor("#000000"));
@@ -459,7 +480,7 @@ public class MainCountDownFragment extends MainBaseFragment
         Animator anim = ViewAnimationUtils.createCircularReveal(death, cx, cy, 0, finalRadius);
         // 使视图可见并启动动画
         death.setVisibility(View.VISIBLE);
-        anim.setDuration(2000);
+        anim.setDuration(1000);
         anim.setInterpolator(interpolator);
         anim.start();
     }
@@ -469,12 +490,16 @@ public class MainCountDownFragment extends MainBaseFragment
         int cx = (death.getLeft() + death.getRight()) / 2;
         int cy = death.getBottom();
 
+
+        cx=(int)touchX;
+        cy=(int)touchY;
+
         int initialRadius = (int) Math.sqrt(death.getHeight() * death.getHeight() + death.getWidth() * death.getWidth());
         // 自定义颜色
         ((MainActivity) getActivity()).setStatusBarColor(Color.parseColor("#7777FF"));
         // 半径 从 viewWidth -> 0
         Animator anim = ViewAnimationUtils.createCircularReveal(death, cx, cy, initialRadius, 0);
-        anim.setDuration(2000);
+        anim.setDuration(1000);
         anim.setInterpolator(interpolator);
         anim.addListener(new AnimatorListenerAdapter()
         {

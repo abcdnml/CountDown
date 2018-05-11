@@ -82,8 +82,8 @@ public class SystemUtils
     /**
      * 打开软键盘
      *
-     * @param mEditText
-     * @param mContext
+     * @param mEditText 输入框
+     * @param mContext 上下文
      */
     public static void openKeybord(EditText mEditText, Context mContext) {
         InputMethodManager imm = (InputMethodManager) mContext
@@ -107,6 +107,7 @@ public class SystemUtils
 
     public static void closeSoftkeybord(){
         InputMethodManager imm = (InputMethodManager)CountDownApplication.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE); //得到InputMethodManager的实例
+        LogUtil.i("is Softkeybord open : "+imm.isActive());
         if (imm.isActive()) {//如果开启
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,InputMethodManager.HIDE_NOT_ALWAYS);//关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
         }

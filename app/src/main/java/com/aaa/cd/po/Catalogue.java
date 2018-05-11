@@ -31,8 +31,8 @@ public class Catalogue
     public Catalogue()
     {
         id = -1;
-        name = "";
-        content = "";
+        setName("");;
+        setContent("");
     }
 
 
