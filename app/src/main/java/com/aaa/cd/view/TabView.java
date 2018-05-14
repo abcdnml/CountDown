@@ -123,5 +123,17 @@ public class TabView extends HorizontalScrollView
         }
         return false;
     }
+    public String getCurrentTag()
+    {
+        int count = mLayout.getChildCount();
+        if (count > 1)
+        {
+            //移除最后一个
+            View lastView = mLayout.getChildAt(mLayout.getChildCount() - 1);
+            TextView lastTitle = (TextView) lastView.findViewById(R.id.file_name);
+            return lastTitle.getText().toString();
+        }
+        return "";
+    }
 
 }

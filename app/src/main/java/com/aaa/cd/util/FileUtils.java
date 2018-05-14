@@ -25,17 +25,21 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.aaa.cd.po.Catalogue;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 
 /**
  * 文件工具类
@@ -52,17 +56,22 @@ public class FileUtils
      * @param dir the dir
      * @return the boolean
      */
-    public static boolean deleteDir(@NonNull File dir) {
-        if (dir != null && dir.isDirectory()) {
+    public static boolean deleteDir(@NonNull File dir)
+    {
+        if (dir != null && dir.isDirectory())
+        {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
+            for (int i = 0; i < children.length; i++)
+            {
                 boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
+                if (!success)
+                {
                     return false;
                 }
             }
         }
-        if (dir == null) {
+        if (dir == null)
+        {
             return false;
         }
         return dir.delete();
@@ -78,17 +87,22 @@ public class FileUtils
     public static long getFolderSize(@NonNull File file) throws Exception
     {
         long size = 0;
-        try {
+        try
+        {
             File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
+            for (int i = 0; i < fileList.length; i++)
+            {
                 // 如果下面还有文件
-                if (fileList[i].isDirectory()) {
+                if (fileList[i].isDirectory())
+                {
                     size = size + getFolderSize(fileList[i]);
-                } else {
+                } else
+                {
                     size = size + fileList[i].length();
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return size;
@@ -101,17 +115,21 @@ public class FileUtils
      * @param fileName the file name
      * @return file
      */
-    public static File getCacheFile(@NonNull Context context, @NonNull String fileName) {
+    public static File getCacheFile(@NonNull Context context, @NonNull String fileName)
+    {
         File savedir = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
             savedir = new File(context.getExternalCacheDir(), fileName);
         }
 
-        if (savedir == null) {
+        if (savedir == null)
+        {
             savedir = new File(context.getCacheDir(), fileName);
         }
 
-        if (!savedir.exists()) {
+        if (!savedir.exists())
+        {
             savedir.mkdirs();
         }
         return savedir;
@@ -123,17 +141,21 @@ public class FileUtils
      * @param context the mContext
      * @return file
      */
-    public static String getFile(@NonNull Context context) {
+    public static String getFile(@NonNull Context context)
+    {
         File savedir = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
             savedir = context.getExternalFilesDir(null);
         }
 
-        if (savedir == null) {
+        if (savedir == null)
+        {
             savedir = context.getFilesDir();
         }
 
-        if (!savedir.exists()) {
+        if (!savedir.exists())
+        {
             savedir.mkdirs();
         }
         return savedir.getAbsolutePath();
@@ -144,14 +166,17 @@ public class FileUtils
      *
      * @param context the context
      * @return the root path
-     * @description 获取存储路径(如果有内存卡，这是内存卡根目录，如果没有内存卡，则是软件的包file目录)
+     * @description 获取存储路径(如果有内存卡 ， 这是内存卡根目录 ， 如果没有内存卡 ， 则是软件的包file目录)
      */
-    public static String getRootFolder(@NonNull Context context) {
+    public static String getRootFolder(@NonNull Context context)
+    {
         String rootPath = null;
 
-        if (android.os.Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+        if (android.os.Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
+        {
             rootPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        } else {
+        } else
+        {
             rootPath = context.getFilesDir().getAbsolutePath();
         }
         return rootPath;
@@ -165,7 +190,8 @@ public class FileUtils
      * @param content the content
      * @throws IOException the io exception
      */
-    public static boolean writeByte(@NonNull String path, @NonNull String content) {
+    public static boolean writeByte(@NonNull String path, @NonNull String content)
+    {
         return writeByte(new File(path), content);
     }
 
@@ -177,29 +203,38 @@ public class FileUtils
      * @param content the content
      * @throws IOException the io exception
      */
-    public static boolean writeByte(@NonNull File file, @NonNull String content) {
-        if (file.isDirectory()) {
+    public static boolean writeByte(@NonNull File file, @NonNull String content)
+    {
+        if (file.isDirectory())
+        {
             return false;
         }
-        if (!file.exists()) {
-            try {
+        if (!file.exists())
+        {
+            try
+            {
                 file.createNewFile();
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
             }
         }
         OutputStream out = null;
-        try {
+        try
+        {
             out = new FileOutputStream(file);
             byte[] b = content.getBytes();
             out.write(b);
             out.close();
             return true;
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             return false;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             return false;
-        } finally {
+        } finally
+        {
             CloseableClose(out);
         }
     }
@@ -211,24 +246,31 @@ public class FileUtils
      * @param fileName the file
      * @param content  the content
      */
-    public static boolean addByte(@NonNull File fileName, @NonNull String content) {
-        if (!fileName.isFile()) {
+    public static boolean addByte(@NonNull File fileName, @NonNull String content)
+    {
+        if (!fileName.isFile())
+        {
             return false;
         }
         OutputStream out = null;
-        try {
+        try
+        {
             out = new FileOutputStream(fileName, true);
             byte[] b = content.getBytes();
-            for (int i = 0; i < b.length; i++) {
+            for (int i = 0; i < b.length; i++)
+            {
                 out.write(b[i]);
             }
             return true;
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             return false;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             return false;
-        } finally {
+        } finally
+        {
             CloseableClose(out);
         }
     }
@@ -240,23 +282,30 @@ public class FileUtils
      * @param file the file
      * @return the string
      */
-    public static String readFile(@NonNull File file) {
-        if (!file.isFile()) {
+    public static String readFile(@NonNull File file)
+    {
+        if (!file.isFile())
+        {
             return "";
         }
         Long filelength = file.length();     //获取文件长度
-        if (filelength > Integer.MAX_VALUE) {
+        if (filelength > Integer.MAX_VALUE)
+        {
             return readFileByLines(file);
         }
         byte[] filecontent = new byte[filelength.intValue()];
         FileInputStream in = null;
-        try {
+        try
+        {
             in = new FileInputStream(file);
             in.read(filecontent);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
-        } catch (Exception e) {
-        } finally {
+        } catch (Exception e)
+        {
+        } finally
+        {
             CloseableClose(in);
         }
         return new String(filecontent);
@@ -269,22 +318,29 @@ public class FileUtils
      * @param file the file
      * @return the string
      */
-    public static String readFileByLines(@NonNull File file) {
-        if (!file.isFile()) {
+    public static String readFileByLines(@NonNull File file)
+    {
+        if (!file.isFile())
+        {
             return "";
         }
         BufferedReader reader = null;
         StringBuilder builder = new StringBuilder();
-        try {
+        try
+        {
             reader = new BufferedReader(new FileReader(file));
             String tempString;
-            while ((tempString = reader.readLine()) != null) {
+            while ((tempString = reader.readLine()) != null)
+            {
                 builder.append(tempString);
             }
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
-        } catch (Exception e) {
-        } finally {
+        } catch (Exception e)
+        {
+        } finally
+        {
             CloseableClose(reader);
         }
 
@@ -299,7 +355,8 @@ public class FileUtils
      * @param targetFilePath the target file path
      * @return the boolean
      */
-    public static boolean copyFile(@NonNull String sourceFilePath, @NonNull String targetFilePath) {
+    public static boolean copyFile(@NonNull String sourceFilePath, @NonNull String targetFilePath)
+    {
         return copyFile(new File(sourceFilePath), new File(targetFilePath));
     }
 
@@ -311,34 +368,42 @@ public class FileUtils
      * @param targetFile the target file
      * @return the boolean
      */
-    private static boolean copyFile(@NonNull File sourceFile, @NonNull File targetFile) {
-        if (!sourceFile.exists() || targetFile.exists()) {
+    private static boolean copyFile(@NonNull File sourceFile, @NonNull File targetFile)
+    {
+        if (!sourceFile.exists() || targetFile.exists())
+        {
             //原始文件不存在，目标文件已经存在
             return false;
         }
         InputStream input = null;
         OutputStream output = null;
-        try {
+        try
+        {
             input = new FileInputStream(sourceFile);
             output = new FileOutputStream(targetFile);
             int temp;
-            while ((temp = input.read()) != (-1)) {
+            while ((temp = input.read()) != (-1))
+            {
                 output.write(temp);
             }
             input.close();
             output.close();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             return false;
-        } catch (Exception e) {
-        } finally {
+        } catch (Exception e)
+        {
+        } finally
+        {
             CloseableClose(input);
             CloseableClose(output);
         }
         return true;
     }
 
-    public static boolean copyFolder(@NonNull String oldPath, @NonNull String newPath) {
+    public static boolean copyFolder(@NonNull String oldPath, @NonNull String newPath)
+    {
         return copyFolder(new File(oldPath), new File(newPath));
     }
 
@@ -349,33 +414,42 @@ public class FileUtils
      * @param oldFile the old path
      * @param newPath the new path
      */
-    public static boolean copyFolder(@NonNull File oldFile, @NonNull File newPath) {
+    public static boolean copyFolder(@NonNull File oldFile, @NonNull File newPath)
+    {
         if (oldFile.isFile())//如果是文件，直接复制
+        {
             return copyFile(oldFile, new File(newPath, oldFile.getName()));
-        try {//文件夹
+        }
+        try
+        {//文件夹
             newPath.mkdirs(); //如果文件夹不存在 则建立新文件夹
             File[] temps = oldFile.listFiles();
             File temp;
             boolean flag = true;
             length = temps.length;
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length; i++)
+            {
                 temp = temps[i];
                 //文件夹里面
-                if (temp.isFile()) {
+                if (temp.isFile())
+                {
                     File path = new File(newPath, oldFile.getName());
                     path.mkdirs();
                     File file = new File(path, temp.getName());
                     flag = copyFile(temp, file);
-                } else if (temp.isDirectory()) {//如果是子文件夹
+                } else if (temp.isDirectory())
+                {//如果是子文件夹
                     flag = copyFolder(temp, new File(newPath + File.separator + oldFile.getName()));
                 }
 
-                if (!flag) {
+                if (!flag)
+                {
                     break;
                 }
             }
             return flag;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             return false;
         }
@@ -388,19 +462,27 @@ public class FileUtils
      * @param oldPath String  如：/test/abc.md
      * @param newPath String  如：/abc.md
      */
-    public static boolean moveFile(@NonNull String oldPath, @NonNull String newPath) {
+    public static boolean moveFile(@NonNull String oldPath, @NonNull String newPath)
+    {
         return moveFile(new File(oldPath), new File(newPath));
     }
 
-    public static boolean moveFile(@NonNull File oldPath, @NonNull File newPath) {
-        if (!oldPath.isFile()) {
+    public static boolean moveFile(@NonNull File oldPath, @NonNull File newPath)
+    {
+        if (!oldPath.isFile())
+        {
             return false;
         }
         //如果是文件夹，这创建文件
-        if (newPath.isDirectory()) newPath = new File(newPath, oldPath.getName());
-        try {
+        if (newPath.isDirectory())
+        {
+            newPath = new File(newPath, oldPath.getName());
+        }
+        try
+        {
             return oldPath.renameTo(newPath);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             return false;
         }
@@ -412,7 +494,8 @@ public class FileUtils
      * @param oldPath String
      * @param newPath String
      */
-    public static boolean moveFolder(@NonNull String oldPath, @NonNull String newPath) {
+    public static boolean moveFolder(@NonNull String oldPath, @NonNull String newPath)
+    {
         return moveFolder(new File(oldPath), new File(newPath));
     }
 
@@ -423,7 +506,8 @@ public class FileUtils
      * @param oldFile the old path
      * @param newPath the new path
      */
-    public static boolean moveFolder(@NonNull File oldFile, File newPath) {
+    public static boolean moveFolder(@NonNull File oldFile, File newPath)
+    {
         return copyFolder(oldFile, newPath) && deleteFile(oldFile);
     }
 
@@ -434,17 +518,42 @@ public class FileUtils
      * @param file the file
      * @return the boolean
      */
-    public static boolean deleteFile(File file) {
+    public static boolean deleteFile(File file)
+    {
         return deleteDir(file);
     }
 
-    public static void CloseableClose(Closeable closeable) {
-        if (closeable != null) {
-            try {
+    public static void CloseableClose(Closeable closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
                 closeable.close();
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
             }
         }
+    }
+
+    public static boolean writeArticleFile(Catalogue catalogue, File file)
+    {
+        BufferedWriter bw=null;
+        try
+        {
+             bw= new BufferedWriter(new FileWriter(file));
+            String s = null;
+            bw.write(catalogue.getContent());
+            bw.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        } finally
+        {
+            CloseableClose(bw);
+        }
+        return true;
     }
 
 
@@ -455,20 +564,30 @@ public class FileUtils
      * @param uri
      * @return the file path or null
      */
-    public static String uri2FilePath(final Context context, final Uri uri) {
-        if (null == uri) return null;
+    public static String uri2FilePath(final Context context, final Uri uri)
+    {
+        if (null == uri)
+        {
+            return null;
+        }
         final String scheme = uri.getScheme();
         String data = null;
         if (scheme == null)
+        {
             data = uri.getPath();
-        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+        } else if (ContentResolver.SCHEME_FILE.equals(scheme))
+        {
             data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme))
+        {
             Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
-            if (null != cursor) {
-                if (cursor.moveToFirst()) {
+            if (null != cursor)
+            {
+                if (cursor.moveToFirst())
+                {
                     int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    if (index > -1) {
+                    if (index > -1)
+                    {
                         data = cursor.getString(index);
                     }
                 }
@@ -478,7 +597,8 @@ public class FileUtils
         return data;
     }
 
-    public static String getPathFormUri(Uri uri){
+    public static String getPathFormUri(Uri uri)
+    {
         String path;
         if ("file".equalsIgnoreCase(uri.getScheme()))
         {//使用第三方应用打开
@@ -491,7 +611,7 @@ public class FileUtils
 
         } else
         {//4.4以下下系统调用方法
-            path =  FileUtils.getRealPathFromURI(uri);
+            path = FileUtils.getRealPathFromURI(uri);
         }
         return path;
     }

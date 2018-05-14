@@ -26,6 +26,7 @@ public class DocumentDao
     private static final String SQL_DELETE_FOLDER_BY_ID = "with dom as " + "(select * from document where parent=? and user_id=?" + "union all " + "select d1.* from document d1 inner join dom d2 on d1.parent=d2.id )" + "delete from document where id in (select id from dom)";
     private static final String SQL_MODIFY_FILE = "update document set name=?,content=?,parent=?,user_id=?,modify_time=strftime('%s','now') where id=?";
     private static final String SQL_GET_LATEST_ID = "select last_insert_rowid() from document";
+    private static final String SQL_MOVE_ARTICLE = "update document set parent=?,modify_time=strftime('%s','now') where id=?";
 
 
     private static final String COLUMN_ID = "id";
@@ -120,7 +121,7 @@ public class DocumentDao
 
     public static int createFile(String name, String content, int parent, int type, int userId)
     {
-        LogUtil.i("name : "+name+" content: "+content+"  parent : "+parent+"  type : "+ type+ " userid : "+userId);
+        LogUtil.i("name : " + name + " content: " + content + "  parent : " + parent + "  type : " + type + " userid : " + userId);
         db = DBHelper.getInstance().getWritableDatabase();
 
         Object[] params = new Object[5];
@@ -184,6 +185,17 @@ public class DocumentDao
         params[3] = userId + "";
         params[4] = id + "";
         db.execSQL(SQL_MODIFY_FILE, params);
+        db.close();
+    }
+
+    public static void moveFile(int id, int parentId)
+    {
+        LogUtil.i(" id ; "+ id + "  parent id " + parentId);
+        db = DBHelper.getInstance().getWritableDatabase();
+        String[] params = new String[2];
+        params[0] = parentId+"";
+        params[1] = id+"";
+        db.execSQL(SQL_MOVE_ARTICLE, params);
         db.close();
     }
 

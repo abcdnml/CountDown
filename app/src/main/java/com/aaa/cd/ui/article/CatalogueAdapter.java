@@ -31,21 +31,27 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
     private SortMode sortMode;
     private LayoutInflater inflater;
     List<Catalogue> list;
+    List<Catalogue> showList;
     static Drawable fileDrawable;
     static Drawable directoryDrawable;
     static Comparator<Catalogue> comparator;
+    private int MODE_NORMAL = 0;
+    private int MODE_SELECT_FOLDER = 1;
+    private int mode = MODE_NORMAL;
 
-    public CatalogueAdapter(Context context,  List<Catalogue> list)
+    public CatalogueAdapter(Context context, List<Catalogue> list)
     {
-        this(context, DisplayMode.MODE_LIST,SortMode.SORT_ALPHA_ASC, list, null);
+        this(context, DisplayMode.MODE_LIST, SortMode.SORT_ALPHA_ASC, list, null);
     }
+
     public CatalogueAdapter(Context context, DisplayMode displayMode, List<Catalogue> list)
     {
-        this(context, displayMode,SortMode.SORT_ALPHA_ASC, list, null);
+        this(context, displayMode, SortMode.SORT_ALPHA_ASC, list, null);
     }
+
     public CatalogueAdapter(Context context, SortMode sortMode, List<Catalogue> list)
     {
-        this(context, DisplayMode.MODE_LIST,sortMode, list, null);
+        this(context, DisplayMode.MODE_LIST, sortMode, list, null);
     }
 
     public CatalogueAdapter(Context context, DisplayMode displayMode, SortMode sortMode, List<Catalogue> list, ItemClickListener itemClickListener)
@@ -53,13 +59,13 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
         this.inflater = LayoutInflater.from(context);
         this.displayMode = displayMode;
         this.list = list;
+
         this.mOnItemClickListener = itemClickListener;
         if (this.list == null)
         {
             this.list = new ArrayList<>();
         }
         this.setSortMode(sortMode);
-
         fileDrawable = ContextCompat.getDrawable(context, R.mipmap.file);
         directoryDrawable = ContextCompat.getDrawable(context, R.mipmap.directory);
     }
@@ -79,48 +85,72 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
         mOnItemClickListener = mOnItemClickLitsener;
     }
 
-    public void setSortMode(SortMode sort){
-        LogUtil.i("setSortMode : "+sort.getMode());
-        sortMode=sort;
-        sort();
+    public void setFunctionMode(int mode)
+    {
+        if (mode == MODE_NORMAL)
+        {
+            this.showList = list;
+            this.mode = mode;
+            notifyDataSetChanged();
+        } else if (mode == MODE_SELECT_FOLDER)
+        {
+            showList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++)
+            {
+                if (list.get(i).getType() == Catalogue.FOLDER)
+                {
+                    showList.add(list.get(i));
+                }
+            }
+            this.mode = mode;
+            notifyDataSetChanged();
+        }
     }
-    public void sort(){
-        switch (sortMode){
+
+    public void setSortMode(SortMode sort)
+    {
+        LogUtil.i("setSortMode : " + sort.getMode());
+        sortMode = sort;
+        sort();
+        setFunctionMode(mode);
+    }
+
+    public void sort()
+    {
+        switch (sortMode)
+        {
             case SORT_ALPHA_ASC:
-                comparator=new AlphaComparator(true);
+                comparator = new AlphaComparator(true);
                 break;
             case SORT_ALPHA_DESC:
-                comparator=new AlphaComparator(false);
+                comparator = new AlphaComparator(false);
                 break;
             case SORT_CREATE_TIME_ASC:
-                comparator=new CreateTimeComparator(true);
+                comparator = new CreateTimeComparator(true);
                 LogUtil.i("setSortMode : SORT_CREATE_TIME_ASC");
                 break;
             case SORT_CREATE_TIME_DESC:
-                comparator=new CreateTimeComparator(false);
+                comparator = new CreateTimeComparator(false);
                 LogUtil.i("setSortMode : SORT_CREATE_TIME_DESC");
                 break;
             case SORT_MODIFY_TIME_ASC:
-                comparator=new ModifyTimeComparator(true);
+                comparator = new ModifyTimeComparator(true);
                 break;
             case SORT_MODIFY_TIME_DESC:
-                comparator=new ModifyTimeComparator(false);
+                comparator = new ModifyTimeComparator(false);
                 break;
             case SORT_SIZE_ASC:
-                comparator=new SizeComparator(true);
+                comparator = new SizeComparator(true);
                 break;
             case SORT_SIZE_DESC:
-                comparator=new SizeComparator(false);
+                comparator = new SizeComparator(false);
                 break;
             default:
-                comparator=new AlphaComparator(true);
+                comparator = new AlphaComparator(true);
                 break;
         }
 
-        Collections.sort(list,comparator);
-//        for(Catalogue c:list){
-//            LogUtil.i("sort result : "+ c);
-//        }
+        Collections.sort(list, comparator);
         notifyDataSetChanged();
     }
 
@@ -129,7 +159,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
     {
         this.list = list;
         sort();
-        notifyDataSetChanged();
+        setFunctionMode(mode);
     }
 
     @Override
@@ -163,7 +193,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
     @Override
     public void onBindViewHolder(CatalogueViewHolder holder, final int position)
     {
-        final Catalogue catalogue = list.get(position);
+        final Catalogue catalogue = showList.get(position);
         Log.i("CatalogueAdapter", "onBindViewHolder list postion : " + position);
         if (catalogue.getType() == Catalogue.FOLDER)
         {
@@ -178,13 +208,14 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
         {
             if (displayMode == DisplayMode.MODE_LIST)
             {
-                if(catalogue.getType()==Catalogue.FOLDER)
+                if (catalogue.getType() == Catalogue.FOLDER)
                 {
-                    holder.tv_detail.setText("("+catalogue.getSubItem()+")");
-                }else{
+                    holder.tv_detail.setText("(" + catalogue.getSubItem() + ")");
+                } else
+                {
                     holder.tv_detail.setText("");
                 }
-            } else if(displayMode == DisplayMode.MODE_DETAIL)
+            } else if (displayMode == DisplayMode.MODE_DETAIL)
             {
                 holder.tv_detail.setText(catalogue.getContent());
             }
@@ -207,15 +238,19 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
                 return true;
             }
         });
-
     }
 
+
+    public Catalogue getItem(int position)
+    {
+        return showList.get(position);
+    }
 
     @Override
     public int getItemCount()
     {
-        Log.i("CatalogueAdapter", "getItemCount : " + list.size());
-        return list.size();
+        Log.i("CatalogueAdapter", "getItemCount : " + showList.size());
+        return showList.size();
     }
 
     static class CatalogueViewHolder extends RecyclerView.ViewHolder

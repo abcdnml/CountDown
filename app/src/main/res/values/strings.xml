@@ -58,6 +58,8 @@
     <string name="dialog_unsave">不保存</string>
 
     <string name="dialog_delete">是否删除当前文件?</string>
+    <string name="dialog_override">文件已存在,是否覆盖当前文件?</string>
+    <string name="move_to_this">移动到此</string>
 
     <string name="create_folder">创建文件夹</string>
     <string name="create_folder_name">名称</string>

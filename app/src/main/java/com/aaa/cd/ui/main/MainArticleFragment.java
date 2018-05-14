@@ -1,17 +1,12 @@
 package com.aaa.cd.ui.main;
 
 
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +43,13 @@ import com.aaa.cd.util.FileUtils;
 import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.view.ExpandableLinearLayout;
 import com.aaa.cd.view.TabView;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,11 +84,12 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private ImageView iv_sort;
     private SortModeAdapter sortModeAdapter;
 
-    private RecyclerView rv_catalogue;
+    private SwipeMenuRecyclerView rv_catalogue;
     private CatalogueAdapter catalogueAdapter;
     private List<Catalogue> list_catalogue;
     private User user;
     private TabView tiv_path;
+    private View header;
 
     private int currentCatalogueId = -1;
     private Stack<Integer> catalogueStack;
@@ -120,7 +124,6 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
 
         Log.i("countdown", "article : catalogue size : " + list_catalogue.size());
-
     }
 
     @Override
@@ -150,7 +153,6 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 ell_function.toggle();
             }
         });
-
     }
 
     @Override
@@ -171,7 +173,6 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         displayModeAdapter = new DisplayModeAdapter(getActivity(), DisplayMode.MODE_LIST, displayItemClickListener);
         rv_displayOption.setAdapter(displayModeAdapter);
         rv_displayOption.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
 
         ell_sort = (ExpandableLinearLayout) view.findViewById(R.id.ell_sort);
         rv_sortOption = (RecyclerView) view.findViewById(R.id.rv_sort_option);
@@ -205,15 +206,56 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 return false;
             }
         });
-        rv_catalogue = (RecyclerView) view.findViewById(R.id.rv_article_catalogue);
+        rv_catalogue = (SwipeMenuRecyclerView) view.findViewById(R.id.rv_article_catalogue);
         rv_catalogue.requestFocus();
-
+        rv_catalogue.setSwipeMenuCreator(swipeMenuCreator);
+        rv_catalogue.setSwipeMenuItemClickListener(mMenuItemClickListener);
+        rv_catalogue.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.divider_color)));
 
         catalogueAdapter = new CatalogueAdapter(getActivity(), displayModeAdapter.getCurrentMode(), sortModeAdapter.getSortMode(), list_catalogue, catalogueItemListener);
         rv_catalogue.setAdapter(catalogueAdapter);
 
         setDisplayMode(DisplayMode.MODE_LIST.getMode());
         setSortMode(SortMode.SORT_ALPHA_ASC.getMode());
+        // FooterView。
+        setMoveView(view);
+    }
+
+    public void setMoveView(View view)
+    {
+        header =view.findViewById(R.id.include_move);
+
+        TextView tv_move_to = (TextView) view.findViewById(R.id.tv_move_to);
+        Drawable moveDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_move);
+        moveDrawable.setBounds(0, 0, 64, 64);
+        tv_move_to.setCompoundDrawables( null,moveDrawable, null, null);
+        tv_move_to.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Catalogue catalogue = (Catalogue) header.getTag();
+                DocumentDao.moveFile(catalogue.getId(), currentCatalogueId);
+                catalogueAdapter.updateList(DocumentDao.getFileListByParent(currentCatalogueId, user.getId()));
+
+                hideMoveView();
+                Toast.makeText(v.getContext(), catalogue.getName() + "已经移动到" + getCurrentTagString() + "下", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView tv_move_cancel = (TextView) view.findViewById(R.id.tv_move_cancel);
+        Drawable cancelDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_cancel);
+        cancelDrawable.setBounds(0, 0, 64, 64);
+        tv_move_cancel.setCompoundDrawables( null,cancelDrawable, null, null);
+        tv_move_cancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                hideMoveView();
+                Toast.makeText(v.getContext(), " move cancel ", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     CatalogueAdapter.ItemClickListener catalogueItemListener = new CatalogueAdapter.ItemClickListener()
@@ -221,13 +263,24 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         @Override
         public void onItemClick(Catalogue catalogue)
         {
+
             if (catalogue.getType() == Catalogue.FOLDER)
             {
+                if (showHeader)
+                {
+                    Catalogue catalogueToMove = (Catalogue) header.getTag();
+                    if (catalogueToMove.getId() == catalogue.getId())
+                    {
+                        Toast.makeText(getActivity(), "不要递归移动文件夹,会乱掉的...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 currentCatalogueId = catalogue.getId();
                 catalogueStack.push(currentCatalogueId);
                 addTab(catalogue.getName());
                 list_catalogue = DocumentDao.getFileListByParent(currentCatalogueId, user.getId());
                 catalogueAdapter.updateList(list_catalogue);
+
             } else
             {
                 Intent intent = new Intent(getActivity(), MarkdownActivity.class);
@@ -242,6 +295,136 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             showDeleteDialog(catalogue.getId());
         }
     };
+
+    /**
+     * 菜单创建器，在Item要创建菜单的时候调用。
+     */
+    private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator()
+    {
+        @Override
+        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType)
+        {
+            int width = getResources().getDimensionPixelSize(R.dimen.dimen_48);
+
+            // 1. MATCH_PARENT 自适应高度，保持和Item一样高;ViewGroup.LayoutParams.MATCH_PARENT
+            // 2. 指定具体的高，比如80;
+            // 3. WRAP_CONTENT，自身高度，不推荐;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+            // 添加左侧的，如果不添加，则左侧不会出现菜单。
+            {
+                SwipeMenuItem addItem = new SwipeMenuItem(getActivity()).setBackground(R.drawable.selector_blue).setImage(R.drawable.selector_export).setWidth(width).setHeight(height);
+                swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
+
+                SwipeMenuItem closeItem = new SwipeMenuItem(getActivity()).setBackground(R.drawable.selector_blue).setImage(R.drawable.selector_move).setWidth(width).setHeight(height);
+                swipeLeftMenu.addMenuItem(closeItem); // 添加菜单到左侧。
+
+                SwipeMenuItem shareItem = new SwipeMenuItem(getActivity()).setBackground(R.drawable.selector_blue).setImage(R.drawable.selector_share).setWidth(width).setHeight(height);
+                swipeLeftMenu.addMenuItem(shareItem); // 添加菜单到左侧。
+
+            }
+
+            // 添加右侧的，如果不添加，则右侧不会出现菜单。
+            {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity()).setBackground(R.drawable.selector_red).setImage(R.drawable.selector_delete).setTextColor(Color.WHITE).setWidth(width).setHeight(height);
+                swipeRightMenu.addMenuItem(deleteItem);// 添加菜单到右侧。
+
+            }
+        }
+    };
+
+    /**
+     * RecyclerView的Item的Menu点击监听。
+     */
+    private SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener()
+    {
+        @Override
+        public void onItemClick(SwipeMenuBridge menuBridge)
+        {
+            menuBridge.closeMenu();
+
+            int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+            int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+            int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+
+            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION)
+            {
+                showDeleteDialog(catalogueAdapter.getItem(adapterPosition).getId());
+            } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION)
+            {
+                if (menuPosition == 0)
+                {
+                    export(catalogueAdapter.getItem(adapterPosition));
+                } else if (menuPosition == 1)
+                {
+                    move(catalogueAdapter.getItem(adapterPosition));
+                } else if (menuPosition == 2)
+                {
+                    share();
+                }
+            }
+        }
+    };
+
+    public void export(Catalogue catalogue)
+    {
+        //TODO 此处写的固定的文件夹 这里需要添加选择文件夹的操作
+        String exportPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/coutdown/";
+        if (TextUtils.isEmpty(exportPath + catalogue.getName()))
+        {
+            Toast.makeText(getActivity(), "export fail ,path is null !", Toast.LENGTH_SHORT).show();
+        } else
+        {
+            File file = new File(exportPath);
+            if (!file.exists() || !file.isDirectory())
+            {
+                file.mkdirs();
+            }
+            file = new File(exportPath + catalogue.getName());
+            if (file.exists())
+            {
+                //原始文件不存在，目标文件已经存在
+                showOverrideDialog(catalogue, file);
+            } else
+            {
+                boolean isSuccess = FileUtils.writeArticleFile(catalogue, file);
+                Toast.makeText(getActivity(), isSuccess
+                                              ? "export success !"
+                                              : "export fail  !", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    boolean showHeader = false;
+
+    public void move(Catalogue catalogue)
+    {
+        showMoveView(catalogue);
+    }
+
+    private void showMoveView(Catalogue catalogue)
+    {
+        if (!showHeader)
+        {
+            showHeader = true;
+            header.setTag(catalogue);
+            header.setVisibility(View.VISIBLE);
+            catalogueAdapter.setFunctionMode(1);
+        }
+    }
+
+    private void hideMoveView()
+    {
+        showHeader = false;
+        header.setVisibility(View.GONE);
+        catalogueAdapter.setFunctionMode(0);
+    }
+
+    public void share()
+    {
+        Toast.makeText(getActivity(), "分享 暂未实现", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public int getLayoutId()
@@ -263,43 +446,15 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         return false;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.i("onActivityResult");
-        if (resultCode != RESULT_OK)
-        {
-            return;
-        }
-        switch (requestCode)
-        {
-            case Constants.REQUEST_CODE_ARTICLE:
-                refresh();
-                break;
-            case Constants.REQUEST_CODE_ARTICLE_IMPORT:
-                Uri uri = data.getData();
-                String path=FileUtils.getPathFormUri(uri);
-                if(TextUtils.isEmpty(path)){
-                    Toast.makeText(getActivity(),R.string.file_not_exist,Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(getActivity(), path , Toast.LENGTH_SHORT).show();
-                File file=new File(path);
-                if(!file.exists()||!file.isFile())
-                {
-                    Toast.makeText(getActivity(),R.string.file_not_exist,Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                DocumentDao.createFile(file.getName(), getFileContent(file), currentCatalogueId, Catalogue.FILE, user.getId());
-                refresh();
-                break;
-        }
-    }
 
     public void addTab(String title)
     {
         tiv_path.addTab(title, currentCatalogueId, tabItemClickListener);
+    }
+
+    public String getCurrentTagString()
+    {
+        return tiv_path.getCurrentTag();
     }
 
 
@@ -410,6 +565,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             setSortMode(position);
             ell_sort.collapse();
         }
+
     }
 
     /**
@@ -541,6 +697,30 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }).show();
     }
 
+    private void showOverrideDialog(final Catalogue catalogue, final File file)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
+        builder.setMessage(getString(R.string.dialog_override));
+        builder.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+
+            }
+        }).setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                boolean isSuccess = FileUtils.writeArticleFile(catalogue, file);
+                Toast.makeText(getActivity(), isSuccess
+                                              ? "export success !"
+                                              : "export fail  !", Toast.LENGTH_SHORT).show();
+            }
+        }).show();
+    }
+
     public void deleteFile(int id)
     {
         DocumentDao.deleteFileById(id);
@@ -572,6 +752,42 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
         return result.toString();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.i("onActivityResult");
+        if (resultCode != RESULT_OK)
+        {
+            return;
+        }
+        switch (requestCode)
+        {
+            case Constants.REQUEST_CODE_ARTICLE:
+                refresh();
+                break;
+            case Constants.REQUEST_CODE_ARTICLE_IMPORT:
+                Uri uri = data.getData();
+                String path = FileUtils.getPathFormUri(uri);
+                if (TextUtils.isEmpty(path))
+                {
+                    Toast.makeText(getActivity(), R.string.file_not_exist, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(getActivity(), path, Toast.LENGTH_SHORT).show();
+                File file = new File(path);
+                if (!file.exists() || !file.isFile())
+                {
+                    Toast.makeText(getActivity(), R.string.file_not_exist, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DocumentDao.createFile(file.getName(), getFileContent(file), currentCatalogueId, Catalogue.FILE, user.getId());
+                refresh();
+                break;
+        }
+    }
+
 
 }
 

@@ -117,12 +117,20 @@
                 />
         </com.aaa.cd.view.ExpandableLinearLayout>
     </FrameLayout>
-
-    <FrameLayout
+    <include
+        android:id="@+id/include_move"
+        layout="@layout/layout_move_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/ll_artcle_filter"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/ll_artcle_filter"
+        android:layout_above="@+id/include_move"
         >
 
         <com.aaa.cd.view.ExpandableLinearLayout
@@ -167,11 +175,12 @@
             </android.support.v7.widget.RecyclerView>
         </com.aaa.cd.view.ExpandableLinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
             android:id="@+id/rv_article_catalogue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
     </FrameLayout>
 
 
