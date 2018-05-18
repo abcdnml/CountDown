@@ -274,17 +274,17 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.i("MainActivity onActivityResult  resultcode"+ resultCode+ " requestcode : "+requestCode);
         if (resultCode == RESULT_OK)
         {
             if (requestCode == Constants.REQUEST_CODE_LOG)
             {
                 fragments[5].onActivityResult(requestCode, resultCode, data);
-            }/* else if (requestCode == Constants.REQUEST_CODE_ARTICLE)
+            } else if (requestCode == Constants.REQUEST_CODE_SEARCH_RESULT)
             {
-                LogUtil.i("onActivityResult");
-                fragments[3].onActivityResult(requestCode, resultCode, data);
+                LogUtil.i("onActivityResultaaaaaaaaaaa");
+                fragments[2].onActivityResult(requestCode, resultCode, data);
             }
-*/
         }
     }
 

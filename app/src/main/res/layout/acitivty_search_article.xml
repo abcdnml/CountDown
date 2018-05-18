@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_title_main_article"
+        layout="@layout/layout_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_48"
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/include_title_main_article"
+        >
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_artcle_filter"
+        android:layout_width="match_parent"
+        android:layout_below="@id/include_title_main_article"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="@dimen/dimen_16"
+        android:paddingRight="@dimen/dimen_16"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/search_article"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:drawablePadding="@dimen/dimen_10"
+            android:hint="@string/hint_search"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="@dimen/font_16" />
+        <!--        <TextView
+                    android:layout_width="@dimen/dimen_96"
+                    android:layout_height="match_parent"
+                    />-->
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_article_catalogue"
+        android:layout_below="@+id/ll_artcle_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

@@ -667,7 +667,6 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     /**
-     * Set view dimensions based on layout params
      *
      * @param mode
      * @param size

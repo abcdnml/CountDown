@@ -14,15 +14,16 @@
             android:icon="@mipmap/calendar"
             android:title="@string/menu_calendar"/>
         <item
-            android:id="@+id/menu_main_item_plan"
-            android:checked="true"
-            android:icon="@mipmap/plan"
-            android:title="@string/menu_plan"/>
-        <item
             android:id="@+id/menu_main_item_article"
             android:checked="true"
             android:icon="@mipmap/article"
             android:title="@string/menu_article"/>
+        <item
+            android:id="@+id/menu_main_item_plan"
+            android:checked="true"
+            android:icon="@mipmap/plan"
+            android:title="@string/menu_plan"/>
+
         <item
             android:id="@+id/menu_main_item_hour_plan"
             android:checked="true"

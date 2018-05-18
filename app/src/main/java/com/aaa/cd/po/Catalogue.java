@@ -1,7 +1,10 @@
 package com.aaa.cd.po;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.aaa.cd.model.LogItem;
 import com.aaa.cd.util.CharacterParser;
 import com.aaa.cd.util.LogUtil;
 
@@ -10,7 +13,7 @@ import com.aaa.cd.util.LogUtil;
  * Created by aaa on 2018/4/2.
  */
 
-public class Catalogue
+public class Catalogue implements Parcelable
 {
 
     public static final int FOLDER = 0;
@@ -164,5 +167,56 @@ public class Catalogue
     public String toString()
     {
         return super.toString() + " id : " + id + " name : " + name + "  sortLetter : " + sortLetter + "  content : " + content + "  size : " + size + "  user id " + userId + "  parent : " + parent+"   type : "+ type;
+    }
+
+    private Catalogue(Parcel in)
+    {
+        id = in.readInt();
+        name = in.readString();
+        sortLetter = in.readString();
+        type=in.readInt();
+        content = in.readString();
+        size=in.readInt();
+        parent=in.readInt();
+        subItem=in.readInt();
+        userId=in.readInt();
+        createTime=in.readLong();
+        modifyTime=in.readLong();
+
+    }
+
+    public static final Parcelable.Creator<Catalogue> CREATOR = new Parcelable.Creator<Catalogue>()
+    {
+        public Catalogue createFromParcel(Parcel in)
+        {
+            return new Catalogue(in);
+        }
+
+        public Catalogue[] newArray(int size)
+        {
+            return new Catalogue[size];
+        }
+    };
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flag)
+    {
+        out.writeInt(id);
+        out.writeString(name);
+        out.writeString(sortLetter);
+        out.writeInt(type);
+        out.writeString(content);
+        out.writeInt(size);
+        out.writeInt(parent);
+        out.writeInt(subItem);
+        out.writeInt(userId);
+        out.writeLong(createTime);
+        out.writeLong(modifyTime);
     }
 }

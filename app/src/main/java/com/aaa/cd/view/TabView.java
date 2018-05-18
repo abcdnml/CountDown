@@ -71,7 +71,7 @@ public class TabView extends HorizontalScrollView
     }
 
 
-    public void addTab(String title, int parentId,OnClickListener onClickListener)
+    public void addTab(String title, int parentId, OnClickListener onClickListener)
     {
         View view = mInflater.inflate(R.layout.item_tab_text, mLayout, false);
         TextView textView = (TextView) view.findViewById(R.id.file_name);
@@ -89,7 +89,6 @@ public class TabView extends HorizontalScrollView
             lastTitle.setTextColor(0x88ffffff);
         }
         mLayout.addView(view, mLayout.getChildCount());
-
         //滑到最右边
         this.postDelayed(new Runnable()
         {
@@ -101,6 +100,47 @@ public class TabView extends HorizontalScrollView
         }, 5);
     }
 
+    public void addTab(String title, int parentId, int position, OnClickListener onClickListener)
+    {
+        View view = mInflater.inflate(R.layout.item_tab_text, mLayout, false);
+        TextView textView = (TextView) view.findViewById(R.id.file_name);
+        textView.setOnClickListener(onClickListener);
+        textView.setText(title);
+        textView.setTag(R.id.tag, parentId);
+        if (mLayout.getChildCount() <= 0)
+        {
+            //第一个就隐藏箭头
+            view.findViewById(R.id.arrow).setVisibility(View.GONE);
+        }
+        if (position < mLayout.getChildCount())
+        {
+            mLayout.addView(view, position);
+        } else
+        {
+            mLayout.addView(view, mLayout.getChildCount());
+        }
+        for (int i = 0; i < mLayout.getChildCount(); i++)
+        {
+            TextView lastTitle = (TextView) mLayout.getChildAt(i).findViewById(R.id.file_name);
+            if (i<mLayout.getChildCount() - 1)
+            {
+                //设置前一个的字体颜色
+                lastTitle.setTextColor(0x88ffffff);
+            }else{
+                lastTitle.setTextColor(0xffffffff);
+            }
+        }
+
+        //滑到最右边
+        this.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                TabView.this.smoothScrollBy(1000, 0);
+            }
+        }, 5);
+    }
 
     public boolean removeTab()
     {
@@ -123,6 +163,18 @@ public class TabView extends HorizontalScrollView
         }
         return false;
     }
+
+    public boolean removeAllTab()
+    {
+        int count = mLayout.getChildCount();
+        while (count > 0)
+        {
+            mLayout.removeViewAt(count - 1);
+            count = mLayout.getChildCount();
+        }
+        return true;
+    }
+
     public String getCurrentTag()
     {
         int count = mLayout.getChildCount();

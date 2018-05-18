@@ -7,8 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.aaa.cd.ui.main.MainArticleFragment">-->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +15,7 @@
 
     <include
         android:id="@+id/include_title_main_article"
-        layout="@layout/layout_title"/>
+        layout="@layout/layout_title" />
 
     <com.aaa.cd.view.TabView
         android:id="@+id/tiv_path"
@@ -24,25 +23,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/include_title_main_article"
         android:background="@color/colorPrimary"
-        android:elevation="4dp">
-    </com.aaa.cd.view.TabView>
+        ><!--android:elevation="4dp"--></com.aaa.cd.view.TabView>
 
     <LinearLayout
         android:id="@+id/ll_artcle_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tiv_path"
+        android:paddingLeft="@dimen/dimen_16"
+        android:paddingRight="@dimen/dimen_16"
         android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/sv_document"
+        <TextView
+            android:id="@+id/search_article"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:iconifiedByDefault="false"
-            android:queryHint="请输入搜索内容"
-            />
+            android:gravity="center_vertical|left"
+            android:text="@string/hint_search"
+            android:textColor="@color/white"
+            android:drawablePadding="@dimen/dimen_10"
+            android:textSize="@dimen/font_16" />
+
 
         <ImageView
             android:id="@+id/iv_markdown_display"
@@ -51,7 +54,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="@dimen/dimen_16"
-            android:src="@drawable/selector_display_list"/>
+            android:src="@drawable/selector_display_list" />
 
         <ImageView
             android:id="@+id/iv_markdown_sort"
@@ -60,8 +63,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="@dimen/dimen_16"
-            android:src="@drawable/selector_sort_alpha_asc"
-            />
+            android:src="@drawable/selector_sort_alpha_asc" />
 
     </LinearLayout>
 
@@ -69,9 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:elevation="4dp"
         android:layout_below="@+id/include_title_main_article"
-        >
+        android:elevation="4dp">
 
         <com.aaa.cd.view.ExpandableLinearLayout
             android:id="@+id/ell_function"
@@ -83,8 +84,7 @@
             android:paddingLeft="@dimen/dimen_24"
             android:paddingRight="@dimen/dimen_24"
             app:el_duration="500"
-            app:el_expanded="false"
-            >
+            app:el_expanded="false">
 
             <TextView
                 android:id="@+id/tv_import_markdown"
@@ -98,8 +98,7 @@
                 android:paddingTop="@dimen/dimen_5"
                 android:text="@string/import_markdown"
                 android:textColor="@color/white"
-                app:layout_expandable="true"
-                />
+                app:layout_expandable="true" />
 
             <TextView
                 android:id="@+id/tv_synchronize_article"
@@ -113,25 +112,24 @@
                 android:paddingTop="@dimen/dimen_5"
                 android:text="@string/synchronize"
                 android:textColor="@color/white"
-                app:layout_expandable="true"
-                />
+                app:layout_expandable="true" />
         </com.aaa.cd.view.ExpandableLinearLayout>
     </FrameLayout>
+
     <include
         android:id="@+id/include_move"
         layout="@layout/layout_move_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        />
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll_artcle_filter"
         android:layout_above="@+id/include_move"
-        >
+        android:layout_below="@+id/ll_artcle_filter">
 
         <com.aaa.cd.view.ExpandableLinearLayout
             android:id="@+id/ell_display"
@@ -141,17 +139,14 @@
             android:elevation="4dp"
             android:orientation="vertical"
             app:el_duration="500"
-            app:el_expanded="false"
-            >
+            app:el_expanded="false">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_display_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_expandable="true"
-                >
-            </android.support.v7.widget.RecyclerView>
+                app:layout_expandable="true"></android.support.v7.widget.RecyclerView>
         </com.aaa.cd.view.ExpandableLinearLayout>
 
         <com.aaa.cd.view.ExpandableLinearLayout
@@ -162,24 +157,20 @@
             android:elevation="4dp"
             android:orientation="vertical"
             app:el_duration="500"
-            app:el_expanded="false"
-            >
+            app:el_expanded="false">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_sort_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_expandable="true"
-                >
-            </android.support.v7.widget.RecyclerView>
+                app:layout_expandable="true"></android.support.v7.widget.RecyclerView>
         </com.aaa.cd.view.ExpandableLinearLayout>
 
         <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
             android:id="@+id/rv_article_catalogue"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 
@@ -204,8 +195,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:src="@mipmap/ic_create_folder"
         app:backgroundTint="@color/colorPrimary"
-        app:rippleColor="#ffffffff"
-        />
+        app:rippleColor="#ffffffff" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_create_file"
@@ -216,8 +206,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@mipmap/ic_create_file"
         app:backgroundTint="@color/colorPrimary"
-        app:rippleColor="#ffffffff"
-        />
+        app:rippleColor="#ffffffff" />
 </RelativeLayout>
 
 

@@ -20,7 +20,9 @@ public class DocumentDao
     private static SQLiteDatabase db;
 
     private static final String SQL_GET_FILE_BY_ID = "select * from document where id=? and type>0";
+    private static final String SQL_GET_FOLDER_BY_ID = "select * from document where id=? and type=0";
     private static final String SQL_GET_FILELIST_BY_PARENT = "select d1.id,d1.name,d1.parent,d1.type,d1.modify_time,d1.create_time,d1.user_id,substr(d1.[content],1,128) as overview,(select count(*) from document where d1.id=parent) as subitem from document as d1 where d1.parent=? and d1.user_id=?";
+    private static final String SQL_GET_FILELIST_BY_CONTET = "select id,name,substr(content,1,128) as overview,parent,type,modify_time,create_time,user_id from document where (name like ? or content like ?) and user_id=?";
     private static final String SQL_CREATE_FILE = "insert into document(name,content,parent,type,user_id,modify_time,create_time) values(?,?,?,?,?,strftime('%s','now'),strftime('%s','now'))";
     private static final String SQL_DELETE_FILE_BY_ID = "delete from document where id=?";
     private static final String SQL_DELETE_FOLDER_BY_ID = "with dom as " + "(select * from document where parent=? and user_id=?" + "union all " + "select d1.* from document d1 inner join dom d2 on d1.parent=d2.id )" + "delete from document where id in (select id from dom)";
@@ -67,6 +69,78 @@ public class DocumentDao
         c.close();
         db.close();
         return catalogue;
+    }
+
+    public static Catalogue getFolderById(int fileId)
+    {
+        db = DBHelper.getInstance().getWritableDatabase();
+
+
+        String[] params = new String[1];
+        params[0] = fileId + "";
+
+        Cursor c = db.rawQuery(SQL_GET_FOLDER_BY_ID, params);
+        Catalogue catalogue = null;
+        if (c.getCount() > 0)
+        {
+            c.moveToFirst();
+            catalogue = new Catalogue();
+            catalogue.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            catalogue.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
+            catalogue.setContent(c.getString(c.getColumnIndex(COLUMN_CONTENT)));
+            catalogue.setParent(c.getInt(c.getColumnIndex(COLUMN_PARENT)));
+            catalogue.setType(c.getInt(c.getColumnIndex(COLUMN_TYPE)));
+            catalogue.setUserId(c.getInt(c.getColumnIndex(COLUMN_USER_ID)));
+            catalogue.setModifyTime(c.getLong(c.getColumnIndex(COLUMN_MODIFY_TIME)));
+            catalogue.setCreateTime(c.getLong(c.getColumnIndex(COLUMN_CREATE_TIME)));
+            catalogue.setSubItem(Catalogue.FILE);
+        }
+        c.close();
+        db.close();
+        return catalogue;
+    }
+
+    public static List<Catalogue> getFileByContent(String search,int userId)
+    {
+        db = DBHelper.getInstance().getWritableDatabase();
+
+        String[] params = new String[3];
+        params[0] = "%"+ search+"%" ;
+        params[1] = "%"+ search+"%" ;
+        params[2] = userId + "";
+
+        Cursor c = db.rawQuery(SQL_GET_FILELIST_BY_CONTET, params);
+
+
+        List<Catalogue> lc = new ArrayList<>();
+        if (c.getCount() > 0)
+        {
+            int INDEX_ID = c.getColumnIndex(COLUMN_ID);
+            int INDEX_NAME = c.getColumnIndex(COLUMN_NAME);
+            int INDEX_CONTENT = c.getColumnIndex(COLUMN_OVERVIEW);
+            int INDEX_PARENT = c.getColumnIndex(COLUMN_PARENT);
+            int INDEX_TYPE = c.getColumnIndex(COLUMN_TYPE);
+            int INDEX_USER_ID = c.getColumnIndex(COLUMN_USER_ID);
+            int INDEX_MODIFY_TIME = c.getColumnIndex(COLUMN_MODIFY_TIME);
+            int INDEX_CREATE_TIME = c.getColumnIndex(COLUMN_CREATE_TIME);
+            while (c.moveToNext())
+            {
+                Catalogue catalogue = new Catalogue();
+                catalogue.setId(c.getInt(INDEX_ID));
+                catalogue.setName(c.getString(INDEX_NAME));
+                catalogue.setContent(c.getString(INDEX_CONTENT));
+                catalogue.setParent(c.getInt(INDEX_PARENT));
+                catalogue.setType(c.getInt(INDEX_TYPE));
+                catalogue.setUserId(c.getInt(INDEX_USER_ID));
+                catalogue.setModifyTime(c.getLong(INDEX_MODIFY_TIME));
+                catalogue.setCreateTime(c.getLong(INDEX_CREATE_TIME));
+                lc.add(catalogue);
+            }
+        }
+        c.close();
+        db.close();
+        Log.i("document dao", "get files  size : " + lc.size());
+        return lc;
     }
 
     public static List<Catalogue> getFileListByParent(int parentId, int userId)

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/dimen_16"
+              android:paddingRight="@dimen/dimen_16"
+              android:paddingTop="@dimen/dimen_16">
+    <TextView
+        android:id="@+id/tv_override_file_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_18"
+        android:textColor="@color/gray_333"
+        android:padding="@dimen/dimen_16"
+        android:text="@string/dialog_override"
+        android:background="?android:attr/selectableItemBackground"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_16"
+        android:paddingTop="@dimen/dimen_16"
+        android:paddingBottom="@dimen/dimen_16"
+        android:orientation="horizontal"
+        >
+        <CheckBox
+            android:id="@+id/cb_override_file_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply_to_all"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_override_file_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tv_override_file_ensure"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
+            android:text="@string/cancel"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_override_file_ensure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
+            android:text="@string/ensure"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:visibility="visible"/>
+    </RelativeLayout>
+</LinearLayout>

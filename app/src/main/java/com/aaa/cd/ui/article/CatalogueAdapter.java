@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.aaa.cd.R;
 import com.aaa.cd.po.Catalogue;
+import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.LogUtil;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
     private int MODE_NORMAL = 0;
     private int MODE_SELECT_FOLDER = 1;
     private int mode = MODE_NORMAL;
+    private int selectedItem = -1;
 
     public CatalogueAdapter(Context context, List<Catalogue> list)
     {
@@ -162,6 +164,11 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
         setFunctionMode(mode);
     }
 
+    public void selectItem(int id)
+    {
+        selectedItem = id;
+    }
+
     @Override
     public CatalogueViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -220,13 +227,23 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
                 holder.tv_detail.setText(catalogue.getContent());
             }
         }
+        if (selectedItem != -1 && selectedItem == catalogue.getId())
+        {
+            holder.vg_parent.setBackground(ContextCompat.getDrawable(CountDownApplication.getApplication(), R.drawable.selector_green));
+        }else{
+            holder.vg_parent.setBackground(ContextCompat.getDrawable(CountDownApplication.getApplication(), R.drawable.selector_white));
+        }
 
         holder.vg_parent.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                mOnItemClickListener.onItemClick(catalogue);
+                selectedItem=-1;
+                if (mOnItemClickListener != null)
+                {
+                    mOnItemClickListener.onItemClick(catalogue);
+                }
             }
         });
         holder.vg_parent.setOnLongClickListener(new View.OnLongClickListener()
@@ -234,7 +251,11 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
             @Override
             public boolean onLongClick(View v)
             {
-                mOnItemClickListener.onItemLongClick(catalogue);
+                selectedItem=-1;
+                if (mOnItemClickListener != null)
+                {
+                    mOnItemClickListener.onItemLongClick(catalogue);
+                }
                 return true;
             }
         });

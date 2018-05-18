@@ -19,12 +19,15 @@ public class Constants
     public static final String INTENT_KEY_ARTICLE_TYPE = "intent_key_article_type";
     public static final String INTENT_KEY_ARTICLE_TITLE = "intent_key_article_title";
     public static final String INTENT_KEY_ARTICLE_CONTENT = "intent_key_article_content";
+    public static final String INTENT_KEY_SEARCH_ARTICLE_STRING = "intent_key_search_article_string";
+
 
 
     public static final int REQUEST_CODE_LOG = 5;
     public static final int REQUEST_CODE_ARTICLE = 3;
     public static final int REQUEST_CODE_ARTICLE_IMPORT = 31;
     public static final int REQUEST_CODE_ARTICLE_EXPORT = 32;
+    public static final int REQUEST_CODE_SEARCH_RESULT = 33;
 
     public static final String SP_KEY_BORN_DATE = "born_date";
     public static final String SP_KEY_DEATH_DATE = "death_date";

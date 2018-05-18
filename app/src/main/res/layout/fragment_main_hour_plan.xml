@@ -6,7 +6,6 @@
     tools:context="com.aaa.cd.ui.main.MainHourPlanFragment">
 
     <include layout="@layout/layout_title"/>
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".log.LogDetailActivity"/>
         <activity android:name=".ui.article.MarkdownActivity"/>
+        <activity android:name=".ui.article.SearchArticleActivity"/>
     </application>
 
 </manifest>

@@ -15,14 +15,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +34,16 @@ import com.aaa.cd.po.User;
 import com.aaa.cd.ui.article.CatalogueAdapter;
 import com.aaa.cd.ui.article.DisplayMode;
 import com.aaa.cd.ui.article.DisplayModeAdapter;
+import com.aaa.cd.ui.article.FileExportTask;
 import com.aaa.cd.ui.article.ItemClickListener;
 import com.aaa.cd.ui.article.MarkdownActivity;
+import com.aaa.cd.ui.article.SearchArticleActivity;
 import com.aaa.cd.ui.article.SortMode;
 import com.aaa.cd.ui.article.SortModeAdapter;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
+import com.aaa.cd.util.EasyTransition;
+import com.aaa.cd.util.EasyTransitionOptions;
 import com.aaa.cd.util.FileUtils;
 import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.view.ExpandableLinearLayout;
@@ -65,6 +70,7 @@ import static android.app.Activity.RESULT_OK;
 public class MainArticleFragment extends MainBaseFragment implements View.OnClickListener
 {
 
+    private static final int HOME_ID = -1;
     //创建文件 文件夹按钮
     protected FloatingActionButton fab_createFile;
     protected FloatingActionButton fab_createFolder;
@@ -91,10 +97,13 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private TabView tiv_path;
     private View header;
 
-    private int currentCatalogueId = -1;
+    private int currentCatalogueId = HOME_ID;
     private Stack<Integer> catalogueStack;
 
-    private SearchView sv_search;
+    private View view_title;
+    private TextView tv_search;
+    private LinearLayout ll_search;
+
     private TabItemClickListener tabItemClickListener;
     private ItemClickListener displayItemClickListener;
     private ItemClickListener sortItemClickListener;
@@ -109,18 +118,23 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         catalogueStack.push(currentCatalogueId);
         // Required empty public constructor
         user = CountDownApplication.getApplication().getUser();
-        list_catalogue = DocumentDao.getFileListByParent(-1, user.getId());
+        list_catalogue = DocumentDao.getFileListByParent(HOME_ID, user.getId());
         if (list_catalogue == null || list_catalogue.size() <= 0)
         {
             Log.i("countdown", "article : no catalogue  ");
-            DocumentDao.createFile("临时", "懒得选文件夹就放这里", -1, Catalogue.FOLDER, user.getId());
-            DocumentDao.createFile("学习", "你们别拦着我 我要学习 我爱学习 学习使我快乐", -1, Catalogue.FOLDER, user.getId());
-            DocumentDao.createFile("生活", "小丑摘下面具 走进人群里", -1, Catalogue.FOLDER, user.getId());
-            DocumentDao.createFile("思想", "人是一颗会思维的苇草", -1, Catalogue.FOLDER, user.getId());
-            DocumentDao.createFile("娱乐", "睡你麻痹起来嗨", -1, Catalogue.FOLDER, user.getId());
-            DocumentDao.createFile("README.md", "Welcome to use ", -1, Catalogue.FILE, user.getId());
+            DocumentDao.createFile("临时", "懒得选文件夹就放这里", HOME_ID, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("学习", "你们别拦着我 我要学习 我爱学习 学习使我快乐", HOME_ID, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("生活", "小丑摘下面具 走进人群里", HOME_ID, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("思想", "人是一颗会思维的苇草", HOME_ID, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("娱乐", "睡你麻痹起来嗨", HOME_ID, Catalogue.FOLDER, user.getId());
+            DocumentDao.createFile("README.md", "Welcome to use ", HOME_ID, Catalogue.FILE, user.getId());
 
-            list_catalogue = DocumentDao.getFileListByParent(-1, user.getId());
+            list_catalogue = DocumentDao.getFileListByParent(HOME_ID, user.getId());
+        }
+        File file = new File(exportRootPath);
+        if (!file.exists() || !file.isDirectory())
+        {
+            file.mkdirs();
         }
 
         Log.i("countdown", "article : catalogue size : " + list_catalogue.size());
@@ -129,6 +143,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     @Override
     public void initTitle(View view)
     {
+        view_title = view.findViewById(R.id.include_title_main_article);
         TextView tv_title_content = (TextView) view.findViewById(R.id.tv_title_content);
         tv_title_content.setText(R.string.menu_article);
         ImageView iv_left = (ImageView) view.findViewById(R.id.iv_title_left);
@@ -189,23 +204,25 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         fab_createFolder.setOnClickListener(this);
         tiv_path = (TabView) view.findViewById(R.id.tiv_path);
         addTab(user.getNickname());
-        sv_search = (SearchView) view.findViewById(R.id.sv_document);
-        sv_search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
-            // 当点击搜索按钮时触发该方法
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                return false;
-            }
 
-            // 当搜索内容改变时触发该方法
+        ll_search = (LinearLayout) view.findViewById(R.id.ll_artcle_filter);
+        ll_search.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public boolean onQueryTextChange(String newText)
+            public void onClick(View v)
             {
-                return false;
+                LogUtil.i(" ll_search  setOnClickListener");
+                Intent intent = new Intent(getActivity(), SearchArticleActivity.class);
+                EasyTransitionOptions options = EasyTransitionOptions.makeTransitionOptions(getActivity(), view_title, ll_search, rv_catalogue/*,tv_search*/);
+                EasyTransition.startActivityForResult(intent, Constants.REQUEST_CODE_SEARCH_RESULT, options);
             }
         });
+        tv_search = (TextView) view.findViewById(R.id.search_article);
+        Drawable moveDrawable = ContextCompat.getDrawable(getActivity(), R.mipmap.search);
+        moveDrawable.setBounds(0, 0, 64, 64);
+        tv_search.setCompoundDrawables(moveDrawable, null, null, null);
+
+
         rv_catalogue = (SwipeMenuRecyclerView) view.findViewById(R.id.rv_article_catalogue);
         rv_catalogue.requestFocus();
         rv_catalogue.setSwipeMenuCreator(swipeMenuCreator);
@@ -223,12 +240,12 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
 
     public void setMoveView(View view)
     {
-        header =view.findViewById(R.id.include_move);
+        header = view.findViewById(R.id.include_move);
 
         TextView tv_move_to = (TextView) view.findViewById(R.id.tv_move_to);
         Drawable moveDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_move);
         moveDrawable.setBounds(0, 0, 64, 64);
-        tv_move_to.setCompoundDrawables( null,moveDrawable, null, null);
+        tv_move_to.setCompoundDrawables(null, moveDrawable, null, null);
         tv_move_to.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -246,7 +263,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         TextView tv_move_cancel = (TextView) view.findViewById(R.id.tv_move_cancel);
         Drawable cancelDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_cancel);
         cancelDrawable.setBounds(0, 0, 64, 64);
-        tv_move_cancel.setCompoundDrawables( null,cancelDrawable, null, null);
+        tv_move_cancel.setCompoundDrawables(null, cancelDrawable, null, null);
         tv_move_cancel.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -354,7 +371,11 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             {
                 if (menuPosition == 0)
                 {
-                    export(catalogueAdapter.getItem(adapterPosition));
+                    //TODO 此处写的固定的文件夹 这里需要添加选择文件夹的操作
+                    if(fileExist(exportRootPath)){
+                        new FileExportTask(getActivity(),catalogueAdapter.getItem(adapterPosition),exportRootPath).execute();
+                    }
+
                 } else if (menuPosition == 1)
                 {
                     move(catalogueAdapter.getItem(adapterPosition));
@@ -366,34 +387,23 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
     };
 
-    public void export(Catalogue catalogue)
+
+    String exportRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/coutdown/";
+
+    private boolean fileExist(String path)
     {
-        //TODO 此处写的固定的文件夹 这里需要添加选择文件夹的操作
-        String exportPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/coutdown/";
-        if (TextUtils.isEmpty(exportPath + catalogue.getName()))
+        if (TextUtils.isEmpty(path))
         {
-            Toast.makeText(getActivity(), "export fail ,path is null !", Toast.LENGTH_SHORT).show();
+            return false;
         } else
         {
-            File file = new File(exportPath);
+            File file = new File(path);
             if (!file.exists() || !file.isDirectory())
             {
-                file.mkdirs();
-            }
-            file = new File(exportPath + catalogue.getName());
-            if (file.exists())
-            {
-                //原始文件不存在，目标文件已经存在
-                showOverrideDialog(catalogue, file);
-            } else
-            {
-                boolean isSuccess = FileUtils.writeArticleFile(catalogue, file);
-                Toast.makeText(getActivity(), isSuccess
-                                              ? "export success !"
-                                              : "export fail  !", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
-
+        return true;
     }
 
     boolean showHeader = false;
@@ -697,29 +707,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }).show();
     }
 
-    private void showOverrideDialog(final Catalogue catalogue, final File file)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-        builder.setMessage(getString(R.string.dialog_override));
-        builder.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
 
-            }
-        }).setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                boolean isSuccess = FileUtils.writeArticleFile(catalogue, file);
-                Toast.makeText(getActivity(), isSuccess
-                                              ? "export success !"
-                                              : "export fail  !", Toast.LENGTH_SHORT).show();
-            }
-        }).show();
-    }
 
     public void deleteFile(int id)
     {
@@ -753,11 +741,38 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         return result.toString();
     }
 
+    public void getFilePath(int id, int parentId)
+    {
+
+        tiv_path.removeAllTab();
+        tiv_path.addTab(user.getNickname(), HOME_ID, tabItemClickListener);
+        currentCatalogueId = parentId;
+        catalogueStack.clear();
+        catalogueStack.push(HOME_ID);
+
+        int tmpId = parentId;
+        Stack<Catalogue> pathStack = new Stack<>();
+        Catalogue catalogue = null;
+        while (tmpId != HOME_ID)
+        {
+            catalogue = DocumentDao.getFolderById(tmpId);
+            pathStack.add(catalogue);
+            tmpId = catalogue.getParent();
+            tiv_path.addTab(catalogue.getName(), catalogue.getId(), 1, tabItemClickListener);
+            catalogueStack.add(1, catalogue.getId());
+            LogUtil.i("name " + catalogue.getName() + " id : " + catalogue.getId() + " parent : " + catalogue.getParent());
+        }
+
+        list_catalogue = DocumentDao.getFileListByParent(catalogueStack.peek(), user.getId());
+        catalogueAdapter.updateList(list_catalogue);
+        catalogueAdapter.selectItem(id);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.i("onActivityResult");
+        LogUtil.i("article fragment onActivityResult resultcode" + resultCode + " requestcode : " + requestCode);
         if (resultCode != RESULT_OK)
         {
             return;
@@ -784,6 +799,13 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 }
                 DocumentDao.createFile(file.getName(), getFileContent(file), currentCatalogueId, Catalogue.FILE, user.getId());
                 refresh();
+                break;
+            case Constants.REQUEST_CODE_SEARCH_RESULT:
+                int id = data.getIntExtra(Constants.INTENT_KEY_ARTICLE_ID, HOME_ID);
+                int parentId = data.getIntExtra(Constants.INTENT_KEY_ARTICLE_PARENT, HOME_ID);
+                String searchString = data.getStringExtra(Constants.INTENT_KEY_SEARCH_ARTICLE_STRING);
+                LogUtil.i("search  : " + searchString + "  id : " + id + "  parent : " + parentId);
+                getFilePath(id, parentId);
                 break;
         }
     }
