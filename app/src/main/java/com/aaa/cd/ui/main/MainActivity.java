@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements MainCallback
             public boolean onNavigationItemSelected(MenuItem item)
             {
                 item.setChecked(true);
-                switchContent(item.getItemId());
                 mDrawerLayout.closeDrawers();
+                switchContent(item.getItemId());
                 return true;
             }
         });
@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements MainCallback
         fragments[0] = new MainCountDownFragment();
         fragments[1] = new MainCalendarFragment();
         fragments[2] = new MainArticleFragment();
-        fragments[3] = new MainHourPlanFragment();
-        fragments[4] = new MainPlanFragment();
+        fragments[3] = new MainPlanFragment();
+        fragments[4] = new MainHourPlanFragment();
         fragments[5] = new MainLogFragment();
         fragments[6] = new MainDailyReviewFragment();
         fragments[7] = new MainSettingFragment();
@@ -282,8 +282,10 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
                 fragments[5].onActivityResult(requestCode, resultCode, data);
             } else if (requestCode == Constants.REQUEST_CODE_SEARCH_RESULT)
             {
-                LogUtil.i("onActivityResultaaaaaaaaaaa");
                 fragments[2].onActivityResult(requestCode, resultCode, data);
+            }else if(requestCode==Constants.REQUEST_CODE_HOURPLAN_RESULT)
+            {
+                fragments[4].onActivityResult(requestCode,resultCode,data);
             }
         }
     }

@@ -220,7 +220,7 @@ public class CatalogueAdapter extends RecyclerView.Adapter<CatalogueAdapter.Cata
                     holder.tv_detail.setText("(" + catalogue.getSubItem() + ")");
                 } else
                 {
-                    holder.tv_detail.setText("");
+                    holder.tv_detail.setText(catalogue.getSize()+"");
                 }
             } else if (displayMode == DisplayMode.MODE_DETAIL)
             {

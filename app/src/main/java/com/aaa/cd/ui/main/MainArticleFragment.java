@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,19 +28,21 @@ import android.widget.Toast;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.DocumentDao;
+import com.aaa.cd.model.Callback;
 import com.aaa.cd.po.Catalogue;
 import com.aaa.cd.po.User;
 import com.aaa.cd.ui.article.CatalogueAdapter;
 import com.aaa.cd.ui.article.DisplayMode;
 import com.aaa.cd.ui.article.DisplayModeAdapter;
 import com.aaa.cd.ui.article.FileExportTask;
-import com.aaa.cd.ui.article.ItemClickListener;
+import com.aaa.cd.model.ItemClickListener;
 import com.aaa.cd.ui.article.MarkdownActivity;
 import com.aaa.cd.ui.article.SearchArticleActivity;
 import com.aaa.cd.ui.article.SortMode;
 import com.aaa.cd.ui.article.SortModeAdapter;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
+import com.aaa.cd.util.DialogUtils;
 import com.aaa.cd.util.EasyTransition;
 import com.aaa.cd.util.EasyTransitionOptions;
 import com.aaa.cd.util.FileUtils;
@@ -309,7 +310,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         @Override
         public void onItemLongClick(Catalogue catalogue)
         {
-            showDeleteDialog(catalogue.getId());
+            DialogUtils.showDeleteDialog(getActivity(),getString(R.string.dialog_delete_file),deleteCallback,catalogue.getId());
         }
     };
 
@@ -366,7 +367,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
 
             if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION)
             {
-                showDeleteDialog(catalogueAdapter.getItem(adapterPosition).getId());
+                DialogUtils.showDeleteDialog(getActivity(),getString(R.string.dialog_delete_file),deleteCallback,catalogueAdapter.getItem(adapterPosition).getId());
             } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION)
             {
                 if (menuPosition == 0)
@@ -501,8 +502,8 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 //intent.setType(“audio/*”); //选择音频
                 //intent.setType(“video/*”); //选择视频 （mp4 3gp 是android支持的视频格式）
                 //intent.setType(“video/*;image/*”);//同时选择视频和图片
-                //intent.setType("*/*");//同时选择视频和图片
-                intentImport.setType("text/plain");//无类型限制
+                //intent.setType("*/*");//无类型限制
+                intentImport.setType("text/plain");//文本
                 intentImport.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intentImport, Constants.REQUEST_CODE_ARTICLE_IMPORT);
                 ell_function.collapse();
@@ -538,10 +539,16 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     class DisplayItemClickListener implements ItemClickListener
     {
         @Override
-        public void onItemClick(int position)
+        public void onItemClick(int position,View view)
         {
             setDisplayMode(position);
             ell_display.collapse();
+        }
+
+        @Override
+        public void onItemLongClick(int position, View view)
+        {
+
         }
     }
 
@@ -570,10 +577,15 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private class SortItemClickListener implements ItemClickListener
     {
         @Override
-        public void onItemClick(int position)
+        public void onItemClick(int position,View view)
         {
             setSortMode(position);
             ell_sort.collapse();
+        }
+
+        @Override
+        public void onItemLongClick(int position, View view)
+        {
         }
 
     }
@@ -686,28 +698,14 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         dialog.show();
     }
 
-    private void showDeleteDialog(final int id)
+    Callback deleteCallback=new Callback()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-        builder.setMessage(getString(R.string.dialog_delete));
-        builder.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener()
+        @Override
+        public void onCallback(int id)
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-
-            }
-        }).setPositiveButton(getString(R.string.ensure), new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                deleteFile(id);
-            }
-        }).show();
-    }
-
-
+            deleteFile(id);
+        }
+    };
 
     public void deleteFile(int id)
     {

@@ -4,7 +4,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".log.LogDetailActivity">
+                tools:context=".ui.log.LogDetailActivity">
 
     <include
         android:id="@+id/include_title_log_detail"

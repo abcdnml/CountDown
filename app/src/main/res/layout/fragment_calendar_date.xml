@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.calendar.CalendarDateFragment">
+    <include layout="@layout/layout_title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2018年"
+            android:padding="@dimen/dimen_5"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/tv_year_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="你今年27岁 你已经度过了324个月 /9855天/236520个小时 \n你的生命已经过去32.34%  "
+            android:padding="@dimen/dimen_5"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
+
+</LinearLayout>

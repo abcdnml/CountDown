@@ -59,8 +59,8 @@
     <string name="hint_search">请输入搜索内容</string>
     <string name="search_article">搜索文章</string>
 
-    <string name="dialog_delete">是否删除当前文件?</string>
-    <string name="dialog_override">文件已存在,是否覆盖当前文件?</string>
+    <string name="dialog_delete_file">是否删除当前文件?</string>
+    <string name="dialog_override_file">文件已存在,是否覆盖当前文件?</string>
     <string name="move_to_this">移动到此</string>
     <string name="apply_to_all">不再询问</string>
 
@@ -106,6 +106,16 @@
 
     <string name="select_query_time">请选择查询时间</string>
     <string name="title_activity_settings">Settings</string>
+
+    <!-- hour plan-->
+    <string name="hint_hour_plan_title">计划名称</string>
+    <string name="hint_hour_plan_desc">描述</string>
+    <string name="hour_plan_time">计划时长</string>
+    <string name="plan_time_too_long">时间太长了 你完不成的</string>
+    <string name="plan_time_not_correct">你输入负数干嘛...</string>
+    <string name="plan_time_should_not_be_null">不能为空</string>
+    <string name="plan_time_min_to_large">分钟超过60分钟的 你自己手动转成小时...</string>
+    <string name="dialog_delete_plan">是否删除计划?</string>
 
     <!-- Strings related to Settings -->
     <string name="current_version">当前版本</string>
@@ -171,7 +181,7 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value"/>
+    <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
@@ -186,5 +196,6 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="pref_key_save_mode">save_net_mode</string>
+    <string name="title_activity_hour_plan_detail">HourPlanDetailActivity</string>
 
 </resources>

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aaa.cd.R;
+import com.aaa.cd.model.ItemClickListener;
 
 /**
  * Description
@@ -119,7 +120,7 @@ public class SortModeAdapter extends RecyclerView.Adapter<SortModeAdapter.SortVi
                 {
                     sortMode =SortMode.getSort(position);
                     notifyDataSetChanged();
-                    itemClickListener.onItemClick(position);
+                    itemClickListener.onItemClick(position,v);
                 }
             }
         });

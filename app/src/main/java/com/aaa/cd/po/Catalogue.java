@@ -96,7 +96,7 @@ public class Catalogue implements Parcelable
         return size;
     }
 
-    private void setSize(int size)
+    public void setSize(int size)
     {
         this.size = size;
     }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aaa.cd.R;
+import com.aaa.cd.model.ItemClickListener;
 
 /**
  * Description
@@ -25,7 +26,7 @@ public class DisplayModeAdapter extends RecyclerView.Adapter<DisplayModeAdapter.
     private Drawable gridDrawable;
     private Drawable detailDrawable;
     private LayoutInflater inflater;
-    ItemClickListener itemClickListener;
+    private ItemClickListener itemClickListener;
 
     public DisplayModeAdapter(Context context, DisplayMode mode,ItemClickListener itemClickListener)
     {
@@ -82,7 +83,7 @@ public class DisplayModeAdapter extends RecyclerView.Adapter<DisplayModeAdapter.
                 {
                     currentMode=DisplayMode.getDisplay(position);
                     notifyDataSetChanged();
-                    itemClickListener.onItemClick(position);
+                    itemClickListener.onItemClick(position ,v);
                 }
             }
         });

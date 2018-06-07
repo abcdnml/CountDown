@@ -56,7 +56,7 @@ public class FileExportTask extends AsyncTask
     protected void onPostExecute(Object o)
     {
         super.onPostExecute(o);
-        Toast.makeText(context,"move file finish ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"export file finish ",Toast.LENGTH_SHORT).show();
     }
 
 

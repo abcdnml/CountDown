@@ -12,6 +12,7 @@
 
     <dimen name="single_edit_text_height">60dp</dimen>
     <dimen name="multi_edit_text_height">200dp</dimen>
+    <dimen name="multi_edit_half_text_height">128dp</dimen>
     <dimen name="text_min_height">100dp</dimen>
     <dimen name="long_button_height">45dp</dimen>
 

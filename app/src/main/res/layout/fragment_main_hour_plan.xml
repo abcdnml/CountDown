@@ -1,18 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.aaa.cd.ui.main.MainHourPlanFragment">
 
-    <include layout="@layout/layout_title"/>
+    <include
+        android:id="@+id/include_title_hour_plan"
+        layout="@layout/layout_title" />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hard_work" />
+        android:text="@string/hard_work"
+        android:layout_alignParentBottom="true"
+        />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:text="@string/rule_twenty_mile_" />
 
-</LinearLayout>
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/svg_play"
+        android:visibility="gone"/>
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/rv_hour_plan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_title_hour_plan"
+        >
+
+    </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_hour_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@mipmap/ic_add_white_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="#ffffffff" />
+</RelativeLayout>

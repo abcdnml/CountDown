@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.aaa.cd.ui.main.MainCalendarFragment">
-    <include layout="@layout/layout_title"/>
-    <TextView
+
+    <include layout="@layout/layout_title" />
+
+    <LinearLayout
+        android:id="@+id/ll_calendar_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:transitionName="calendar_year_title"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dimen_5"
+            android:text="32.234% \n27/82 \n330/984 \n10044/29950"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_24" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

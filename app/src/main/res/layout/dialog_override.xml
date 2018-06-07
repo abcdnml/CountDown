@@ -15,7 +15,7 @@
         android:textSize="@dimen/font_18"
         android:textColor="@color/gray_333"
         android:padding="@dimen/dimen_16"
-        android:text="@string/dialog_override"
+        android:text="@string/dialog_override_file"
         android:background="?android:attr/selectableItemBackground"
         />
 

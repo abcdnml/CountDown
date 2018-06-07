@@ -39,7 +39,7 @@ public class MainCountDownFragment extends MainBaseFragment
     ClockView cv_clock;
     ListView lv_count_down;
     CheckBox cb_life_death;
-    float touchX,touchY;
+    float touchX, touchY;
     View death;
     boolean liveOrDeath = true;
     private static final double YEAR_DAY = 365.242199074d;
@@ -87,15 +87,15 @@ public class MainCountDownFragment extends MainBaseFragment
             @Override
             public void onClick(View v)
             {
-//                if (liveOrDeath)
-//                {
-//                    tv_set_age.setText(R.string.born_date);
-//                } else
-//                {
-//                    tv_set_age.setText(R.string.death_date);
-//                }
-//                setHideAnimation(rl_content, 2000);
-//                setShowAnimation(rl_setContent, 2000);
+                //                if (liveOrDeath)
+                //                {
+                //                    tv_set_age.setText(R.string.born_date);
+                //                } else
+                //                {
+                //                    tv_set_age.setText(R.string.death_date);
+                //                }
+                //                setHideAnimation(rl_content, 2000);
+                //                setShowAnimation(rl_setContent, 2000);
                 showDatePickerDialog();
             }
         });
@@ -137,7 +137,7 @@ public class MainCountDownFragment extends MainBaseFragment
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                if(event.getAction()== KeyEvent.ACTION_DOWN)
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
                 {
                     Rect rect = new Rect();
                     getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
@@ -197,11 +197,11 @@ public class MainCountDownFragment extends MainBaseFragment
                 int min = (int) (percent * DAY_TIME) % (3600 * 1000) / (60 * 1000);
                 int age = (int) (live / (YEAR_DAY * DAY_TIME));
                 int day = (int) (live % (YEAR_DAY * DAY_TIME) / DAY_TIME);
-                LogUtil.i("live : "+ live+"  age : "+age + "  day : "+day);
+                LogUtil.i("live : " + live + "  age : " + age + "  day : " + day);
 
                 StringBuilder str = new StringBuilder("你在这世界已经存在" + age + "年" + day + "天了");
                 str.append("\n");
-                str.append("生命进度条已经走到了"+String.format("%.2f",percent*100)+"%");
+                str.append("生命进度条已经走到了" + String.format("%.2f", percent * 100) + "%");
                 str.append("\n");
                 if (live < DAY_TIME * YEAR_DAY * 7)
                 {
@@ -273,7 +273,8 @@ public class MainCountDownFragment extends MainBaseFragment
                 int day = (int) (left % (YEAR_DAY * DAY_TIME) / DAY_TIME);
                 StringBuilder str = new StringBuilder("你的生命还剩" + age + "年" + day + "天,");
                 return str.toString();
-            }else{
+            } else
+            {
                 long life = deathDate - bornDate;
                 double percent = left * 1d / life;
                 int hour = (int) (percent * DAY_TIME) / (3600 * 1000);
@@ -282,7 +283,7 @@ public class MainCountDownFragment extends MainBaseFragment
                 int day = (int) (left % (YEAR_DAY * DAY_TIME) / DAY_TIME);
                 StringBuilder str = new StringBuilder("你的生命还剩" + age + "年" + day + "天");
                 str.append("\n");
-                str.append("生命进度条还剩"+String.format("%.2f",percent*100)+"%");
+                str.append("生命进度条还剩" + String.format("%.2f", percent * 100) + "%");
                 str.append("\n");
                 str.append("无论怎样 请你记住: 你还有时间 你还可以努力 还可以追求自己想要的");
                 return str.toString();
@@ -290,7 +291,8 @@ public class MainCountDownFragment extends MainBaseFragment
         }
     }
 
-    public void hideLiveAndShowDeath(){
+    public void hideLiveAndShowDeath()
+    {
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(2000);
         mHideAnimation.setFillAfter(true);
@@ -342,7 +344,9 @@ public class MainCountDownFragment extends MainBaseFragment
         });
         tv_age.startAnimation(mHideAnimation);
     }
-    public void hideDeathAndShowLive(){
+
+    public void hideDeathAndShowLive()
+    {
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(2000);
         mHideAnimation.setFillAfter(true);
@@ -394,6 +398,7 @@ public class MainCountDownFragment extends MainBaseFragment
         });
         tv_age.startAnimation(mHideAnimation);
     }
+
     /**
      * View渐隐动画效果
      */
@@ -470,8 +475,8 @@ public class MainCountDownFragment extends MainBaseFragment
         int cx = (death.getLeft() + death.getRight()) / 2;
         int cy = 0;
 
-        cx=(int)touchX;
-        cy=(int)touchY;
+        cx = (int) touchX;
+        cy = (int) touchY;
 
         int finalRadius = (int) Math.sqrt(death.getHeight() * death.getHeight() + death.getWidth() * death.getWidth());
         ((MainActivity) getActivity()).setStatusBarColor(Color.parseColor("#000000"));
@@ -491,8 +496,8 @@ public class MainCountDownFragment extends MainBaseFragment
         int cy = death.getBottom();
 
 
-        cx=(int)touchX;
-        cy=(int)touchY;
+        cx = (int) touchX;
+        cy = (int) touchY;
 
         int initialRadius = (int) Math.sqrt(death.getHeight() * death.getHeight() + death.getWidth() * death.getWidth());
         // 自定义颜色
@@ -515,33 +520,40 @@ public class MainCountDownFragment extends MainBaseFragment
 
     public void showDatePickerDialog()
     {
+        Date date = null;
+        if (liveOrDeath)
+        {
+            date = new Date(bornDate);
+        } else
+        {
+            date = new Date(deathDate);
+        }
+        String title = getString(liveOrDeath ? R.string.born_date : R.string.death_date);
         WheelDatePicker dpu = new WheelDatePicker(getActivity());
-        dpu.datePicker(new Date(),
-                getString(liveOrDeath ? R.string.born_date : R.string.death_date),
-                new OnDatetimeSetListener()
+        dpu.datePicker(date,title , new OnDatetimeSetListener()
+        {
+            // 点击了确定才会执行此回调
+            @Override
+            public void onDatetimeSet(String timestamp, Date date)
+            {
+                if (date != null)
                 {
-                    // 点击了确定才会执行此回调
-                    @Override
-                    public void onDatetimeSet(String timestamp, Date date)
+                    if (liveOrDeath)
                     {
-                        if (date != null)
-                        {
-                            if (liveOrDeath)
-                            {
-                                bornDate = date.getTime();
-                                setCurrentAge();
-                                SPUtil.put(Constants.SP_KEY_BORN_DATE, bornDate);
-                                rl_content.setVisibility(View.VISIBLE);
-                            } else
-                            {
-                                deathDate = date.getTime();
-                                setLastAge();
-                                SPUtil.put(Constants.SP_KEY_DEATH_DATE, deathDate);
-                                rl_content.setVisibility(View.VISIBLE);
-                            }
-                        }
+                        bornDate = date.getTime();
+                        setCurrentAge();
+                        SPUtil.put(Constants.SP_KEY_BORN_DATE, bornDate);
+                        rl_content.setVisibility(View.VISIBLE);
+                    } else
+                    {
+                        deathDate = date.getTime();
+                        setLastAge();
+                        SPUtil.put(Constants.SP_KEY_DEATH_DATE, deathDate);
+                        rl_content.setVisibility(View.VISIBLE);
                     }
-                });
+                }
+            }
+        });
     }
 
     @Override

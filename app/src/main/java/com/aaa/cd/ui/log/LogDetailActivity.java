@@ -1,12 +1,10 @@
-package com.aaa.cd.log;
+package com.aaa.cd.ui.log;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -147,31 +145,4 @@ public class LogDetailActivity extends AppCompatActivity
         });
     }
 
-    class MyTextWatcher implements TextWatcher
-    {
-        TextInputLayout textInputLayout;
-        public MyTextWatcher(TextInputLayout parent){
-            textInputLayout=parent;
-        }
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
-            if (s.length() != 0)
-            {
-                textInputLayout.setErrorEnabled(false);
-            }
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s)
-        {
-
-        }
-    }
 }

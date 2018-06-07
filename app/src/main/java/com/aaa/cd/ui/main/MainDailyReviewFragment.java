@@ -1,6 +1,7 @@
 package com.aaa.cd.ui.main;
 
 
+ import android.content.Intent;
  import android.os.Handler;
  import android.os.HandlerThread;
  import android.os.Message;
@@ -16,6 +17,7 @@ package com.aaa.cd.ui.main;
  import com.aaa.cd.ui.review.ImageCardItem;
  import com.aaa.cd.ui.review.ImageUrls;
  import com.aaa.cd.ui.review.Questions;
+ import com.aaa.cd.ui.review.ReviewListActivity;
  import com.aaa.cd.ui.review.ScrollCardItem;
  import com.aaa.cd.ui.review.Utils;
  import com.beyondsw.lib.widget.StackCardsView;
@@ -65,6 +67,19 @@ public class MainDailyReviewFragment extends MainBaseFragment implements Handler
             public void onClick(View view)
             {
                 mainCallback.openMenu(true);
+            }
+        });
+
+        ImageView iv_right = (ImageView) view.findViewById(R.id.iv_title_right);
+        iv_right.setImageResource(R.drawable.selector_setting);
+        iv_right.setVisibility(View.VISIBLE);
+        iv_right.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent=new Intent(getActivity(), ReviewListActivity.class);
+                startActivity(intent);
             }
         });
     }
