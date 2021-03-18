@@ -35,20 +35,20 @@ import java.util.Date;
 public class MainCountDownFragment extends MainBaseFragment
 {
 
-    ClockView cv_clock;
-    ListView lv_count_down;
-    CheckBox cb_life_death;
-    float touchX, touchY;
-    View death;
+    private ClockView cv_clock;
+    private ListView lv_count_down;
+    private CheckBox cb_life_death;
+    private float touchX, touchY;
+    private View death;
     boolean liveOrDeath = true;
     private static final double YEAR_DAY = 365.242199074d;
     private static final long DAY_TIME = 86400000;
 
 
-    RelativeLayout rl_content;
-    RelativeLayout rl_setContent;
-    TextView tv_age;
-    TextView tv_set_age;
+    private RelativeLayout rl_content;
+    private RelativeLayout rl_setContent;
+    private TextView tv_age;
+    private TextView tv_set_age;
     private long bornDate;
     private long deathDate;
     private DecelerateInterpolator interpolator;
@@ -110,6 +110,12 @@ public class MainCountDownFragment extends MainBaseFragment
         tv_set_age = (TextView) view.findViewById(R.id.tv_set_age);
 
         cv_clock = (ClockView) view.findViewById(R.id.cv_clock);
+        cv_clock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cv_clock.setMute(!cv_clock.isMute());
+            }
+        });
         lv_count_down = (ListView) view.findViewById(R.id.lv_count_down);
         death = view.findViewById(R.id.ll_death);
 

@@ -8,17 +8,13 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.hardware.display.DisplayManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.aaa.cd.R;
 import com.aaa.cd.util.DensityUtil;
@@ -39,6 +35,7 @@ public class ClockView extends View
 
     private float mRadius;
     private float mRadiusFactor;
+    private volatile boolean isMute;
     private int padding;
     private int mHours;
     private int mMinutes;
@@ -53,7 +50,7 @@ public class ClockView extends View
     private Paint minutePaint;
     private Paint secondPaint;
 
-    Timer timer;
+    private Timer timer;
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -63,6 +60,7 @@ public class ClockView extends View
         TypedArray types = context.obtainStyledAttributes(attrs, R.styleable.clock);// TypedArray是一个数组容器
         mRadius = types.getDimension(R.styleable.clock_radiu, 0);// 防止在XML文件里没有定义，就加上了默认值30
         mRadiusFactor = types.getFraction(R.styleable.clock_radiu_percent, 1, 1, 50);// 防止在XML文件里没有定义，就加上了默认值90
+        isMute = types.getBoolean(R.styleable.clock_mute, false);// 防止在XML文件里没有定义，就加上了默认值90
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int w_screen = dm.widthPixels;
         int h_screen = dm.heightPixels;
@@ -364,8 +362,7 @@ public class ClockView extends View
             {
                 e.printStackTrace();
             }
-            if (sp != null)
-            {
+            if (sp != null && !isMute) {
                 sp.play(soundId, 0.2f, 0.2f, 0, 0, 1);
             }
         }
@@ -375,7 +372,14 @@ public class ClockView extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-//        canvas.drawColor(Color.BLACK);
         drawCompass(canvas);
+    }
+
+    public boolean isMute() {
+        return isMute;
+    }
+
+    public void setMute(boolean isMute) {
+        this.isMute = isMute;
     }
 }
