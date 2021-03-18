@@ -1,16 +1,17 @@
 package com.aaa.cd.ui.hourplan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.HourPlanDao;
@@ -20,7 +21,7 @@ import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.LogUtil;
 
-public class HourPlanEditActivity extends AppCompatActivity
+public class HourPlanEditActivity extends Activity
 {
 
     private int MODE = Constants.INTENT_VALUE_HOURPLAN_MODE_ADD;

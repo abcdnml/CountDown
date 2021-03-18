@@ -24,13 +24,13 @@
     android:paddingRight="15dp"
     android:paddingTop="15dp">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_create_folder_name"
         style="@style/DialogTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/acet_create_folder_name"
             style="@style/DialogTheme"
             android:layout_width="match_parent"
@@ -38,15 +38,15 @@
             android:focusable="true"
             android:hint="@string/create_folder_name"
             android:inputType="text" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_create_folder_remark"
         style="@style/DialogTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/acet_create_folder_remark"
             style="@style/DialogTheme"
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:focusable="true"
             android:hint="@string/create_folder_remark"
             android:inputType="text" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"

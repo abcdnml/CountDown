@@ -17,14 +17,15 @@
 package com.aaa.cd.view;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 
 import com.aaa.cd.R;
 

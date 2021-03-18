@@ -1,12 +1,12 @@
 package com.aaa.cd.ui.review;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aaa.cd.R;
 
-public class ReviewListActivity extends AppCompatActivity
+public class ReviewListActivity extends Activity
 {
     RecyclerView rv_list;
     @Override

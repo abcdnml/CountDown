@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Base" parent="Theme.Design.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -13,7 +13,7 @@
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">

@@ -22,10 +22,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+
+import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -46,8 +49,7 @@ import java.io.File;
  * markdown编辑界面
  * Created by aaa on 2018/01/13.
  */
-public class MarkdownEditorFragment extends Fragment implements View.OnClickListener
-{
+public class MarkdownEditorFragment extends Fragment implements View.OnClickListener {
     private final int SYSTEM_GALLERY = 1;
     protected EditText et_title;
     protected EditText et_content;
@@ -60,12 +62,10 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     private String title;
     private String content;
 
-    public MarkdownEditorFragment()
-    {
+    public MarkdownEditorFragment() {
     }
 
-    public static MarkdownEditorFragment getInstance(String title, String content)
-    {
+    public static MarkdownEditorFragment getInstance(String title, String content) {
         MarkdownEditorFragment editorFragment = new MarkdownEditorFragment();
         editorFragment.title = title;
         editorFragment.content = content;
@@ -73,15 +73,13 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
         et_title = (EditText) view.findViewById(R.id.tv_markdown_title);
         et_title.setText(title);
@@ -94,58 +92,47 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     }
 
 
-    public void initPerformEdit()
-    {
+    public void initPerformEdit() {
 
         mPerformEditable = new PerformEditable(et_content);
 
         //撤销和恢复初始化
-        mPerformNameEdit = new PerformEdit(et_title)
-        {
+        mPerformNameEdit = new PerformEdit(et_title) {
             @Override
-            protected void onTextChanged(Editable s)
-            {
+            protected void onTextChanged(Editable s) {
                 //标题改变
                 LogUtil.d("title text changed");
-                if (textChangeListener != null)
-                {
+                if (textChangeListener != null) {
                     textChangeListener.onTitleChange(s);
                 }
             }
         };
-        mPerformEdit = new PerformEdit(et_content)
-        {
+        mPerformEdit = new PerformEdit(et_content) {
             @Override
-            protected void onTextChanged(Editable s)
-            {
+            protected void onTextChanged(Editable s) {
                 //内容改变
                 LogUtil.d("content text changed");
-                if (textChangeListener != null)
-                {
+                if (textChangeListener != null) {
                     textChangeListener.onContentChange(s);
                 }
             }
         };
     }
 
-    public void setTextChangeListener(MarkdownActivity.TextChangeListener listener)
-    {
+    public void setTextChangeListener(MarkdownActivity.TextChangeListener listener) {
         textChangeListener = listener;
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
 
     }
 
-    private void shareMenu()
-    {
+    private void shareMenu() {
 
 
-        switch ((int) 0)
-        {
+        switch ((int) 0) {
             case 0://复制
                 shareCopyText();
                 break;
@@ -159,13 +146,11 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void shareCopyText()
-    {
+    private void shareCopyText() {
         SystemUtils.copyToClipBoard(getActivity(), et_content.getText().toString());
     }
 
-    private void shareText()
-    {
+    private void shareText() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, et_content.getText().toString());
@@ -174,8 +159,7 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void shareMD()
-    {
+    private void shareMD() {
 
         //        Intent shareIntent = new Intent(Intent.ACTION_SEND);
         //        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mPresenter.getMDFile()));
@@ -189,13 +173,11 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     }
 
 
-    public PerformEdit getPerformEdit()
-    {
+    public PerformEdit getPerformEdit() {
         return mPerformEdit;
     }
 
-    private void initTab(View view)
-    {
+    private void initTab(View view) {
         mTabIconView = (TabIconView) view.findViewById(R.id.tabIconView);
         mTabIconView.addTab(R.mipmap.ic_shortcut_format_list_bulleted, R.id.id_shortcut_list_bulleted, this);
         mTabIconView.addTab(R.mipmap.ic_shortcut_format_list_numbers, R.id.id_shortcut_format_numbers, this);
@@ -218,27 +200,22 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if (R.id.id_shortcut_insert_photo == v.getId())
-        {
+    public void onClick(View v) {
+        if (R.id.id_shortcut_insert_photo == v.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
             intent.setType("image/*");// 从所有图片中进行选择
             startActivityForResult(intent, SYSTEM_GALLERY);
             return;
-        } else if (R.id.id_shortcut_insert_link == v.getId())
-        {
+        } else if (R.id.id_shortcut_insert_link == v.getId()) {
             //插入链接
             insertLink();
             return;
-        } else if (R.id.id_shortcut_grid == v.getId())
-        {
+        } else if (R.id.id_shortcut_grid == v.getId()) {
             //插入表格
             insertTable();
             return;
-        } else
-        {
+        } else {
             //点击事件分发
             mPerformEditable.onClick(v);
         }
@@ -247,8 +224,7 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     /**
      * 插入表格
      */
-    private void insertTable()
-    {
+    private void insertTable() {
         View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.view_common_input_table_view, null);
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("插入表格").setView(rootView).show();
@@ -259,32 +235,26 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
         final EditText columnNumber = (EditText) rootView.findViewById(R.id.columnNumber);
 
 
-        rootView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String rowNumberStr = rowNumber.getText().toString().trim();
                 String columnNumberStr = columnNumber.getText().toString().trim();
 
-                if (TextUtils.isEmpty(rowNumberStr))
-                {
+                if (TextUtils.isEmpty(rowNumberStr)) {
                     rowNumberHint.setError("不能为空");
                     return;
                 }
-                if (TextUtils.isEmpty(columnNumberStr))
-                {
+                if (TextUtils.isEmpty(columnNumberStr)) {
                     columnNumberHint.setError("不能为空");
                     return;
                 }
 
 
-                if (rowNumberHint.isErrorEnabled())
-                {
+                if (rowNumberHint.isErrorEnabled()) {
                     rowNumberHint.setErrorEnabled(false);
                 }
-                if (columnNumberHint.isErrorEnabled())
-                {
+                if (columnNumberHint.isErrorEnabled()) {
                     columnNumberHint.setErrorEnabled(false);
                 }
 
@@ -293,11 +263,9 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
             }
         });
 
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -308,8 +276,7 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     /**
      * 插入链接
      */
-    private void insertLink()
-    {
+    private void insertLink() {
         View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.view_common_input_link_view, null);
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogTheme).setTitle("插入链接").setView(rootView).show();
@@ -320,31 +287,25 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
         final EditText link = (EditText) rootView.findViewById(R.id.text);
 
 
-        rootView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String titleStr = title.getText().toString().trim();
                 String linkStr = link.getText().toString().trim();
 
-                if (TextUtils.isEmpty(titleStr))
-                {
+                if (TextUtils.isEmpty(titleStr)) {
                     titleHint.setError("不能为空");
                     return;
                 }
-                if (TextUtils.isEmpty(linkStr))
-                {
+                if (TextUtils.isEmpty(linkStr)) {
                     linkHint.setError("不能为空");
                     return;
                 }
 
-                if (titleHint.isErrorEnabled())
-                {
+                if (titleHint.isErrorEnabled()) {
                     titleHint.setErrorEnabled(false);
                 }
-                if (linkHint.isErrorEnabled())
-                {
+                if (linkHint.isErrorEnabled()) {
                     linkHint.setErrorEnabled(false);
                 }
 
@@ -353,11 +314,9 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
             }
         });
 
-        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -375,15 +334,12 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
     }*/
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK && requestCode == SYSTEM_GALLERY)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == SYSTEM_GALLERY) {
             Uri uri = data.getData();
             String[] pojo = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().managedQuery(uri, pojo, null, null, null);
-            if (cursor != null)
-            {
+            if (cursor != null) {
                 //                    ContentResolver cr = this.getContentResolver();
                 int colunm_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
@@ -391,8 +347,7 @@ public class MarkdownEditorFragment extends Fragment implements View.OnClickList
                 //以上代码获取图片路径
                 Uri.fromFile(new File(path));//Uri.decode(imageUri.toString())
                 mPerformEditable.perform(R.id.id_shortcut_insert_photo, Uri.fromFile(new File(path)));
-            } else
-            {
+            } else {
                 Toast.makeText(getActivity(), "图片处理失败", Toast.LENGTH_SHORT).show();
             }
         }

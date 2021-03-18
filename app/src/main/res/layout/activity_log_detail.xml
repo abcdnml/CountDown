@@ -24,7 +24,7 @@
             android:padding="@dimen/content_padding"
             >
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_log_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,9 +39,9 @@
                     android:maxLength="24"
                     android:singleLine="true"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_log_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,9 +61,9 @@
                     android:maxLength="512"
                     android:minHeight="@dimen/multi_edit_text_height"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_log_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                     android:maxLength="512"
                     android:minHeight="@dimen/multi_edit_text_height"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_log_submit"

@@ -1,9 +1,9 @@
 package com.aaa.cd.ui.log;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +17,7 @@ import com.aaa.cd.model.LogItem;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
 
-public class LogDetailActivity extends AppCompatActivity
+public class LogDetailActivity extends Activity
 {
 
     int mode;

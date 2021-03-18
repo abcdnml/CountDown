@@ -16,26 +16,24 @@
 
 package com.aaa.cd.ui.article;
 
-import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.DocumentDao;
@@ -46,7 +44,7 @@ import com.aaa.cd.util.SystemUtils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 
-public class MarkdownActivity extends AppCompatActivity implements View.OnClickListener
+public class MarkdownActivity extends FragmentActivity implements View.OnClickListener
 {
     public static final String TAG = "MarkdownActivity";
     public static final int ID_NOT_EXIST = -1;
@@ -300,8 +298,8 @@ public class MarkdownActivity extends AppCompatActivity implements View.OnClickL
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         editFragment.onActivityResult(requestCode, resultCode, data);
     }
 

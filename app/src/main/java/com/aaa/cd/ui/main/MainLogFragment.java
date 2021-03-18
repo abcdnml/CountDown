@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -238,7 +238,7 @@ public class MainLogFragment extends MainBaseFragment
         if (lastLog == null)
         {
             tv_start_timing.setVisibility(View.VISIBLE);
-            rv_log.setVisibility(View.GONE);
+            rv_log.setVisibility(View.VISIBLE);
             fab_addLog.setVisibility(View.GONE);
             tv_timing.setVisibility(View.GONE);
             tv_date.setVisibility(View.GONE);

@@ -1,20 +1,18 @@
 package com.aaa.cd.ui.main;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,13 +47,16 @@ import com.aaa.cd.util.FileUtils;
 import com.aaa.cd.util.LogUtil;
 import com.aaa.cd.view.ExpandableLinearLayout;
 import com.aaa.cd.view.TabView;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
+import com.yanzhenjie.recyclerview.SwipeMenu;
+import com.yanzhenjie.recyclerview.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -68,8 +69,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainArticleFragment extends MainBaseFragment implements View.OnClickListener
-{
+public class MainArticleFragment extends MainBaseFragment implements View.OnClickListener {
 
     private static final int HOME_ID = -1;
     //创建文件 文件夹按钮
@@ -91,7 +91,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private ImageView iv_sort;
     private SortModeAdapter sortModeAdapter;
 
-    private SwipeMenuRecyclerView rv_catalogue;
+    private SwipeRecyclerView rv_catalogue;
     private CatalogueAdapter catalogueAdapter;
     private List<Catalogue> list_catalogue;
     private User user;
@@ -110,8 +110,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     private ItemClickListener sortItemClickListener;
 
 
-    public MainArticleFragment()
-    {
+    public MainArticleFragment() {
         tabItemClickListener = new TabItemClickListener();
         displayItemClickListener = new DisplayItemClickListener();
         sortItemClickListener = new SortItemClickListener();
@@ -120,8 +119,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         // Required empty public constructor
         user = CountDownApplication.getApplication().getUser();
         list_catalogue = DocumentDao.getFileListByParent(HOME_ID, user.getId());
-        if (list_catalogue == null || list_catalogue.size() <= 0)
-        {
+        if (list_catalogue == null || list_catalogue.size() <= 0) {
             Log.i("countdown", "article : no catalogue  ");
             DocumentDao.createFile("临时", "懒得选文件夹就放这里", HOME_ID, Catalogue.FOLDER, user.getId());
             DocumentDao.createFile("学习", "你们别拦着我 我要学习 我爱学习 学习使我快乐", HOME_ID, Catalogue.FOLDER, user.getId());
@@ -133,8 +131,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             list_catalogue = DocumentDao.getFileListByParent(HOME_ID, user.getId());
         }
         File file = new File(exportRootPath);
-        if (!file.exists() || !file.isDirectory())
-        {
+        if (!file.exists() || !file.isDirectory()) {
             file.mkdirs();
         }
 
@@ -142,38 +139,32 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     }
 
     @Override
-    public void initTitle(View view)
-    {
+    public void initTitle(View view) {
         view_title = view.findViewById(R.id.include_title_main_article);
         TextView tv_title_content = (TextView) view.findViewById(R.id.tv_title_content);
         tv_title_content.setText(R.string.menu_article);
         ImageView iv_left = (ImageView) view.findViewById(R.id.iv_title_left);
         iv_left.setVisibility(View.VISIBLE);
         iv_left.setImageResource(R.mipmap.menu);
-        iv_left.setOnClickListener(new View.OnClickListener()
-        {
+        iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 mainCallback.openMenu(true);
             }
         });
         ImageView iv_right = (ImageView) view.findViewById(R.id.iv_title_right);
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setImageResource(R.drawable.selector_more);
-        iv_right.setOnClickListener(new View.OnClickListener()
-        {
+        iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 ell_function.toggle();
             }
         });
     }
 
     @Override
-    public void initView(View view)
-    {
+    public void initView(View view) {
         ell_function = (ExpandableLinearLayout) view.findViewById(R.id.ell_function);
         tv_import = (TextView) view.findViewById(R.id.tv_import_markdown);
         setTextViewLeftDrawable(tv_import, R.drawable.selector_import);
@@ -207,11 +198,9 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         addTab(user.getNickname());
 
         ll_search = (LinearLayout) view.findViewById(R.id.ll_artcle_filter);
-        ll_search.setOnClickListener(new View.OnClickListener()
-        {
+        ll_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 LogUtil.i(" ll_search  setOnClickListener");
                 Intent intent = new Intent(getActivity(), SearchArticleActivity.class);
                 EasyTransitionOptions options = EasyTransitionOptions.makeTransitionOptions(getActivity(), view_title, ll_search, rv_catalogue/*,tv_search*/);
@@ -224,10 +213,10 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         tv_search.setCompoundDrawables(moveDrawable, null, null, null);
 
 
-        rv_catalogue = (SwipeMenuRecyclerView) view.findViewById(R.id.rv_article_catalogue);
+        rv_catalogue = (SwipeRecyclerView) view.findViewById(R.id.rv_article_catalogue);
         rv_catalogue.requestFocus();
         rv_catalogue.setSwipeMenuCreator(swipeMenuCreator);
-        rv_catalogue.setSwipeMenuItemClickListener(mMenuItemClickListener);
+        rv_catalogue.setOnItemMenuClickListener(mMenuItemClickListener);
         rv_catalogue.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.divider_color)));
 
         catalogueAdapter = new CatalogueAdapter(getActivity(), displayModeAdapter.getCurrentMode(), sortModeAdapter.getSortMode(), list_catalogue, catalogueItemListener);
@@ -239,19 +228,16 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         setMoveView(view);
     }
 
-    public void setMoveView(View view)
-    {
+    public void setMoveView(View view) {
         header = view.findViewById(R.id.include_move);
 
         TextView tv_move_to = (TextView) view.findViewById(R.id.tv_move_to);
         Drawable moveDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_move);
         moveDrawable.setBounds(0, 0, 64, 64);
         tv_move_to.setCompoundDrawables(null, moveDrawable, null, null);
-        tv_move_to.setOnClickListener(new View.OnClickListener()
-        {
+        tv_move_to.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Catalogue catalogue = (Catalogue) header.getTag();
                 DocumentDao.moveFile(catalogue.getId(), currentCatalogueId);
                 catalogueAdapter.updateList(DocumentDao.getFileListByParent(currentCatalogueId, user.getId()));
@@ -265,30 +251,23 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         Drawable cancelDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.selector_cancel);
         cancelDrawable.setBounds(0, 0, 64, 64);
         tv_move_cancel.setCompoundDrawables(null, cancelDrawable, null, null);
-        tv_move_cancel.setOnClickListener(new View.OnClickListener()
-        {
+        tv_move_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 hideMoveView();
                 Toast.makeText(v.getContext(), " move cancel ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    CatalogueAdapter.ItemClickListener catalogueItemListener = new CatalogueAdapter.ItemClickListener()
-    {
+    CatalogueAdapter.ItemClickListener catalogueItemListener = new CatalogueAdapter.ItemClickListener() {
         @Override
-        public void onItemClick(Catalogue catalogue)
-        {
+        public void onItemClick(Catalogue catalogue) {
 
-            if (catalogue.getType() == Catalogue.FOLDER)
-            {
-                if (showHeader)
-                {
+            if (catalogue.getType() == Catalogue.FOLDER) {
+                if (showHeader) {
                     Catalogue catalogueToMove = (Catalogue) header.getTag();
-                    if (catalogueToMove.getId() == catalogue.getId())
-                    {
+                    if (catalogueToMove.getId() == catalogue.getId()) {
                         Toast.makeText(getActivity(), "不要递归移动文件夹,会乱掉的...", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -299,8 +278,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
                 list_catalogue = DocumentDao.getFileListByParent(currentCatalogueId, user.getId());
                 catalogueAdapter.updateList(list_catalogue);
 
-            } else
-            {
+            } else {
                 Intent intent = new Intent(getActivity(), MarkdownActivity.class);
                 intent.putExtra(Constants.INTENT_KEY_ARTICLE_ID, catalogue.getId());
                 startActivityForResult(intent, Constants.REQUEST_CODE_ARTICLE);
@@ -308,20 +286,17 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
 
         @Override
-        public void onItemLongClick(Catalogue catalogue)
-        {
-            DialogUtils.showDeleteDialog(getActivity(),getString(R.string.dialog_delete_file),deleteCallback,catalogue.getId());
+        public void onItemLongClick(Catalogue catalogue) {
+            DialogUtils.showDeleteDialog(getActivity(), getString(R.string.dialog_delete_file), deleteCallback, catalogue.getId());
         }
     };
 
     /**
      * 菜单创建器，在Item要创建菜单的时候调用。
      */
-    private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator()
-    {
+    private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
         @Override
-        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType)
-        {
+        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
             int width = getResources().getDimensionPixelSize(R.dimen.dimen_48);
 
             // 1. MATCH_PARENT 自适应高度，保持和Item一样高;ViewGroup.LayoutParams.MATCH_PARENT
@@ -354,34 +329,27 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     /**
      * RecyclerView的Item的Menu点击监听。
      */
-    private SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener()
-    {
+    private OnItemMenuClickListener mMenuItemClickListener = new OnItemMenuClickListener() {
         @Override
-        public void onItemClick(SwipeMenuBridge menuBridge)
-        {
-            menuBridge.closeMenu();
+        public void onItemClick(SwipeMenuBridge swipeMenuBridge, int i) {
+            swipeMenuBridge.closeMenu();
 
-            int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
-            int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
-            int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+            int direction = swipeMenuBridge.getDirection(); // 左侧还是右侧菜单。
+            int adapterPosition = i; // RecyclerView的Item的position。
+            int menuPosition = swipeMenuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
 
-            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION)
-            {
-                DialogUtils.showDeleteDialog(getActivity(),getString(R.string.dialog_delete_file),deleteCallback,catalogueAdapter.getItem(adapterPosition).getId());
-            } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION)
-            {
-                if (menuPosition == 0)
-                {
+            if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
+                DialogUtils.showDeleteDialog(getActivity(), getString(R.string.dialog_delete_file), deleteCallback, catalogueAdapter.getItem(adapterPosition).getId());
+            } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
+                if (menuPosition == 0) {
                     //TODO 此处写的固定的文件夹 这里需要添加选择文件夹的操作
-                    if(fileExist(exportRootPath)){
-                        new FileExportTask(getActivity(),catalogueAdapter.getItem(adapterPosition),exportRootPath).execute();
+                    if (fileExist(exportRootPath)) {
+                        new FileExportTask(getActivity(), catalogueAdapter.getItem(adapterPosition), exportRootPath).execute();
                     }
 
-                } else if (menuPosition == 1)
-                {
+                } else if (menuPosition == 1) {
                     move(catalogueAdapter.getItem(adapterPosition));
-                } else if (menuPosition == 2)
-                {
+                } else if (menuPosition == 2) {
                     share();
                 }
             }
@@ -391,16 +359,12 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
 
     String exportRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/coutdown/";
 
-    private boolean fileExist(String path)
-    {
-        if (TextUtils.isEmpty(path))
-        {
+    private boolean fileExist(String path) {
+        if (TextUtils.isEmpty(path)) {
             return false;
-        } else
-        {
+        } else {
             File file = new File(path);
-            if (!file.exists() || !file.isDirectory())
-            {
+            if (!file.exists() || !file.isDirectory()) {
                 return false;
             }
         }
@@ -409,15 +373,12 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
 
     boolean showHeader = false;
 
-    public void move(Catalogue catalogue)
-    {
+    public void move(Catalogue catalogue) {
         showMoveView(catalogue);
     }
 
-    private void showMoveView(Catalogue catalogue)
-    {
-        if (!showHeader)
-        {
+    private void showMoveView(Catalogue catalogue) {
+        if (!showHeader) {
             showHeader = true;
             header.setTag(catalogue);
             header.setVisibility(View.VISIBLE);
@@ -425,28 +386,23 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
     }
 
-    private void hideMoveView()
-    {
+    private void hideMoveView() {
         showHeader = false;
         header.setVisibility(View.GONE);
         catalogueAdapter.setFunctionMode(0);
     }
 
-    public void share()
-    {
+    public void share() {
         Toast.makeText(getActivity(), "分享 暂未实现", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public int getLayoutId()
-    {
+    public int getLayoutId() {
         return R.layout.fragment_main_article;
     }
 
-    public boolean onBackPressed()
-    {
-        if (catalogueStack.size() > 1)
-        {
+    public boolean onBackPressed() {
+        if (catalogueStack.size() > 1) {
             catalogueStack.pop();
             currentCatalogueId = catalogueStack.peek();
             list_catalogue = DocumentDao.getFileListByParent(currentCatalogueId, user.getId());
@@ -458,27 +414,22 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     }
 
 
-    public void addTab(String title)
-    {
+    public void addTab(String title) {
         tiv_path.addTab(title, currentCatalogueId, tabItemClickListener);
     }
 
-    public String getCurrentTagString()
-    {
+    public String getCurrentTagString() {
         return tiv_path.getCurrentTag();
     }
 
 
-    private boolean removeTab()
-    {
+    private boolean removeTab() {
         return tiv_path.removeTab();
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.iv_markdown_display:
                 ell_sort.collapse();
                 ell_display.toggle();
@@ -514,18 +465,14 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
     }
 
-    class TabItemClickListener implements View.OnClickListener
-    {
+    class TabItemClickListener implements View.OnClickListener {
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             Object tag = v.getTag(R.id.tag);
-            if (tag != null && tag instanceof Integer)
-            {//点击顶部导航
+            if (tag != null && tag instanceof Integer) {//点击顶部导航
                 int parentId = ((Integer) tag).intValue();
-                while (parentId != catalogueStack.peek() && catalogueStack.size() > 1)
-                {
+                while (parentId != catalogueStack.peek() && catalogueStack.size() > 1) {
                     catalogueStack.pop();
                     tiv_path.removeTab();
                 }
@@ -536,37 +483,30 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
     }
 
-    class DisplayItemClickListener implements ItemClickListener
-    {
+    class DisplayItemClickListener implements ItemClickListener {
         @Override
-        public void onItemClick(int position,View view)
-        {
+        public void onItemClick(int position, View view) {
             setDisplayMode(position);
             ell_display.collapse();
         }
 
         @Override
-        public void onItemLongClick(int position, View view)
-        {
+        public void onItemLongClick(int position, View view) {
 
         }
     }
 
-    public void setDisplayMode(int position)
-    {
+    public void setDisplayMode(int position) {
         DisplayMode mode = DisplayMode.getDisplay(position);
-        if (mode == DisplayMode.MODE_GRID)
-        {
+        if (mode == DisplayMode.MODE_GRID) {
             iv_display.setImageResource(R.drawable.selector_display_grid);
             rv_catalogue.setLayoutManager(new GridLayoutManager(getActivity(), 3));
             catalogueAdapter = new CatalogueAdapter(getActivity(), DisplayMode.MODE_GRID, sortModeAdapter.getSortMode(), list_catalogue, catalogueItemListener);
-        } else if (mode == DisplayMode.MODE_DETAIL)
-        {
+        } else if (mode == DisplayMode.MODE_DETAIL) {
             iv_display.setImageResource(R.drawable.selector_display_detail);
             rv_catalogue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             catalogueAdapter = new CatalogueAdapter(getActivity(), DisplayMode.MODE_DETAIL, sortModeAdapter.getSortMode(), list_catalogue, catalogueItemListener);
-        } else
-        {
+        } else {
             iv_display.setImageResource(R.drawable.selector_display_list);
             rv_catalogue.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             catalogueAdapter = new CatalogueAdapter(getActivity(), DisplayMode.MODE_LIST, sortModeAdapter.getSortMode(), list_catalogue, catalogueItemListener);
@@ -574,18 +514,15 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         rv_catalogue.setAdapter(catalogueAdapter);
     }
 
-    private class SortItemClickListener implements ItemClickListener
-    {
+    private class SortItemClickListener implements ItemClickListener {
         @Override
-        public void onItemClick(int position,View view)
-        {
+        public void onItemClick(int position, View view) {
             setSortMode(position);
             ell_sort.collapse();
         }
 
         @Override
-        public void onItemLongClick(int position, View view)
-        {
+        public void onItemLongClick(int position, View view) {
         }
 
     }
@@ -595,13 +532,11 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
      *
      * @param position
      */
-    public void setSortMode(int position)
-    {
+    public void setSortMode(int position) {
         SortMode mode = SortMode.getSort(position);
         LogUtil.i("sort mode : " + position + "  getmode " + mode.getMode());
         catalogueAdapter.setSortMode(mode);
-        switch (mode)
-        {
+        switch (mode) {
             case SORT_ALPHA_ASC:
                 iv_sort.setImageResource(R.drawable.selector_sort_alpha_asc);
                 break;
@@ -635,15 +570,13 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         }
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         currentCatalogueId = catalogueStack.peek();
         list_catalogue = DocumentDao.getFileListByParent(currentCatalogueId, user.getId());
         catalogueAdapter.updateList(list_catalogue);
     }
 
-    public void createFolder()
-    {
+    public void createFolder() {
         View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_create_folder, null);
         final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogTheme).setTitle(R.string.create_folder).setView(rootView).show();
 
@@ -653,31 +586,25 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         final EditText remark = (EditText) rootView.findViewById(R.id.acet_create_folder_remark);
 
 
-        rootView.findViewById(R.id.tv_create_folder_ensure).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.tv_create_folder_ensure).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String titleStr = name.getText().toString().trim();
                 String linkStr = remark.getText().toString().trim();
 
-                if (TextUtils.isEmpty(titleStr))
-                {
+                if (TextUtils.isEmpty(titleStr)) {
                     titleHint.setError(getString(R.string.should_not_be_null));
                     return;
                 }
-                if (TextUtils.isEmpty(linkStr))
-                {
+                if (TextUtils.isEmpty(linkStr)) {
                     linkHint.setError(getString(R.string.should_not_be_null));
                     return;
                 }
 
-                if (titleHint.isErrorEnabled())
-                {
+                if (titleHint.isErrorEnabled()) {
                     titleHint.setErrorEnabled(false);
                 }
-                if (linkHint.isErrorEnabled())
-                {
+                if (linkHint.isErrorEnabled()) {
                     linkHint.setErrorEnabled(false);
                 }
                 DocumentDao.createFile(titleStr, linkStr, currentCatalogueId, Catalogue.FOLDER, user.getId());
@@ -686,11 +613,9 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
             }
         });
 
-        rootView.findViewById(R.id.tv_create_folder_cancel).setOnClickListener(new View.OnClickListener()
-        {
+        rootView.findViewById(R.id.tv_create_folder_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -698,49 +623,40 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         dialog.show();
     }
 
-    Callback deleteCallback=new Callback()
-    {
+    Callback deleteCallback = new Callback() {
         @Override
-        public void onCallback(int id)
-        {
+        public void onCallback(int id) {
             deleteFile(id);
         }
     };
 
-    public void deleteFile(int id)
-    {
+    public void deleteFile(int id) {
         DocumentDao.deleteFileById(id);
         refresh();
     }
 
-    public void setTextViewLeftDrawable(TextView view, int id)
-    {
+    public void setTextViewLeftDrawable(TextView view, int id) {
         Drawable drawableImport = ContextCompat.getDrawable(getActivity(), id);
         drawableImport.setBounds(0, 0, 48, 48);
         view.setCompoundDrawables(drawableImport, null, null, null);
     }
 
-    public String getFileContent(File file)
-    {
+    public String getFileContent(File file) {
         StringBuilder result = new StringBuilder();
-        try
-        {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
             String s = null;
-            while ((s = br.readLine()) != null)
-            {//使用readLine方法，一次读一行
+            while ((s = br.readLine()) != null) {//使用readLine方法，一次读一行
                 result.append(System.lineSeparator() + s);
             }
             br.close();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result.toString();
     }
 
-    public void getFilePath(int id, int parentId)
-    {
+    public void getFilePath(int id, int parentId) {
 
         tiv_path.removeAllTab();
         tiv_path.addTab(user.getNickname(), HOME_ID, tabItemClickListener);
@@ -751,8 +667,7 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
         int tmpId = parentId;
         Stack<Catalogue> pathStack = new Stack<>();
         Catalogue catalogue = null;
-        while (tmpId != HOME_ID)
-        {
+        while (tmpId != HOME_ID) {
             catalogue = DocumentDao.getFolderById(tmpId);
             pathStack.add(catalogue);
             tmpId = catalogue.getParent();
@@ -767,31 +682,26 @@ public class MainArticleFragment extends MainBaseFragment implements View.OnClic
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         LogUtil.i("article fragment onActivityResult resultcode" + resultCode + " requestcode : " + requestCode);
-        if (resultCode != RESULT_OK)
-        {
+        if (resultCode != RESULT_OK) {
             return;
         }
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case Constants.REQUEST_CODE_ARTICLE:
                 refresh();
                 break;
             case Constants.REQUEST_CODE_ARTICLE_IMPORT:
                 Uri uri = data.getData();
                 String path = FileUtils.getPathFormUri(uri);
-                if (TextUtils.isEmpty(path))
-                {
+                if (TextUtils.isEmpty(path)) {
                     Toast.makeText(getActivity(), R.string.file_not_exist, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(getActivity(), path, Toast.LENGTH_SHORT).show();
                 File file = new File(path);
-                if (!file.exists() || !file.isFile())
-                {
+                if (!file.exists() || !file.isFile()) {
                     Toast.makeText(getActivity(), R.string.file_not_exist, Toast.LENGTH_SHORT).show();
                     return;
                 }

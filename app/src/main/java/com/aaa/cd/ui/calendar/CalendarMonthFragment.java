@@ -3,9 +3,9 @@ package com.aaa.cd.ui.calendar;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +16,7 @@ import com.aaa.cd.model.ItemClickListener;
 import com.aaa.cd.ui.main.MainBaseFragment;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.SPUtil;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 public class CalendarMonthFragment extends MainBaseFragment
 {

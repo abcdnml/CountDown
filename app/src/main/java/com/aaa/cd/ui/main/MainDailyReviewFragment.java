@@ -5,7 +5,6 @@ package com.aaa.cd.ui.main;
  import android.os.Handler;
  import android.os.HandlerThread;
  import android.os.Message;
- import android.support.v4.app.Fragment;
  import android.util.Log;
  import android.view.View;
  import android.widget.ImageView;

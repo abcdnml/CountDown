@@ -52,6 +52,7 @@
     <string name="submit">提 交</string>
 
     <string name="ensure">确定</string>
+    <string name="cancel">取消</string>
     <string name="dialog_cancel">取消</string>
     <string name="dialog_save">保存</string>
     <string name="dialog_need_save">当前文件未保存，是否退出?</string>

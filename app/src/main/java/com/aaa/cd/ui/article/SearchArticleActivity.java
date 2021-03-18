@@ -3,16 +3,17 @@ package com.aaa.cd.ui.article;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -30,11 +31,11 @@ import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.EasyTransition;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 import java.util.List;
 
-public class SearchArticleActivity extends AppCompatActivity
+public class SearchArticleActivity extends Activity
 {
     EditText et_search;
     private RecyclerView rv_searchResult;

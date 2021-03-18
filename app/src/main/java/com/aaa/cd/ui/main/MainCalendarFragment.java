@@ -1,28 +1,23 @@
 package com.aaa.cd.ui.main;
 
 
-import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aaa.cd.R;
 import com.aaa.cd.model.ItemClickListener;
-import com.aaa.cd.ui.calendar.CalendarMonthFragment;
 import com.aaa.cd.ui.calendar.CalendarYearAdapter;
-import com.aaa.cd.ui.calendar.DetailsTransition;
 import com.aaa.cd.ui.calendar.ProgressActivity;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.SPUtil;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +63,7 @@ public class MainCalendarFragment extends MainBaseFragment
         GridLayoutManager glm=new GridLayoutManager(getActivity(),8);
         rv_calendar.setLayoutManager(glm);
         rv_calendar.setAdapter(calendarAdapter);
+        //TODO
         rv_calendar.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.divider_color)));
     }
 

@@ -1,7 +1,6 @@
 package com.aaa.cd.ui.main;
 
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

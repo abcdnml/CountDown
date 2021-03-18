@@ -5,7 +5,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;

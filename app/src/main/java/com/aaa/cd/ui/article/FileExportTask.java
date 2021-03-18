@@ -2,11 +2,12 @@ package com.aaa.cd.ui.article;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.aaa.cd.R;
 import com.aaa.cd.dao.DocumentDao;

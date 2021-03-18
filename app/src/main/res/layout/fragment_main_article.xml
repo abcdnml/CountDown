@@ -1,4 +1,4 @@
-<!--<android.support.design.widget.CoordinatorLayout
+<!--<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -141,12 +141,12 @@
             app:el_duration="500"
             app:el_expanded="false">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_display_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_expandable="true"></android.support.v7.widget.RecyclerView>
+                app:layout_expandable="true"></androidx.recyclerview.widget.RecyclerView>
         </com.aaa.cd.view.ExpandableLinearLayout>
 
         <com.aaa.cd.view.ExpandableLinearLayout
@@ -159,15 +159,15 @@
             app:el_duration="500"
             app:el_expanded="false">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sort_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_expandable="true"></android.support.v7.widget.RecyclerView>
+                app:layout_expandable="true"></androidx.recyclerview.widget.RecyclerView>
         </com.aaa.cd.view.ExpandableLinearLayout>
 
-        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
             android:id="@+id/rv_article_catalogue"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -186,7 +186,7 @@
                     />-->
 
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_create_folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="#ffffffff" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_create_file"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -213,4 +213,4 @@
     <!--app:rippleColor="#33728dff"-->
 
     <!--
-    </android.support.design.widget.CoordinatorLayout>-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->

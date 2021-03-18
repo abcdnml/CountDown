@@ -3,10 +3,11 @@ package com.aaa.cd.ui.calendar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.aaa.cd.R;
 import com.haibin.calendarview.Calendar;

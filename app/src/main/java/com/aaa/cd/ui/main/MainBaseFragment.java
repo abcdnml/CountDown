@@ -1,22 +1,16 @@
 package com.aaa.cd.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.aaa.cd.R;
+import androidx.fragment.app.Fragment;
+
+
 import com.aaa.cd.model.MainCallback;
 
-import org.w3c.dom.Text;
 
 public abstract class MainBaseFragment extends Fragment {
 
@@ -29,7 +23,7 @@ public abstract class MainBaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view =inflater.inflate(getLayoutId(),container,false);
+        View view = inflater.inflate(getLayoutId(), container, false);
         initTitle(view);
         initView(view);
         return view;
@@ -41,7 +35,7 @@ public abstract class MainBaseFragment extends Fragment {
         if (context instanceof MainCallback) {
             mainCallback = (MainCallback) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -51,11 +45,12 @@ public abstract class MainBaseFragment extends Fragment {
         mainCallback = null;
     }
 
-    public void initTitle(View view)
-    {
+    public void initTitle(View view) {
     }
-    public void initView(View view){
+
+    public void initView(View view) {
 
     }
+
     public abstract int getLayoutId();
 }

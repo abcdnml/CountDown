@@ -4,10 +4,11 @@ package com.aaa.cd.ui.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,13 +23,13 @@ import com.aaa.cd.ui.hourplan.HourPlanEditActivity;
 import com.aaa.cd.util.Constants;
 import com.aaa.cd.util.CountDownApplication;
 import com.aaa.cd.util.DialogUtils;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
-import com.yanzhenjie.recyclerview.swipe.widget.DefaultItemDecoration;
+import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
+import com.yanzhenjie.recyclerview.SwipeMenu;
+import com.yanzhenjie.recyclerview.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 import java.util.List;
 
@@ -36,12 +37,12 @@ import static com.aaa.cd.ui.hourplan.HourPlanAdapter.VIEWTYPE_FINISH;
 import static com.aaa.cd.ui.hourplan.HourPlanAdapter.VIEWTYPE_START;
 
 /**
- * A simple {@link Fragment} subclass.
+ *
  */
 public class MainHourPlanFragment extends MainBaseFragment
 {
 
-    SwipeMenuRecyclerView rv_plan;
+    SwipeRecyclerView rv_plan;
     FloatingActionButton fab_add;
     HourPlanAdapter adapter;
     List<HourPlan> lhp;
@@ -71,10 +72,10 @@ public class MainHourPlanFragment extends MainBaseFragment
     @Override
     public void initView(View view)
     {
-        rv_plan = (SwipeMenuRecyclerView) view.findViewById(R.id.rv_hour_plan);
+        rv_plan = (SwipeRecyclerView) view.findViewById(R.id.rv_hour_plan);
         rv_plan.requestFocus();
         rv_plan.setSwipeMenuCreator(swipeMenuCreator);
-        rv_plan.setSwipeMenuItemClickListener(mMenuItemClickListener);
+        rv_plan.setOnItemMenuClickListener(mMenuItemClickListener);
         rv_plan.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.divider_color)));
 
 
@@ -118,8 +119,7 @@ public class MainHourPlanFragment extends MainBaseFragment
     private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator()
     {
         @Override
-        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType)
-        {
+        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
             int width = getResources().getDimensionPixelSize(R.dimen.dimen_64);
 
             // 1. MATCH_PARENT 自适应高度，保持和Item一样高;ViewGroup.LayoutParams.MATCH_PARENT
@@ -156,24 +156,24 @@ public class MainHourPlanFragment extends MainBaseFragment
     /**
      * RecyclerView的Item的Menu点击监听。
      */
-    private SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener()
+    private OnItemMenuClickListener mMenuItemClickListener = new OnItemMenuClickListener()
     {
         @Override
-        public void onItemClick(SwipeMenuBridge menuBridge)
+        public void onItemClick(SwipeMenuBridge menuBridge,int i)
         {
             menuBridge.closeMenu();
 
             int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
-            int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+            int adapterPosition = i; // RecyclerView的Item的position。
             int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
 
-            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION)
+            if (direction == SwipeRecyclerView.RIGHT_DIRECTION)
             {
                 if (menuPosition == 0)
                 {
                     DialogUtils.showDeleteDialog(getActivity(), getString(R.string.dialog_delete_plan), deleteCallback, lhp.get(adapterPosition).getId());
                 }
-            } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION)
+            } else if (direction == SwipeRecyclerView.LEFT_DIRECTION)
             {
                 if (menuPosition == 0)
                 {
