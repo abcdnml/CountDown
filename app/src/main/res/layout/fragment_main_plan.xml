@@ -6,8 +6,11 @@
     tools:context="com.aaa.cd.ui.main.MainPlanFragment">
     <include layout="@layout/layout_title"/>
     <TextView
+        android:id="@+id/tv_hello"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/hello_blank_fragment"
+        android:clickable="true"
+        />
 
 </LinearLayout>
