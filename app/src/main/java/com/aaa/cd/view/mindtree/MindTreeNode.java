@@ -19,7 +19,7 @@ public class MindTreeNode {
     private int nodeId;
     private String text;
     private String desc;
-    private View view;
+    private MindTreeNodeView view;
     private List<MindTreeNode> subNode;
 
     public int getNodeId() {
@@ -54,11 +54,11 @@ public class MindTreeNode {
         this.subNode = subNode;
     }
 
-    public View getView() {
+    public MindTreeNodeView getView() {
         return view;
     }
 
-    public void setView(View view) {
+    public void setView(MindTreeNodeView view) {
         this.view = view;
     }
 }

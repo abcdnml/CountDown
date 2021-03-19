@@ -1,20 +1,23 @@
 package com.aaa.cd.view.mindtree;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.gson.Gson;
+
+import java.util.List;
 
 public class MindTreeLayout extends ViewGroup {
 
     private MindTreeNode mMindTree;
     private float density;
     private Direction direction;
+    private float verticalInterval;
+    private float horizontalInterval;
 
     public MindTreeLayout(Context context) {
         super(context);
@@ -22,6 +25,9 @@ public class MindTreeLayout extends ViewGroup {
 
     public MindTreeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        direction = Direction.RIGHT;
+        verticalInterval = density * 20;
+        horizontalInterval = density * 20;
 
     }
 
@@ -42,16 +48,23 @@ public class MindTreeLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (getChildCount() > 0) {
-            for (int i = 0; i < getChildCount(); i++) {
-                View view = getChildAt(i);
-                if (view instanceof MindTreeNodeView) {
-                    MindTreeNode node = ((MindTreeNodeView) view).getNode();
-                    node
-                }
-            }
+        if (mMindTree == null) {
+            return;
+        }
+        MindTreeNodeView view = (MindTreeNodeView) mMindTree.getView();
+        int w = view.getMeasuredWidth();
+        int h = view.getMeasuredHeight();
+        view.layout(0 - w / 2, 0 - h / 2, 0 + w / 2, 0 + h / 2);
 
-            layoutChild(mMindTree, 0, 0, 0, 0);
+        List<MindTreeNode> subNode = mMindTree.getSubNode();
+        if (subNode == null) {
+            return;
+        }
+
+        int subNodeLeft=
+
+        for (int i = 0; i < subNode.size(); i++) {
+
         }
     }
 
@@ -62,12 +75,28 @@ public class MindTreeLayout extends ViewGroup {
         View view = node.getView();
         int w = view.getMeasuredWidth();
         int h = view.getMeasuredHeight();
-        int childLeft = (r + l) / 2 - w / 2;
-        int childTop = (t + b) / 2 - h / 2;
-        int childRight = (r + l) / 2 + w / 2;
-        int childBottom = (t + b) / 2 + h / 2;
 
-        if(direction)
+
+        if (direction == Direction.LEFT) {
+
+        } else if (direction == Direction.RIGHT) {
+            int childLeft = (r + l) / 2 - w / 2;
+            int childTop = (t + b) / 2 - h / 2;
+            int childRight = (r + l) / 2 + w / 2;
+            int childBottom = (t + b) / 2 + h / 2;
+        } else if (direction == Direction.RIGHT) {
+
+        } else if (direction == Direction.TOP) {
+
+        } else if (direction == Direction.BOTTOM) {
+
+        } else if (direction == Direction.ALL) {
+
+        } else if (direction == Direction.LEFT_RIGHT) {
+
+        } else if (direction == Direction.UP_DOWN) {
+
+        }
         view.layout(childLeft, childTop, childRight, childBottom);
 
         if (mMindTree.getSubNode() == null || mMindTree.getSubNode().size() == 0) {
@@ -77,6 +106,29 @@ public class MindTreeLayout extends ViewGroup {
         for (int i = 0; i < mMindTree.getSubNode().size(); i++) {
             MindTreeNode subNode = mMindTree.getSubNode().get(i);
             layoutChild(subNode, );
+        }
+    }
+
+    public Rect getNodeRect() {
+        if (direction == Direction.LEFT) {
+
+        } else if (direction == Direction.RIGHT) {
+            int childLeft = (r + l) / 2 - w / 2;
+            int childTop = (t + b) / 2 - h / 2;
+            int childRight = (r + l) / 2 + w / 2;
+            int childBottom = (t + b) / 2 + h / 2;
+        } else if (direction == Direction.RIGHT) {
+
+        } else if (direction == Direction.TOP) {
+
+        } else if (direction == Direction.BOTTOM) {
+
+        } else if (direction == Direction.ALL) {
+
+        } else if (direction == Direction.LEFT_RIGHT) {
+
+        } else if (direction == Direction.UP_DOWN) {
+
         }
     }
 
@@ -122,6 +174,15 @@ public class MindTreeLayout extends ViewGroup {
                 addSubNodeView(subNode);
             }
         }
+    }
+
+    private void calculatHeight(MindTreeNode mindTreeNode){
+        int max=mindTreeNode.getView().getMeasuredHeight();
+        List<MindTreeNode> subNode=mindTreeNode.getSubNode();
+        for(int i=0;i<subNode.size();i++){
+
+        }
+
     }
 
     enum Direction{
