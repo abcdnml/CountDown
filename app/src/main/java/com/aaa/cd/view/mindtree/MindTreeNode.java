@@ -19,7 +19,8 @@ public class MindTreeNode {
     private int nodeId;
     private String text;
     private String desc;
-    private View view;
+    private transient MindTreeNodeView view;
+    private int weight; //用于存储树广度的weight 通过比较 所有子节点 和 本身的高度获得
     private List<MindTreeNode> subNode;
 
     public int getNodeId() {
@@ -54,11 +55,19 @@ public class MindTreeNode {
         this.subNode = subNode;
     }
 
-    public View getView() {
+    public MindTreeNodeView getView() {
         return view;
     }
 
-    public void setView(View view) {
+    public void setView(MindTreeNodeView view) {
         this.view = view;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }
