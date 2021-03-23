@@ -63,7 +63,6 @@ public class MainCalendarFragment extends MainBaseFragment
         GridLayoutManager glm=new GridLayoutManager(getActivity(),8);
         rv_calendar.setLayoutManager(glm);
         rv_calendar.setAdapter(calendarAdapter);
-        //TODO
         rv_calendar.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.divider_color)));
     }
 

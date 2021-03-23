@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- description TODO
  created by aaa
  on 2016/8/6.
  */

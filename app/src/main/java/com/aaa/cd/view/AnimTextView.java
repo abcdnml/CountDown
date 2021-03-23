@@ -1,7 +1,6 @@
 package com.aaa.cd.view;
 
 /**
- description TODO
  created by aaa
  on 2016/8/6.
  */

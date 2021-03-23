@@ -6,10 +6,10 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
 
@@ -142,6 +142,31 @@ public class MindTreeLayout extends ViewGroup {
         canvas.drawColor(Color.GREEN);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
     /**
      * @param node
      * @param l
@@ -171,10 +196,12 @@ public class MindTreeLayout extends ViewGroup {
             //没有子控件
             return;
         }
+        int tempChildTop = 0;
         for (int i = 0, size = subNodes.size(); i < size; i++) {
             MindTreeNode subNode = subNodes.get(i);
-            Log.i(TAG, "layoutChild i : " + i + " : " + node.getText() + " l: " + childRight + " t: " + (t + i * 1f / size * (b - t)) + " r: " + r + " b: " + (int) (t + (i + 1f) / size * (b - t)));
-            layoutChild(subNode, childRight, (int) (t + i * 1f / size * (b - t)), r, (int) (t + (i + 1f) / size * (b - t)));
+            Log.i(TAG, "layoutChild i : " + i + " : " + node.getText() + " l: " + childRight + " t: " + (t + tempChildTop) + " r: " + r + " b: " + (t + tempChildTop + subNode.getWeight()));
+            layoutChild(subNode, childRight, t + tempChildTop, r, t + tempChildTop + subNode.getWeight());
+            tempChildTop+=subNode.getWeight();
         }
     }
 
