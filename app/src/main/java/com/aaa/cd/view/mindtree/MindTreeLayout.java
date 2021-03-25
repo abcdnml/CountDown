@@ -3,6 +3,7 @@ package com.aaa.cd.view.mindtree;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.aaa.cd.ui.mindmap.TouchHandler;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -21,6 +23,12 @@ public class MindTreeLayout extends ViewGroup {
     private float density;
     private Direction direction;
     private int maxDeep;    //存储最大树深度
+    private TouchHandler touchHandler;
+    private float max_zoom = 2f;
+    private float min_zoom = 0.25f;
+    private float[] mMatrixValue;
+    private Matrix mMatrix;
+
 
     public MindTreeLayout(Context context) {
         super(context);
@@ -28,6 +36,9 @@ public class MindTreeLayout extends ViewGroup {
 
     public MindTreeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mMatrix = new Matrix();
+        mMatrixValue = new float[9];
+        touchHandler = new TouchHandler(context, this);
         initScreenInfo();
     }
 
@@ -45,6 +56,38 @@ public class MindTreeLayout extends ViewGroup {
         int h_screen = dm.heightPixels;
         density = dm.density;
         int dpi = dm.densityDpi;
+    }
+
+
+    public void setTranslateBy(float transX, float transY) {
+        mMatrix.postTranslate(transX, transY);
+        postInvalidate();
+    }
+
+    /**
+     * 缩放
+     *
+     * @param scale   缩放比例
+     * @param centerX 缩放中心点x
+     * @param centerY 缩放中心点y
+     */
+    public void setScaleBy(float scale, float centerX, float centerY) {
+        float currentZoom = getCurrentZoom();
+        float targetZoom = currentZoom * scale;
+        if (targetZoom > max_zoom) {
+            scale = max_zoom / currentZoom;
+        } else if (targetZoom < min_zoom) {
+            scale = min_zoom / currentZoom;
+        }
+        mMatrix.postScale(scale, scale, centerX, centerY);
+        postInvalidate();
+        Log.i(TAG, "scale : " + scale);
+
+    }
+
+    public float getCurrentZoom(){
+        mMatrix.getValues(mMatrixValue);
+        return mMatrixValue[Matrix.MSCALE_X];
     }
 
     @Override
@@ -138,33 +181,22 @@ public class MindTreeLayout extends ViewGroup {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawColor(Color.GREEN);
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev);
+    protected void dispatchDraw(Canvas canvas) {
+        canvas.save();
+        canvas.concat(mMatrix);
+        for(int i=0;i<getChildCount();i++){
+            View view=getChildAt(i);
+            view.draw(canvas);
+        }
+        canvas.restore();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-
-        return super.onTouchEvent(event);
+        return touchHandler.onTouchEvent(event);
     }
 
     /**
@@ -201,7 +233,7 @@ public class MindTreeLayout extends ViewGroup {
             MindTreeNode subNode = subNodes.get(i);
             Log.i(TAG, "layoutChild i : " + i + " : " + node.getText() + " l: " + childRight + " t: " + (t + tempChildTop) + " r: " + r + " b: " + (t + tempChildTop + subNode.getWeight()));
             layoutChild(subNode, childRight, t + tempChildTop, r, t + tempChildTop + subNode.getWeight());
-            tempChildTop+=subNode.getWeight();
+            tempChildTop += subNode.getWeight();
         }
     }
 

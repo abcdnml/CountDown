@@ -35,7 +35,6 @@ public class MindTreeNodeView extends EditText {
         borderPaint.setStrokeWidth(NODE_BORDER_WIDTH);
         borderPaint.setColor(NODE_BORDER_COLOR);
 
-
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int w_screen = dm.widthPixels;
         int h_screen = dm.heightPixels;
@@ -61,10 +60,4 @@ public class MindTreeNodeView extends EditText {
         treeNodeStyle = style;
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        canvas.drawColor(Color.argb(0, mindTree.getWeight() % 256,mindTree.getWeight() % 256,mindTree.getWeight() % 256));
-    }
 }
