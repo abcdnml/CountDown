@@ -26,9 +26,20 @@ public class MindTreeNodeView extends EditText {
     private MindTreeNode mindTree;
     private TreeNodeStyle treeNodeStyle;
     RectF rectF;
-
+    private float density;
     public MindTreeNodeView(Context context) {
         super(context);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        density = dm.density;
+        int dpi = dm.densityDpi;
+        setGravity(Gravity.CENTER);
+        setBackground(null);
+        setTextSize(12*density);
+    }
+    public void setScaleText(float scale){
+        setTextSize(12*density*scale);
     }
 
     public MindTreeNodeView(Context context, @Nullable AttributeSet attrs) {
@@ -40,11 +51,8 @@ public class MindTreeNodeView extends EditText {
         borderPaint.setStrokeWidth(NODE_BORDER_WIDTH);
         borderPaint.setColor(NODE_BORDER_COLOR);
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int w_screen = dm.widthPixels;
-        int h_screen = dm.heightPixels;
-        float density = dm.density;
-        int dpi = dm.densityDpi;
+
+        setBackgroundColor(Color.BLUE);
     }
 
     public void setNode(MindTreeNode mindTree) {

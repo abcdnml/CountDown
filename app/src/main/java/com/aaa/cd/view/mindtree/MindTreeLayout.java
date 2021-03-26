@@ -243,6 +243,10 @@ public class MindTreeLayout extends ViewGroup {
 
         mMatrix.mapRect(tempRect);
         view.layout((int)tempRect.left, (int)tempRect.top, (int)tempRect.right, (int)tempRect.bottom);
+        mMatrix.getValues(mMatrixValue);
+//        view.setScaleX(mMatrixValue[0]);
+//        view.setScaleText(mMatrixValue[0]);
+//        view.setScaleY(mMatrixValue[0]);
 
 
         Log.i(TAG, "layoutChild : " + node.getText() + " l: " + childLeft + " t: " + childTop + " r: " + childRight + " b: " + childBottom);
