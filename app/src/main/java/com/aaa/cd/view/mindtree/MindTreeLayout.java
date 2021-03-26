@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,7 +24,7 @@ public class MindTreeLayout extends ViewGroup {
     private MindTreeNode mMindTree;
     private float density;
     private Direction direction;
-    private int maxDeep;    //存储最大树深度
+    private static int maxDeep;    //存储最大树深度
     private TouchHandler touchHandler;
     private float max_zoom = 2f;
     private float min_zoom = 0.25f;
@@ -61,7 +63,7 @@ public class MindTreeLayout extends ViewGroup {
 
     public void setTranslateBy(float transX, float transY) {
         mMatrix.postTranslate(transX, transY);
-        postInvalidate();
+        requestLayout();
     }
 
     /**
@@ -80,7 +82,7 @@ public class MindTreeLayout extends ViewGroup {
             scale = min_zoom / currentZoom;
         }
         mMatrix.postScale(scale, scale, centerX, centerY);
-        postInvalidate();
+        requestLayout();
         Log.i(TAG, "scale : " + scale);
 
     }
@@ -93,6 +95,7 @@ public class MindTreeLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.i(TAG, "onMeasure ");
         int measureWidth = measureWidth(0, widthMeasureSpec);
         int measureHeight = measureHeight(0, heightMeasureSpec);
         // 计算自定义的ViewGroup中所有子控件的大小
@@ -181,24 +184,35 @@ public class MindTreeLayout extends ViewGroup {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Log.i(TAG, "onDraw ");
     }
 
-    @Override
+/*    @Override
     protected void dispatchDraw(Canvas canvas) {
+        Log.i(TAG, "dispatchDraw ");
         canvas.save();
         canvas.concat(mMatrix);
-        for(int i=0;i<getChildCount();i++){
-            View view=getChildAt(i);
-            view.draw(canvas);
-        }
+        super.dispatchDraw(canvas);
         canvas.restore();
+    }*/
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.i(TAG,"parent dispatchTouchEvent action: "+ event.getAction());
+        boolean result=super.dispatchTouchEvent(event);
+        Log.i(TAG,"parent dispatchTouchEvent result: "+result);
+        return result;
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return touchHandler.onTouchEvent(event);
+        Log.i(TAG,"parent onTouchEvent action: "+ event.getAction() );
+        boolean result=touchHandler.onTouchEvent(event);
+        Log.i(TAG,"parent onTouchEvent result: "+ result );
+        return result;
     }
-
+    private RectF tempRect=new RectF();
     /**
      * @param node
      * @param l
@@ -220,7 +234,17 @@ public class MindTreeLayout extends ViewGroup {
         int childTop = (t + b) / 2 - h / 2;
         int childRight = childLeft + w;
         int childBottom = childTop + h;
-        view.layout(childLeft, childTop, childRight, childBottom);
+//        view.layout(childLeft, childTop, childRight, childBottom);
+
+        tempRect.left=childLeft;
+        tempRect.top=childTop;
+        tempRect.right=childRight;
+        tempRect.bottom=childBottom;
+
+        mMatrix.mapRect(tempRect);
+        view.layout((int)tempRect.left, (int)tempRect.top, (int)tempRect.right, (int)tempRect.bottom);
+
+
         Log.i(TAG, "layoutChild : " + node.getText() + " l: " + childLeft + " t: " + childTop + " r: " + childRight + " b: " + childBottom);
 
         List<MindTreeNode> subNodes = node.getSubNode();
@@ -258,7 +282,7 @@ public class MindTreeLayout extends ViewGroup {
      * @param node
      * @return
      */
-    public int calculateNodeHeight(MindTreeNode node) {
+    public static int calculateNodeHeight(MindTreeNode node) {
         MindTreeNodeView view = node.getView();
         if (view == null) {
             return 0;
@@ -299,7 +323,7 @@ public class MindTreeLayout extends ViewGroup {
      * @param node
      * @return
      */
-    public void calculateNodeWidth(MindTreeNode node, int currentDeep) {
+    public static void calculateNodeWidth(MindTreeNode node, int currentDeep) {
         MindTreeNodeView view = node.getView();
         if (view == null) {
             return;

@@ -7,12 +7,17 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
 
 public class MindTreeNodeView extends EditText {
+    private static final String TAG=MindTreeNodeView.class.getSimpleName();
+
     private static final int NODE_WIDTH = 160;
     private static final int NODE_HEIGHT = 40;
     private static final int NODE_BORDER_COLOR = Color.BLACK;
@@ -60,4 +65,17 @@ public class MindTreeNodeView extends EditText {
         treeNodeStyle = style;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        boolean result=super.dispatchTouchEvent(event);
+        Log.i(TAG,"child dispatchTouchEvent action: "+ event.getAction() + " result: "+ result);
+        return result;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        boolean result=super.onTouchEvent(event);
+        Log.i(TAG,"child onTouchEvent action: "+ event.getAction() + " result: "+ result);
+        return result;
+    }
 }
