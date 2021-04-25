@@ -6,14 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.mindmap.MindMapActivity">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="scroll"
-        android:onClick="scroll"
-        />
 
-    <com.aaa.cd.view.mindtree.MindTreeLayout
+    <com.aaa.cd.view.mindtree.NewMindTreeLayout
         android:id="@+id/mtl_mind"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

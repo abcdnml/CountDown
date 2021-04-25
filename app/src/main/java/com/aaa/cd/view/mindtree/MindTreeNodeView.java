@@ -15,8 +15,9 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 
 
+
 public class MindTreeNodeView extends EditText {
-    private static final String TAG=MindTreeNodeView.class.getSimpleName();
+    private static final String TAG = MindTreeNodeView.class.getSimpleName();
 
     private static final int NODE_WIDTH = 160;
     private static final int NODE_HEIGHT = 40;
@@ -27,6 +28,7 @@ public class MindTreeNodeView extends EditText {
     private TreeNodeStyle treeNodeStyle;
     RectF rectF;
     private float density;
+
     public MindTreeNodeView(Context context) {
         super(context);
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -36,10 +38,6 @@ public class MindTreeNodeView extends EditText {
         int dpi = dm.densityDpi;
         setGravity(Gravity.CENTER);
         setBackground(null);
-        setTextSize(12*density);
-    }
-    public void setScaleText(float scale){
-        setTextSize(12*density*scale);
     }
 
     public MindTreeNodeView(Context context, @Nullable AttributeSet attrs) {
@@ -74,16 +72,40 @@ public class MindTreeNodeView extends EditText {
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+        Log.i(TAG, "onDraw" + getText());
+        canvas.drawColor(Color.GREEN);
+        super.onDraw(canvas);
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        boolean result=super.dispatchTouchEvent(event);
-        Log.i(TAG,"child dispatchTouchEvent action: "+ event.getAction() + " result: "+ result);
+        boolean result = super.dispatchTouchEvent(event);
+        Log.i(TAG, "child dispatchTouchEvent action: " + event.getAction() + " result: " + result);
         return result;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean result=super.onTouchEvent(event);
-        Log.i(TAG,"child onTouchEvent action: "+ event.getAction() + " result: "+ result);
+        boolean result = super.onTouchEvent(event);
+        Log.i(TAG, "child onTouchEvent action: " + event.getAction() + " result: " + result);
         return result;
     }
+
+
+    public void reflectSetTextSize(float size) {
+/*        try {
+            Class cls= TextView.class;
+            Method  method=cls.getMethod("setTextSizeInternal" , int.class,float.class,boolean.class);
+            method.setAccessible(true);
+            method.invoke(this, TypedValue.COMPLEX_UNIT_SP, size,false);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }*/
+    }
+
 }

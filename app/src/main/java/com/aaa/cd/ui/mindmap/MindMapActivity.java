@@ -3,14 +3,13 @@ package com.aaa.cd.ui.mindmap;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.aaa.cd.R;
-import com.aaa.cd.view.mindtree.MindTreeLayout;
+import com.aaa.cd.view.mindtree.NewMindTreeLayout;
 
 public class MindMapActivity extends AppCompatActivity {
 
-    MindTreeLayout mtl_mind;
+    NewMindTreeLayout mtl_mind;
 
     String test="{\n" +
             "\t\"text\": \"aaa\",\n" +
@@ -114,9 +113,5 @@ public class MindMapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mind_map);
         mtl_mind=findViewById(R.id.mtl_mind);
         mtl_mind.setTree(test);
-    }
-
-    public void scroll(View view) {
-        mtl_mind.scrollTo(0,-400);
     }
 }

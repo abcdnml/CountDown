@@ -2,9 +2,7 @@ package com.aaa.cd.view.mindtree;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -13,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import androidx.core.widget.TextViewCompat;
 
 import com.aaa.cd.ui.mindmap.TouchHandler;
@@ -21,37 +18,34 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public class MindTreeLayout extends ViewGroup {
-    private static final String TAG = MindTreeLayout.class.getSimpleName();
+public class NewMindTreeLayout extends ViewGroup {
+    private static final String TAG = NewMindTreeLayout.class.getSimpleName();
     private MindTreeNode mMindTree;
     private float density;
     private Direction direction;
     private static int maxDeep;    //存储最大树深度
-    private TouchHandler touchHandler;
-    private float max_zoom = 2f;
-    private float min_zoom = 0.25f;
-    private float[] mMatrixValue;
-    private Matrix mMatrix;
+    private NewTouchHandler touchHandler;
+    private float max_zoom = 4f;
+    private float min_zoom = 1f;
+    private float zoom=1f;
     private float nodeTextSize;
 
-    public MindTreeLayout(Context context) {
+    public NewMindTreeLayout(Context context) {
         super(context);
     }
 
-    public MindTreeLayout(Context context, AttributeSet attrs) {
+    public NewMindTreeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initScreenInfo();
-        mMatrix = new Matrix();
-        mMatrixValue = new float[9];
-        touchHandler = new TouchHandler(context, this);
+        touchHandler = new NewTouchHandler(context, this);
         nodeTextSize = 20;
     }
 
-    public MindTreeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NewMindTreeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public MindTreeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public NewMindTreeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -65,8 +59,8 @@ public class MindTreeLayout extends ViewGroup {
 
 
     public void setTranslateBy(float transX, float transY) {
-        mMatrix.postTranslate(transX, transY);
-        requestLayout();
+        scrollBy((int)transX,(int)transY);
+//        requestLayout();
     }
 
     /**
@@ -77,27 +71,21 @@ public class MindTreeLayout extends ViewGroup {
      * @param centerY 缩放中心点y
      */
     public void setScaleBy(float scale, float centerX, float centerY) {
-        float currentZoom = getCurrentZoom();
-        float targetZoom = currentZoom * scale;
+        float targetZoom = zoom * scale;
         if (targetZoom > max_zoom) {
-            scale = max_zoom / currentZoom;
+            zoom = max_zoom;
         } else if (targetZoom < min_zoom) {
-            scale = min_zoom / currentZoom;
+            zoom = min_zoom;
+        }else{
+            zoom=targetZoom;
         }
-        mMatrix.postScale(scale, scale, centerX, centerY);
 
         setPivotX(centerX);
         setPivotY(centerY);
-        setScaleX(scale);
-        setScaleY(scale);
+        setScaleX(zoom);
+        setScaleY(zoom);
 
         requestLayout();
-        Log.i(TAG, "scale : " + scale + " nodeTextSize" + (nodeTextSize * mMatrixValue[0]));
-    }
-
-    public float getCurrentZoom() {
-        mMatrix.getValues(mMatrixValue);
-        return mMatrixValue[Matrix.MSCALE_X];
     }
 
     @Override
@@ -180,9 +168,6 @@ public class MindTreeLayout extends ViewGroup {
             return;
         }
 
-        //获取当前缩放比
-        mMatrix.getValues(mMatrixValue);
-
         //这里暂时获取向右的宽和高  实际上需要考虑方向不同
         int totalHeight = calculateNodeHeight(mMindTree);
 
@@ -207,7 +192,6 @@ public class MindTreeLayout extends ViewGroup {
         return result;
     }
 
-    private RectF tempRect = new RectF();
 
     /**
      * @param node
@@ -230,17 +214,8 @@ public class MindTreeLayout extends ViewGroup {
         int childTop = (t + b) / 2 - h / 2;
         int childRight = childLeft + w;
         int childBottom = childTop + h;
-//        view.layout(childLeft, childTop, childRight, childBottom);
-
-        tempRect.left = childLeft;
-        tempRect.top = childTop;
-        tempRect.right = childRight;
-        tempRect.bottom = childBottom;
-
-//        mMatrix.mapRect(tempRect);
-//        view.layout((int) tempRect.left, (int) tempRect.top, (int) tempRect.right, (int) tempRect.bottom);
-
         Log.i(TAG, "layoutChild : " + node.getText() + " l: " + childLeft + " t: " + childTop + " r: " + childRight + " b: " + childBottom);
+        view.layout(childLeft, childTop, childRight, childBottom);
 
         List<MindTreeNode> subNodes = node.getSubNode();
         if (subNodes == null || subNodes.size() == 0) {

@@ -32,8 +32,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainCountDownFragment extends MainBaseFragment
-{
+public class MainCountDownFragment extends MainBaseFragment {
 
     private ClockView cv_clock;
     private ListView lv_count_down;
@@ -53,8 +52,7 @@ public class MainCountDownFragment extends MainBaseFragment
     private long deathDate;
     private DecelerateInterpolator interpolator;
 
-    public MainCountDownFragment()
-    {
+    public MainCountDownFragment() {
         // Required empty public constructor
         bornDate = (long) SPUtil.get(Constants.SP_KEY_BORN_DATE, -1L);
         deathDate = (long) SPUtil.get(Constants.SP_KEY_DEATH_DATE, -1L);
@@ -62,18 +60,15 @@ public class MainCountDownFragment extends MainBaseFragment
     }
 
     @Override
-    public void initTitle(View view)
-    {
+    public void initTitle(View view) {
         TextView tv_title_content = (TextView) view.findViewById(R.id.tv_title_content);
         tv_title_content.setText(R.string.menu_count_down);
         ImageView iv_left = (ImageView) view.findViewById(R.id.iv_title_left);
         iv_left.setVisibility(View.VISIBLE);
         iv_left.setImageResource(R.mipmap.menu);
-        iv_left.setOnClickListener(new View.OnClickListener()
-        {
+        iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 mainCallback.openMenu(true);
             }
         });
@@ -81,11 +76,9 @@ public class MainCountDownFragment extends MainBaseFragment
         ImageView iv_right = (ImageView) view.findViewById(R.id.iv_title_right);
         iv_right.setImageResource(R.drawable.selector_setting);
         iv_right.setVisibility(View.VISIBLE);
-        iv_right.setOnClickListener(new View.OnClickListener()
-        {
+        iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //                if (liveOrDeath)
                 //                {
                 //                    tv_set_age.setText(R.string.born_date);
@@ -102,14 +95,14 @@ public class MainCountDownFragment extends MainBaseFragment
 
 
     @Override
-    public void initView(View view)
-    {
+    public void initView(View view) {
         rl_content = (RelativeLayout) view.findViewById(R.id.rl_coundown_content);
         rl_setContent = (RelativeLayout) view.findViewById(R.id.rl_coundown_set_content);
         tv_age = (TextView) view.findViewById(R.id.tv_age);
         tv_set_age = (TextView) view.findViewById(R.id.tv_set_age);
 
         cv_clock = (ClockView) view.findViewById(R.id.cv_clock);
+        cv_clock.setMute(true);
         cv_clock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,30 +113,23 @@ public class MainCountDownFragment extends MainBaseFragment
         death = view.findViewById(R.id.ll_death);
 
         cb_life_death = (CheckBox) view.findViewById(R.id.cb_life_death);
-        cb_life_death.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
+        cb_life_death.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 liveOrDeath = !isChecked;
-                if (isChecked)
-                {
+                if (isChecked) {
                     setLastAge();
                     animShow();
-                } else
-                {
+                } else {
                     setCurrentAge();
                     animHide();
                 }
             }
         });
-        cb_life_death.setOnTouchListener(new View.OnTouchListener()
-        {
+        cb_life_death.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     Rect rect = new Rect();
                     getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
                     touchX = event.getRawX();
@@ -156,46 +142,35 @@ public class MainCountDownFragment extends MainBaseFragment
         setCurrentAge();
     }
 
-    public void setCurrentAge()
-    {
-        if (bornDate == -1)
-        {
+    public void setCurrentAge() {
+        if (bornDate == -1) {
             rl_content.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             rl_content.setVisibility(View.VISIBLE);
             hideDeathAndShowLive();
         }
     }
 
-    public void setLastAge()
-    {
-        if (deathDate == -1)
-        {
+    public void setLastAge() {
+        if (deathDate == -1) {
             rl_content.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             rl_content.setVisibility(View.VISIBLE);
             hideLiveAndShowDeath();
         }
     }
 
-    public String getLiveAge()
-    {
+    public String getLiveAge() {
         long live = System.currentTimeMillis() - bornDate;
-        if (bornDate == -1)
-        {
+        if (bornDate == -1) {
             return "";
-        } else
-        {
-            if (deathDate == -1)
-            {
+        } else {
+            if (deathDate == -1) {
                 int age = (int) (live / YEAR_DAY * DAY_TIME);
                 int day = (int) (live % (YEAR_DAY * DAY_TIME) / DAY_TIME);
                 StringBuilder str = new StringBuilder("你在这世界已经存在" + age + "年" + day + "天了,");
                 return str.toString();
-            } else
-            {
+            } else {
                 long life = deathDate - bornDate;
                 double percent = live * 1d / life;
                 int hour = (int) (percent * DAY_TIME) / (3600 * 1000);
@@ -208,16 +183,14 @@ public class MainCountDownFragment extends MainBaseFragment
                 str.append("\n");
                 str.append("生命进度条已经走到了" + String.format("%.2f", percent * 100) + "%");
                 str.append("\n");
-                if (live < DAY_TIME * YEAR_DAY * 7)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 7) {
 
                     str.append("你还小 尽情的去玩 去触摸这世界把");
                     return str.toString();
                 }
                 str.append("相当于一天中的" + hour + "点" + min + "分");
                 str.append("\n");
-                if (live < DAY_TIME * YEAR_DAY * 25 || percent < 0.25)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 25 || percent < 0.25) {
                     str.append("十五志于学");
                     str.append("\n");
                     str.append("努力学习吧 吸收一切能使你强大的东西");
@@ -225,8 +198,7 @@ public class MainCountDownFragment extends MainBaseFragment
                     str.append("养成好的学习习惯 生活习惯 思维习惯 这会让你在后面的路上更加顺畅,每个人的区别 其实就从这时的习惯开始");
                     return str.toString();
                 }
-                if (live < DAY_TIME * YEAR_DAY * 32 || percent < 0.32)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 32 || percent < 0.32) {
                     str.append("三十而立 立身 立家 立业");
                     str.append("\n");
                     str.append("属于你自己的生活才刚刚开始 加油 ! ");
@@ -235,8 +207,7 @@ public class MainCountDownFragment extends MainBaseFragment
                     return str.toString();
                 }
 
-                if (live < DAY_TIME * YEAR_DAY * 55 || percent < 0.55)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 55 || percent < 0.55) {
                     str.append("四十不惑  认清世界的样子 自己的样子 知道想做什么 可以做什么 应该做什么 ");
                     str.append("\n");
                     str.append("这时你人生的黄金时刻 你一生所有的成就 就在此刻建立 放开双手 大展宏图吧");
@@ -244,15 +215,13 @@ public class MainCountDownFragment extends MainBaseFragment
                 }
 
 
-                if (live < DAY_TIME * YEAR_DAY * 65 || percent < 0.65)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 65 || percent < 0.65) {
                     str.append("五十知天命 改努力的已经努力过了 一辈子就差不多是这样了 接受现实吧 做些 力所能及的事");
                     str.append("\n");
                     str.append("如果你觉得 你一无所成 也将一无所成 那么 不如学着去好好生活吧 爱自己 爱家人 和这个世界");
                     return str.toString();
                 }
-                if (live < DAY_TIME * YEAR_DAY * 100 || percent <= 1)
-                {
+                if (live < DAY_TIME * YEAR_DAY * 100 || percent <= 1) {
                     str.append("六十耳顺 七十从心所欲 不逾矩");
                     return str.toString();
                 }
@@ -264,22 +233,17 @@ public class MainCountDownFragment extends MainBaseFragment
         }
     }
 
-    public String getLeftString()
-    {
+    public String getLeftString() {
         long left = deathDate - System.currentTimeMillis();
-        if (deathDate == -1)
-        {
+        if (deathDate == -1) {
             return "";
-        } else
-        {
-            if (bornDate == -1)
-            {
+        } else {
+            if (bornDate == -1) {
                 int age = (int) (left / YEAR_DAY * DAY_TIME);
                 int day = (int) (left % (YEAR_DAY * DAY_TIME) / DAY_TIME);
                 StringBuilder str = new StringBuilder("你的生命还剩" + age + "年" + day + "天,");
                 return str.toString();
-            } else
-            {
+            } else {
                 long life = deathDate - bornDate;
                 double percent = left * 1d / life;
                 int hour = (int) (percent * DAY_TIME) / (3600 * 1000);
@@ -296,45 +260,37 @@ public class MainCountDownFragment extends MainBaseFragment
         }
     }
 
-    public void hideLiveAndShowDeath()
-    {
+    public void hideLiveAndShowDeath() {
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(2000);
         mHideAnimation.setFillAfter(true);
-        mHideAnimation.setAnimationListener(new Animation.AnimationListener()
-        {
+        mHideAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation)
-            {
+            public void onAnimationStart(Animation animation) {
                 tv_age.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
                 tv_age.setVisibility(View.GONE);
 
                 tv_age.setText(getLeftString());
                 AlphaAnimation mShowAnimation = new AlphaAnimation(0.0f, 1.0f);
                 mShowAnimation.setDuration(3000);
                 mShowAnimation.setFillAfter(true);
-                mShowAnimation.setAnimationListener(new Animation.AnimationListener()
-                {
+                mShowAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation animation)
-                    {
+                    public void onAnimationStart(Animation animation) {
                         tv_age.setVisibility(View.VISIBLE);
                     }
 
                     @Override
-                    public void onAnimationEnd(Animation animation)
-                    {
+                    public void onAnimationEnd(Animation animation) {
                         tv_age.setVisibility(View.VISIBLE);
                     }
 
                     @Override
-                    public void onAnimationRepeat(Animation animation)
-                    {
+                    public void onAnimationRepeat(Animation animation) {
 
                     }
                 });
@@ -342,53 +298,44 @@ public class MainCountDownFragment extends MainBaseFragment
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation)
-            {
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
         tv_age.startAnimation(mHideAnimation);
     }
 
-    public void hideDeathAndShowLive()
-    {
+    public void hideDeathAndShowLive() {
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(2000);
         mHideAnimation.setFillAfter(true);
-        mHideAnimation.setAnimationListener(new Animation.AnimationListener()
-        {
+        mHideAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation)
-            {
+            public void onAnimationStart(Animation animation) {
                 tv_age.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
                 tv_age.setVisibility(View.GONE);
 
                 tv_age.setText(getLiveAge());
                 AlphaAnimation mShowAnimation = new AlphaAnimation(0.0f, 1.0f);
                 mShowAnimation.setDuration(3000);
                 mShowAnimation.setFillAfter(true);
-                mShowAnimation.setAnimationListener(new Animation.AnimationListener()
-                {
+                mShowAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation animation)
-                    {
+                    public void onAnimationStart(Animation animation) {
                         tv_age.setVisibility(View.VISIBLE);
                     }
 
                     @Override
-                    public void onAnimationEnd(Animation animation)
-                    {
+                    public void onAnimationEnd(Animation animation) {
                         tv_age.setVisibility(View.VISIBLE);
                     }
 
                     @Override
-                    public void onAnimationRepeat(Animation animation)
-                    {
+                    public void onAnimationRepeat(Animation animation) {
 
                     }
                 });
@@ -396,8 +343,7 @@ public class MainCountDownFragment extends MainBaseFragment
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation)
-            {
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
@@ -407,32 +353,26 @@ public class MainCountDownFragment extends MainBaseFragment
     /**
      * View渐隐动画效果
      */
-    public void setHideAnimation(final View view, int duration)
-    {
-        if (null == view || duration < 0)
-        {
+    public void setHideAnimation(final View view, int duration) {
+        if (null == view || duration < 0) {
             return;
         }
         AlphaAnimation mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
         mHideAnimation.setDuration(duration);
         mHideAnimation.setFillAfter(true);
-        mHideAnimation.setAnimationListener(new Animation.AnimationListener()
-        {
+        mHideAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation)
-            {
+            public void onAnimationStart(Animation animation) {
                 view.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
                 view.setVisibility(View.GONE);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation)
-            {
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
@@ -442,40 +382,33 @@ public class MainCountDownFragment extends MainBaseFragment
     /**
      * View渐现动画效果
      */
-    public void setShowAnimation(final View view, int duration)
-    {
-        if (null == view || duration < 0)
-        {
+    public void setShowAnimation(final View view, int duration) {
+        if (null == view || duration < 0) {
             return;
         }
         AlphaAnimation mShowAnimation = new AlphaAnimation(0.0f, 1.0f);
         mShowAnimation.setDuration(duration);
         mShowAnimation.setFillAfter(true);
-        mShowAnimation.setAnimationListener(new Animation.AnimationListener()
-        {
+        mShowAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation)
-            {
+            public void onAnimationStart(Animation animation) {
                 view.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationEnd(Animation animation)
-            {
+            public void onAnimationEnd(Animation animation) {
                 view.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation)
-            {
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
         view.startAnimation(mShowAnimation);
     }
 
-    private void animShow()
-    {
+    private void animShow() {
         // 从 View 的中心开始
         int cx = (death.getLeft() + death.getRight()) / 2;
         int cy = 0;
@@ -495,8 +428,7 @@ public class MainCountDownFragment extends MainBaseFragment
         anim.start();
     }
 
-    private void animHide()
-    {
+    private void animHide() {
         int cx = (death.getLeft() + death.getRight()) / 2;
         int cy = death.getBottom();
 
@@ -511,11 +443,9 @@ public class MainCountDownFragment extends MainBaseFragment
         Animator anim = ViewAnimationUtils.createCircularReveal(death, cx, cy, initialRadius, 0);
         anim.setDuration(1000);
         anim.setInterpolator(interpolator);
-        anim.addListener(new AnimatorListenerAdapter()
-        {
+        anim.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(Animator animation)
-            {
+            public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 death.setVisibility(View.INVISIBLE);
             }
@@ -523,34 +453,26 @@ public class MainCountDownFragment extends MainBaseFragment
         anim.start();
     }
 
-    public void showDatePickerDialog()
-    {
+    public void showDatePickerDialog() {
         Date date = null;
-        if (liveOrDeath)
-        {
+        if (liveOrDeath) {
             date = new Date(bornDate);
-        } else
-        {
+        } else {
             date = new Date(deathDate);
         }
         String title = getString(liveOrDeath ? R.string.born_date : R.string.death_date);
         WheelDatePicker dpu = new WheelDatePicker(getActivity());
-        dpu.datePicker(date,title , new OnDatetimeSetListener()
-        {
+        dpu.datePicker(date, title, new OnDatetimeSetListener() {
             // 点击了确定才会执行此回调
             @Override
-            public void onDatetimeSet(String timestamp, Date date)
-            {
-                if (date != null)
-                {
-                    if (liveOrDeath)
-                    {
+            public void onDatetimeSet(String timestamp, Date date) {
+                if (date != null) {
+                    if (liveOrDeath) {
                         bornDate = date.getTime();
                         setCurrentAge();
                         SPUtil.put(Constants.SP_KEY_BORN_DATE, bornDate);
                         rl_content.setVisibility(View.VISIBLE);
-                    } else
-                    {
+                    } else {
                         deathDate = date.getTime();
                         setLastAge();
                         SPUtil.put(Constants.SP_KEY_DEATH_DATE, deathDate);
@@ -562,8 +484,7 @@ public class MainCountDownFragment extends MainBaseFragment
     }
 
     @Override
-    public int getLayoutId()
-    {
+    public int getLayoutId() {
         return R.layout.fragment_main_count_down;
     }
 }
